@@ -1,0 +1,1657 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Spor Günlüğüm">
+<meta name="theme-color" content="#2E5BE6">
+<meta name="robots" content="noindex">
+<title>Spor Günlüğüm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  /* ── Tokenlar ─────────────────────────────────────────────── */
+  :root{
+    --bg:#F2F3F5; --surface:#FFFFFF; --surface2:#F6F7F9;
+    --ink:#15171C; --ink2:#5A6070; --ink3:#8A91A3; --line:#E4E6EC;
+    --accent:#2E5BE6; --accent-ink:#FFFFFF; --accent-soft:#E9EEFB;
+    --amber:#D97A08; --amber-soft:#F9EFDF;
+    --green:#1E9E5A; --green-soft:#E2F4EA;
+    --danger:#D63838; --danger-soft:#FBE9E9;
+    --shadow:0 1px 2px rgba(21,23,28,.05);
+    --r-card:16px; --r-btn:13px;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+    --font-disp:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#101216; --surface:#1C1F26; --surface2:#232732;
+      --ink:#EEF0F5; --ink2:#9AA1B2; --ink3:#6B7284; --line:#2B303C;
+      --accent:#5B80F2; --accent-ink:#0D1220; --accent-soft:#242E48;
+      --amber:#C58122; --amber-soft:#352A15;
+      --green:#2FA96C; --green-soft:#17301F;
+      --danger:#E25858; --danger-soft:#3A1D1D;
+      --shadow:none;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#F2F3F5; --surface:#FFFFFF; --surface2:#F6F7F9;
+    --ink:#15171C; --ink2:#5A6070; --ink3:#8A91A3; --line:#E4E6EC;
+    --accent:#2E5BE6; --accent-ink:#FFFFFF; --accent-soft:#E9EEFB;
+    --amber:#D97A08; --amber-soft:#F9EFDF;
+    --green:#1E9E5A; --green-soft:#E2F4EA;
+    --danger:#D63838; --danger-soft:#FBE9E9;
+    --shadow:0 1px 2px rgba(21,23,28,.05);
+  }
+  :root[data-theme="dark"]{
+    --bg:#101216; --surface:#1C1F26; --surface2:#232732;
+    --ink:#EEF0F5; --ink2:#9AA1B2; --ink3:#6B7284; --line:#2B303C;
+    --accent:#5B80F2; --accent-ink:#0D1220; --accent-soft:#242E48;
+    --amber:#C58122; --amber-soft:#352A15;
+    --green:#2FA96C; --green-soft:#17301F;
+    --danger:#E25858; --danger-soft:#3A1D1D;
+    --shadow:none;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:var(--font); font-size:15px; line-height:1.45;
+    -webkit-font-smoothing:antialiased; -webkit-tap-highlight-color:transparent;
+  }
+  button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
+  input,select,textarea{font:inherit; color:inherit}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+  #app{max-width:520px; margin:0 auto; min-height:100dvh;
+       padding:0 16px calc(84px + env(safe-area-inset-bottom))}
+
+  .t-title{font-family:var(--font-disp); font-size:26px; font-weight:800; letter-spacing:-.01em; text-wrap:balance}
+  .t-num{font-family:var(--font-disp); font-weight:800; font-variant-numeric:tabular-nums}
+  .micro{font-size:11px; font-weight:650; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3)}
+  .sub{font-size:13px; color:var(--ink2)}
+
+  header.screen-head{
+    position:sticky; top:0; z-index:5; margin:0 -16px; padding:14px 16px 10px;
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
+    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card);
+        box-shadow:var(--shadow); padding:14px}
+  .stack{display:flex; flex-direction:column; gap:10px}
+  .row{display:flex; align-items:center; gap:10px}
+  .grow{flex:1; min-width:0}
+
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px;
+       border-radius:var(--r-btn); padding:11px 16px; font-weight:650;
+       border:1px solid var(--line); background:var(--surface); transition:transform .08s}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+  .btn-soft{background:var(--accent-soft); border-color:transparent; color:var(--accent)}
+  .btn-danger{background:var(--danger-soft); border-color:transparent; color:var(--danger)}
+  .btn-block{width:100%}
+  .btn-icon{padding:8px; border-radius:10px; color:var(--ink3); border:none; background:none; line-height:0}
+  .btn-icon:active{background:var(--surface2)}
+  @media (prefers-reduced-motion: reduce){ .btn:active{transform:none} }
+
+  .pill{display:inline-flex; align-items:center; gap:4px; border-radius:99px;
+        padding:2.5px 9px; font-size:11.5px; font-weight:650; letter-spacing:.02em; white-space:nowrap}
+  .pill-salon{background:var(--accent-soft); color:var(--accent)}
+  .pill-ev{background:var(--amber-soft); color:var(--amber)}
+  .pill-kas{background:var(--surface2); color:var(--ink2)}
+  .pill-ok{background:var(--green-soft); color:var(--green)}
+
+  .seg{display:flex; background:var(--surface2); border-radius:12px; padding:3px; gap:2px}
+  .seg button{flex:1; padding:7px 10px; border-radius:9px; font-size:13.5px; font-weight:600; color:var(--ink2)}
+  .seg button[aria-pressed="true"]{background:var(--surface); color:var(--ink);
+        box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+  /* Hafta seçici */
+  .weeks{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
+  .week-chip{background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:10px 6px 8px; text-align:center; transition:transform .08s}
+  .week-chip:active{transform:scale(.96)}
+  .week-chip .n{font-family:var(--font-disp); font-weight:800; font-size:17px}
+  .week-chip .s{font-size:10.5px; color:var(--ink3); font-weight:650}
+  .week-chip[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft)}
+  .week-chip[aria-pressed="true"] .n{color:var(--accent)}
+  .week-chip.tam .s{color:var(--green)}
+
+  /* Gün kartları */
+  .day-card{display:flex; align-items:center; gap:12px; width:100%; text-align:left;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--r-card);
+    padding:14px; box-shadow:var(--shadow); transition:transform .08s}
+  .day-card:active{transform:scale(.98)}
+  .day-card .dnum{flex:none; width:44px; height:44px; border-radius:13px; display:flex;
+    align-items:center; justify-content:center; font-family:var(--font-disp); font-weight:800;
+    font-size:17px; background:var(--accent-soft); color:var(--accent)}
+  .day-card.tam .dnum{background:var(--green-soft); color:var(--green)}
+  .day-card b{display:block; font-size:15.5px}
+  .day-card .bar{height:4.5px; background:var(--surface2); border-radius:3px; margin-top:7px; overflow:hidden}
+  .day-card .bar i{display:block; height:100%; background:var(--accent); border-radius:3px}
+  .day-card.tam .bar i{background:var(--green)}
+  .rest-card{display:flex; align-items:center; gap:12px; border:1px dashed var(--line);
+    border-radius:var(--r-card); padding:11px 14px; color:var(--ink3)}
+  .rest-card .dnum{flex:none; width:44px; text-align:center; font-family:var(--font-disp); font-weight:800; font-size:15px}
+
+  /* Hareket kartı */
+  .ex-card{padding:12px}
+  .ex-card.done{border-color:color-mix(in srgb, var(--green) 45%, var(--line))}
+  .thumb{flex:none; width:74px; height:70px; border-radius:12px; background:var(--surface2);
+    padding:0; overflow:hidden; border:none; transition:transform .08s}
+  .thumb:active{transform:scale(.94)}
+  .ex-card.done .thumb{background:var(--green-soft)}
+  .not-line{font-size:12.5px; color:var(--ink2); background:var(--surface2); border-radius:9px;
+    padding:6px 10px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical}
+
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{position:relative; min-width:47px; height:47px; border-radius:12px; padding:0 8px;
+    background:var(--surface2); border:1.5px solid transparent; display:inline-flex;
+    flex-direction:column; align-items:center; justify-content:center; gap:0;
+    font-variant-numeric:tabular-nums; transition:transform .08s}
+  .chip:active{transform:scale(.92)}
+  .chip .rep{font-family:var(--font-disp); font-weight:800; font-size:14.5px; line-height:1.1}
+  .chip .lbl{font-size:9px; font-weight:650; letter-spacing:.05em; text-transform:uppercase; color:var(--ink3)}
+  .chip.done{background:var(--green); border-color:var(--green)}
+  .chip.done .rep{color:#fff}
+  .chip.done .lbl{color:rgba(255,255,255,.75)}
+  .chip-add{background:transparent; border:1.5px dashed var(--line); color:var(--ink3)}
+  .chip .rm{position:absolute; top:-7px; right:-7px; width:19px; height:19px; border-radius:50%;
+    background:var(--ink3); color:var(--bg); font-size:11px; line-height:19px; text-align:center; font-weight:700}
+  @media (prefers-reduced-motion: reduce){ .chip:active,.thumb:active,.day-card:active,.week-chip:active{transform:none} }
+
+  .kg-row{background:var(--surface2); border-radius:11px; padding:8px 10px}
+  .kg-row input{width:76px; background:var(--surface); border:1px solid var(--line); border-radius:9px;
+    padding:8px 10px; font-size:16px; font-weight:700; font-variant-numeric:tabular-nums;
+    text-align:center; -moz-appearance:textfield; appearance:textfield}
+  .kg-row input::-webkit-outer-spin-button,.kg-row input::-webkit-inner-spin-button{-webkit-appearance:none}
+  .kg-row input:focus{border-color:var(--accent); outline:none}
+  .kg-row .mem{font-size:12px; color:var(--ink2)}
+  .kg-row .mem b{color:var(--ink); font-variant-numeric:tabular-nums}
+
+  .divider{display:flex; align-items:center; gap:10px; margin:6px 2px 0}
+  .divider::before,.divider::after{content:""; flex:1; height:1px; background:var(--line)}
+
+  /* İstatistik kutuları */
+  .tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .tile{background:var(--surface); border:1px solid var(--line); border-radius:14px;
+        padding:12px 10px; text-align:center}
+  .tile .v{font-family:var(--font-disp); font-weight:800; font-size:22px;
+           font-variant-numeric:tabular-nums; line-height:1.1}
+  .tile .l{font-size:11px; font-weight:650; letter-spacing:.06em; text-transform:uppercase;
+           color:var(--ink3); margin-top:3px}
+
+  /* İlerleme ızgarası */
+  .grid-weeks{display:grid; grid-template-columns:52px repeat(4,1fr); gap:6px; align-items:center}
+  .gw-cell{height:38px; border-radius:10px; background:var(--surface2); display:flex;
+    align-items:center; justify-content:center; font-size:12px; font-weight:700;
+    font-variant-numeric:tabular-nums; color:var(--ink3)}
+  .gw-cell.part{background:var(--accent-soft); color:var(--accent)}
+  .gw-cell.tam{background:var(--green); color:#fff}
+  .gw-lab{font-size:12px; font-weight:650; color:var(--ink2)}
+
+  /* Vücut ölçüleri */
+  .m-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:7px}
+  .m-tile{background:var(--surface2); border-radius:12px; padding:9px 4px 8px; text-align:center;
+    display:flex; flex-direction:column; gap:1px; border:none; transition:transform .08s}
+  .m-tile:not(:disabled):active{transform:scale(.94)}
+  .m-tile:disabled{opacity:.5}
+  .m-tile .l{font-size:9.5px; font-weight:650; letter-spacing:.05em; text-transform:uppercase; color:var(--ink3)}
+  .m-tile .v{font-family:var(--font-disp); font-weight:800; font-size:15.5px; font-variant-numeric:tabular-nums}
+  .m-tile .v small{font-size:9.5px; font-weight:650; color:var(--ink3)}
+  .m-tile .d{font-size:10px; font-weight:650; color:var(--ink2); font-variant-numeric:tabular-nums; min-height:14px}
+  .m-form{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .field input[type="date"],.field input[type="number"]{background:var(--surface); border:1px solid var(--line);
+    border-radius:11px; padding:11px 12px; font-size:15px; width:100%; appearance:none}
+  .field input[type="date"]:focus,.field input[type="number"]:focus{border-color:var(--accent); outline:none}
+
+  .kg-item{display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+    padding:11px 2px; border-bottom:1px solid var(--line)}
+  .kg-item:last-child{border-bottom:none}
+  .kg-item .v{font-family:var(--font-disp); font-weight:800; font-size:15px; font-variant-numeric:tabular-nums}
+  .kg-item .d{font-size:11px; color:var(--ink3)}
+
+  nav#tabbar{position:fixed; bottom:0; left:0; right:0; z-index:20;
+    background:color-mix(in srgb, var(--surface) 88%, transparent);
+    -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+    border-top:1px solid var(--line);
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+  nav#tabbar .inner{max-width:520px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr)}
+  nav#tabbar button{display:flex; flex-direction:column; align-items:center; gap:2px;
+    padding:6px 4px; color:var(--ink3); font-size:10.5px; font-weight:650;
+    letter-spacing:.03em; border-radius:12px}
+  nav#tabbar button[aria-current="true"]{color:var(--accent)}
+
+  #overlay,#confirm-overlay{position:fixed; inset:0; z-index:30; background:rgba(10,12,18,.45);
+    display:flex; align-items:flex-end; justify-content:center; opacity:0; pointer-events:none;
+    transition:opacity .18s}
+  #overlay.open,#confirm-overlay.open{opacity:1; pointer-events:auto}
+  #sheet{width:100%; max-width:520px; max-height:88dvh; overflow-y:auto; overscroll-behavior:contain;
+    background:var(--bg); border-radius:20px 20px 0 0; padding:8px 16px calc(20px + env(safe-area-inset-bottom));
+    transform:translateY(24px); transition:transform .22s cubic-bezier(.3,1,.4,1)}
+  #overlay.open #sheet{transform:none}
+  .grabber{width:38px; height:4.5px; border-radius:3px; background:var(--line); margin:4px auto 12px}
+  .sheet-head{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:12px}
+  .sheet-title{font-family:var(--font-disp); font-size:20px; font-weight:800}
+  .big-anim{height:190px; background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--r-card); padding:10px; display:flex; justify-content:center}
+  .big-anim svg{height:100%; width:auto; max-width:100%}
+  @media (prefers-reduced-motion: reduce){ #overlay,#confirm-overlay,#sheet{transition:none} }
+
+  #confirm-overlay{align-items:center; padding:24px}
+  #confirm-box{background:var(--surface); border-radius:18px; padding:20px 18px; width:100%;
+    max-width:320px; text-align:center; display:flex; flex-direction:column; gap:14px}
+  #confirm-box .btns{display:flex; gap:8px}
+  #confirm-box .btns .btn{flex:1}
+
+  .field{display:flex; flex-direction:column; gap:6px}
+  .field > label{font-size:12.5px; font-weight:650; color:var(--ink2)}
+  .field input[type="text"],.field select,.field textarea{background:var(--surface); border:1px solid var(--line);
+    border-radius:11px; padding:11px 12px; font-size:15px; width:100%; appearance:none}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent); outline:none}
+
+  /* Grafik */
+  .chart-wrap{position:relative}
+  .chart-wrap svg{width:100%; height:auto; display:block; touch-action:manipulation}
+  .chart-empty{padding:22px 10px; text-align:center; color:var(--ink2); font-size:13.5px}
+  #chart-tip{position:absolute; transform:translate(-50%,-115%); background:var(--ink); color:var(--bg);
+    font-size:12px; font-weight:650; font-variant-numeric:tabular-nums; border-radius:8px;
+    padding:5px 9px; pointer-events:none; white-space:nowrap; display:none}
+
+  #toast{position:fixed; left:50%; bottom:calc(96px + env(safe-area-inset-bottom));
+    transform:translate(-50%,12px); z-index:50; background:var(--ink); color:var(--bg);
+    padding:10px 18px; border-radius:99px; font-size:13.5px; font-weight:650;
+    opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; max-width:88vw; text-align:center;
+    display:flex; align-items:center; justify-content:center; gap:7px}
+  #toast svg{flex:none}
+  .tip-ic{flex:none; width:38px; height:38px; border-radius:12px; display:flex;
+    align-items:center; justify-content:center}
+  #toast.show{opacity:1; transform:translate(-50%,0)}
+  #toast.ok{background:var(--green); color:#fff}
+
+  .empty{padding:36px 16px; text-align:center; color:var(--ink2)}
+  .empty .big{font-family:var(--font-disp); font-size:17px; font-weight:700; color:var(--ink); margin-bottom:6px}
+  details.io summary{cursor:pointer; font-weight:650; font-size:13.5px; color:var(--ink2); list-style:none}
+  details.io summary::-webkit-details-marker{display:none}
+
+  /* Animasyon figürleri */
+  .anim{width:100%; height:100%; display:block}
+  .anim .fig{stroke:var(--ink); stroke-width:5; fill:none; stroke-linecap:round; stroke-linejoin:round}
+  .anim circle.fig{stroke-width:4}
+  .anim .equip{stroke:var(--ink3); stroke-width:3.5; fill:none; stroke-linecap:round; stroke-linejoin:round; opacity:.55}
+  .anim .thin{stroke-width:2.5}
+  .anim .wt{stroke:var(--accent); stroke-width:5; fill:none; stroke-linecap:round}
+  .anim circle.wt{fill:var(--accent); stroke:none}
+  .anim .ghost{opacity:.4}
+
+  /* Fotoğraf animasyonları (gerçek çekim, 2 kare) */
+  .ph{position:relative; width:100%; height:100%; background:var(--surface2); border-radius:inherit; overflow:hidden}
+  .ph img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+  .big-anim .ph img{object-fit:contain}
+  .big-anim .ph{background:transparent}
+  .ph img.f2{opacity:0; animation:phswap 2.2s ease-in-out infinite}
+  @keyframes phswap{0%,12%{opacity:0} 42%,58%{opacity:1} 88%,100%{opacity:0}}
+  @media (prefers-reduced-motion: reduce){ .ph img.f2{animation:none} }
+
+  /* Debug: #anims ızgarası */
+  .anim-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding-top:10px}
+  .anim-grid .cell{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:6px; text-align:center}
+  .anim-grid .cell div{font-size:10px; color:var(--ink2); font-weight:650}
+  .anim-grid svg{height:110px}
+</style>
+</head>
+<body>
+
+<div id="app"><main id="screen"></main></div>
+
+<nav id="tabbar"><div class="inner">
+  <button data-action="tab" data-tab="program" aria-current="true">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 7.5v9M3.8 9.5v5M17 7.5v9M20.2 9.5v5M7 12h10"/></svg>
+    Program</button>
+  <button data-action="tab" data-tab="beslenme" aria-current="false">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.2C11.5 6.2 10 5 8 5 5 5 3 7.4 3 10.4 3 15 6.5 20 9 20c1 0 1.6-.5 3-.5s2 .5 3 .5c2.5 0 6-5 6-9.6C21 7.4 19 5 16 5c-2 0-3.5 1.2-4 3.2Z"/><path d="M12 8.2c0-2 1-3.6 2.6-4.7"/></svg>
+    Beslenme</button>
+  <button data-action="tab" data-tab="ilerleme" aria-current="false">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M6 16V9M11 16V5M16 16v-6M21 16V8"/></svg>
+    İlerleme</button>
+</div></nav>
+
+<div id="overlay"><div id="sheet" role="dialog" aria-modal="true"></div></div>
+<div id="confirm-overlay"><div id="confirm-box" role="alertdialog">
+  <p id="confirm-msg"></p>
+  <div class="btns">
+    <button class="btn" data-action="confirm-cancel">Vazgeç</button>
+    <button class="btn btn-danger" id="confirm-ok" data-action="confirm-ok">Sil</button>
+  </div>
+</div></div>
+<div id="toast" role="status"></div>
+
+<script src="media.js"></script><!--MEDIA:src-->
+<script>
+"use strict";
+/* ════════════════════ ANİMASYON KÜTÜPHANESİ ════════════════════ */
+const EASE = 'calcMode="spline" keyTimes="0;0.5;1" keySplines=".42 0 .58 1;.42 0 .58 1"';
+const aPts = (p1, p2, dur=2.4, cls="fig") =>
+  `<polyline class="${cls}" points="${p1}"><animate attributeName="points" values="${p1};${p2};${p1}" dur="${dur}s" repeatCount="indefinite" ${EASE}/></polyline>`;
+const sPts = (p, cls="fig") => `<polyline class="${cls}" points="${p}"/>`;
+const sLine = (x1,y1,x2,y2,cls="equip") => `<line class="${cls}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+const aRot = (deg, cx, cy, inner, dur=2.4) =>
+  `<g>${inner}<animateTransform attributeName="transform" type="rotate" values="0 ${cx} ${cy};${deg} ${cx} ${cy};0 ${cx} ${cy}" dur="${dur}s" repeatCount="indefinite" ${EASE}/></g>`;
+const aMove = (dx, dy, inner, dur=2) =>
+  `<g>${inner}<animateTransform attributeName="transform" type="translate" values="0 0;${dx} ${dy};0 0" dur="${dur}s" repeatCount="indefinite" ${EASE}/></g>`;
+const aCirc = (x1,y1,x2,y2,r,dur=2.4,cls="wt") =>
+  `<circle class="${cls}" r="${r}" cx="${x1}" cy="${y1}"><animate attributeName="cx" values="${x1};${x2};${x1}" dur="${dur}s" repeatCount="indefinite" ${EASE}/><animate attributeName="cy" values="${y1};${y2};${y1}" dur="${dur}s" repeatCount="indefinite" ${EASE}/></circle>`;
+const aHead = (x1,y1,x2,y2,dur=2.4,r=6.5) =>
+  `<circle class="fig" fill="none" r="${r}" cx="${x1}" cy="${y1}"><animate attributeName="cx" values="${x1};${x2};${x1}" dur="${dur}s" repeatCount="indefinite" ${EASE}/><animate attributeName="cy" values="${y1};${y2};${y1}" dur="${dur}s" repeatCount="indefinite" ${EASE}/></circle>`;
+const head = (x,y,r=6.5) => `<circle class="fig" fill="none" cx="${x}" cy="${y}" r="${r}"/>`;
+const ground = () => sLine(10,102,110,102);
+const W = inner => `<svg class="anim" viewBox="0 0 120 110" aria-hidden="true">${inner}</svg>`;
+
+function pushupAnim(o={}){
+  // o: {feetY:100, block:false, hands:'normal'|'wide'|'diamond'}
+  const fy = o.block ? 84 : 100;
+  const blok = o.block ? sLine(82,84,104,84) + sLine(104,84,104,102) : "";
+  const up   = `34,64 62,${o.block?72:80} 90,${fy}`;
+  const down = `40,84 64,${o.block?82:90} 90,${fy}`;
+  const armU = "34,64 34,84 36,100", armD = "40,84 29,93 36,100";
+  const arm2U = o.hands==="wide" ? "34,64 44,86 50,100" : "34,64 39,85 42,100";
+  const arm2D = o.hands==="wide" ? "40,84 38,94 50,100" : "40,84 34,95 42,100";
+  let el = "";
+  if(o.hands==="diamond") el = `<g class="wt" style="opacity:.9"><path fill="none" stroke-width="3" d="M32 100 l5 -4 l5 4 l-5 4 Z"/></g>`;
+  return W(ground() + blok +
+    aPts(up, down) +
+    `<g class="ghost">${aPts(arm2U, arm2D)}</g>` +
+    aPts(armU, armD) +
+    aHead(27,60,33,80) + el);
+}
+
+const ANIMS = {
+  chestpress: () => W(
+    sLine(26,46,26,80) + sLine(18,80,40,80) + sLine(28,80,28,102) + ground() +
+    sPts("32,48 30,74") + sPts("30,74 48,76 48,102") + head(33,40) +
+    aPts("33,52 42,62 50,54", "33,52 45,53 58,53") +
+    aPts("50,46 50,62", "58,45 58,61", 2.4, "wt")),
+  inclinepress: () => W(
+    sLine(24,78,38,48) + sLine(16,80,34,80) + sLine(26,80,26,102) + ground() +
+    sPts("40,52 32,76") + sPts("32,76 50,80 50,102") + head(44,44) +
+    aPts("41,54 50,62 54,50", "41,54 49,50 58,40") +
+    aCirc(54,49,58,39,4)),
+  crossover: () => W(
+    sLine(14,10,14,20) + sLine(106,10,106,20) +
+    aPts("14,12 28,30", "14,12 56,60", 2.4, "equip thin") +
+    aPts("106,12 92,30", "106,12 64,60", 2.4, "equip thin") +
+    head(60,26) + sPts("60,33 60,64") + sPts("60,64 50,102") + sPts("60,64 70,102") +
+    aPts("53,40 40,40 28,30", "53,40 47,54 56,60") +
+    aPts("67,40 80,40 92,30", "67,40 73,54 64,60") + ground()),
+  latraise: () => W(
+    ground() + head(60,26) + sPts("60,33 60,64") + sPts("60,64 50,102") + sPts("60,64 70,102") +
+    aPts("53,40 49,52 47,62", "53,40 40,41 28,42") +
+    aPts("67,40 71,52 73,62", "67,40 80,41 92,42") +
+    aCirc(47,64,27,44,3.8) + aCirc(73,64,93,44,3.8)),
+  pushdown: () => W(
+    sLine(72,4,80,4) + aPts("76,6 64,42", "76,6 66,62", 2.2, "equip thin") + ground() +
+    head(46,24) + sPts("48,31 44,60") + sPts("44,60 42,102") + sPts("44,60 52,100") +
+    sPts("48,37 52,50") +
+    aPts("52,50 64,42", "52,50 66,62", 2.2) +
+    aPts("64,36 64,48", "66,56 66,68", 2.2, "wt")),
+  skullcrusher: () => W(
+    sLine(28,72,88,72) + sLine(34,72,34,102) + sLine(80,72,80,102) + ground() +
+    head(34,64,6) + sPts("42,68 70,68") + sPts("70,68 80,56 90,70") +
+    sPts("44,66 44,50") +
+    aPts("44,50 30,44", "44,50 46,34", 2.2) +
+    aCirc(29,42,47,32,4)),
+  pulldown: () => W(
+    `<line class="equip thin" x1="60" y1="4" x2="60" y2="16"><animate attributeName="y2" values="16;44;16" dur="2.6s" repeatCount="indefinite" ${EASE}/></line>` +
+    sLine(44,84,76,84) + sLine(60,84,60,96) + ground() +
+    head(60,30) + sPts("60,37 60,66") + sPts("60,66 48,80") + sPts("60,66 72,80") +
+    aPts("53,42 46,30 42,18", "53,42 46,54 44,44", 2.6) +
+    aPts("67,42 74,30 78,18", "67,42 74,54 76,44", 2.6) +
+    aPts("40,16 80,16", "42,44 78,44", 2.6, "wt")),
+  seatedrow: () => W(
+    sLine(40,80,58,80) + sLine(50,80,50,102) + sLine(84,56,90,74) + ground() +
+    sLine(98,44,98,74) + sLine(106,44,106,74) + sLine(98,44,106,44) + sLine(98,74,106,74) +
+    head(48,30) + sPts("50,37 46,68") + sPts("46,68 66,60 82,66") +
+    aPts("100,52 72,52", "100,52 56,56", 2.4, "equip thin") +
+    aPts("50,42 60,50 72,52", "50,42 42,56 56,56") +
+    aPts("72,46 72,58", "56,50 56,62", 2.4, "wt")),
+  hyperext: () => W(
+    sLine(44,66,64,58) + sLine(52,88,52,102) + sLine(64,58,76,78) + ground() +
+    `<circle class="equip" cx="74" cy="79" r="3.5"/>` +
+    sPts("56,62 78,78") +
+    aRot(62, 54, 62, sPts("54,62 32,58") + head(26,56) + sPts("42,60 46,68"), 2.6)),
+  shrug: () => W(
+    ground() + head(60,26) + sPts("60,33 60,64") + sPts("60,64 50,102") + sPts("60,64 70,102") +
+    aMove(0,-6, sPts("53,40 48,66") + sPts("67,40 72,66") +
+      `<circle class="wt" cx="47" cy="68" r="3.8"/><circle class="wt" cx="73" cy="68" r="3.8"/>`, 1.8)),
+  preachercurl: () => W(
+    sLine(46,58,62,50) + sLine(46,58,46,80) + sLine(46,80,46,102) + ground() +
+    head(40,30) + sPts("42,37 40,62") + sPts("40,62 52,66 50,102") +
+    sPts("43,42 56,54") +
+    aRot(96, 56, 54, sPts("56,54 48,38") + `<line class="wt" x1="44" y1="36" x2="52" y2="40"/>`, 2.2)),
+  hammercurl: () => W(
+    ground() + head(50,24) + sPts("52,31 48,62") + sPts("48,62 46,102") + sPts("48,62 54,100") +
+    sPts("51,38 54,52") +
+    aRot(-96, 54, 52, sPts("54,52 56,68") + `<line class="wt" x1="56" y1="64" x2="56" y2="76" stroke-width="6"/>`, 2.2)),
+  curlstand: () => W(
+    ground() + head(50,24) + sPts("52,31 48,62") + sPts("48,62 46,102") + sPts("48,62 54,100") +
+    sPts("51,38 54,52") +
+    aRot(-96, 54, 52, sPts("54,52 56,68") + `<line class="wt" x1="51" y1="70" x2="61" y2="70"/>`, 2.2)),
+  squat: () => W(
+    sLine(68,6,68,102) + ground() +
+    aPts("34,40 70,40", "34,58 70,58", 2.8, "wt") +
+    aHead(55,32,51,50,2.8) +
+    aPts("52,38 50,62", "48,56 42,78", 2.8) +
+    aPts("50,62 52,82 52,102", "42,78 58,84 52,102", 2.8) +
+    aPts("52,42 62,44 62,40", "48,60 60,62 62,58", 2.8)),
+  airsquat: () => W(
+    ground() +
+    aHead(55,30,51,48,2.6) +
+    aPts("52,36 50,60", "48,54 42,76", 2.6) +
+    aPts("50,60 52,81 52,102", "42,76 58,83 52,102", 2.6) +
+    aPts("52,40 56,52 56,62", "48,58 58,60 66,58", 2.6)),
+  legcurl: () => W(
+    sLine(26,70,90,70) + sLine(32,70,32,102) + sLine(84,70,84,102) + ground() +
+    head(32,62,6) + sPts("40,66 66,66") + sPts("66,66 80,68") +
+    aRot(-112, 80, 68, sPts("80,68 96,70") + `<circle class="wt" cx="94" cy="69" r="3.8"/>`, 2.4)),
+  legext: () => W(
+    sLine(36,40,32,68) + sLine(30,68,56,68) + sLine(40,68,40,102) + ground() +
+    head(42,34) + sPts("40,42 38,66") + sPts("38,66 58,64") +
+    aRot(-78, 58, 64, sPts("58,64 60,84") + `<circle class="wt" cx="60" cy="82" r="3.8"/>`, 2.4)),
+  hipthrust: () => W(
+    sLine(18,54,38,54) + sLine(20,54,20,74) + sLine(36,54,36,74) + ground() +
+    head(28,46,6) +
+    aPts("38,56 56,80 72,68 72,102", "38,56 58,60 72,64 72,102", 2.6) +
+    aCirc(56,76,58,56,4.5,2.6)),
+  calfraise: () => W(
+    sLine(40,94,64,94) + sLine(64,94,64,102) + ground() +
+    aMove(0,-6, head(52,22) + sPts("54,29 50,60") + sPts("50,60 48,94") + sPts("50,60 54,93") +
+      sPts("54,34 58,48 58,58"), 1.6)),
+  shoulderpress: () => W(
+    sLine(48,86,72,86) + sLine(60,86,60,98) + ground() +
+    head(60,30) + sPts("60,37 60,66") + sPts("60,66 50,86") + sPts("60,66 70,86") +
+    aPts("53,42 45,50 46,38", "53,42 50,26 52,14", 2.6) +
+    aPts("67,42 75,50 74,38", "67,42 70,26 68,14", 2.6) +
+    aCirc(46,36,52,12,3.8,2.6) + aCirc(74,36,68,12,3.8,2.6)),
+  butterfly: () => W(
+    sLine(48,88,72,88) + sLine(60,88,60,100) + ground() +
+    head(60,26) + sPts("60,33 60,66") + sPts("60,66 50,88") + sPts("60,66 70,88") +
+    aPts("53,40 38,42 38,26", "53,40 50,46 52,28", 2.4) +
+    aPts("67,40 82,42 82,26", "67,40 70,46 68,28", 2.4) +
+    aPts("38,42 38,26", "50,46 52,28", 2.4, "wt ghost") +
+    aPts("82,42 82,26", "70,46 68,28", 2.4, "wt ghost")),
+  pushup: () => pushupAnim(),
+  pushupwide: () => pushupAnim({hands:"wide"}),
+  pushupdecline: () => pushupAnim({block:true}),
+  pushupdiamond: () => pushupAnim({hands:"diamond"}),
+  pushuppike: () => W(
+    ground() + sPts("64,52 92,88") +
+    aPts("64,52 40,74", "64,52 34,88", 2.4) +
+    aPts("40,74 38,88 36,100", "34,88 30,94 36,100", 2.4) +
+    aHead(36,80,28,96,2.4,6)),
+  chairdips: () => W(
+    sLine(68,66,90,66) + sLine(70,66,70,102) + sLine(88,66,88,102) + sLine(86,66,86,44) + ground() +
+    aPts("70,50 62,72 40,80 28,96", "70,62 58,84 38,88 28,96", 2.2) +
+    aPts("70,50 70,58 70,66", "70,62 80,66 70,66", 2.2) +
+    aHead(72,42,72,54,2.2)),
+  invertedrow: () => W(
+    sLine(30,52,96,52) + sLine(34,52,34,102) + sLine(92,52,92,102) + ground() +
+    aPts("38,88 64,92 88,98", "42,70 66,84 88,98", 2.4) +
+    aPts("38,88 40,70 46,54", "42,70 38,62 46,54", 2.4) +
+    aHead(31,86,34,64,2.4,6)),
+  towelrow: () => W(
+    sLine(84,14,84,102) + ground() +
+    aPts("84,46 70,50", "84,46 74,48", 2.4, "equip thin") +
+    aPts("48,50 64,76 78,98", "60,42 70,72 78,98", 2.4) +
+    aPts("48,50 60,52 70,50", "60,42 66,50 74,48", 2.4) +
+    aHead(43,42,56,33,2.4)),
+  superman: () => W(
+    ground() + sPts("48,90 66,90") +
+    aRot(14, 48, 90, head(38,88,6) + sPts("48,90 26,94"), 2.4) +
+    aRot(-12, 66, 90, sPts("66,90 92,94"), 2.4)),
+  supermanpull: () => W(
+    ground() + sPts("48,88 66,88") + head(40,82,6) + sPts("66,88 90,90") +
+    aPts("48,86 36,82 24,82", "48,86 52,78 58,82", 2.2) +
+    aPts("48,90 37,88 26,88", "48,90 53,84 59,87", 2.2, "fig ghost")),
+  glutebridge: () => W(
+    ground() + head(30,92,6) + sPts("38,96 50,98") +
+    aPts("36,92 54,92 70,78 74,98", "36,92 56,74 70,74 74,98", 2.4)),
+  wallsit: () => W(
+    sLine(78,16,78,102) + ground() +
+    head(72,34) + sPts("74,41 74,66") + sPts("74,66 52,66") + sPts("52,66 52,100") +
+    sPts("74,48 66,58") +
+    `<polyline class="wt" points="74,66 52,66" opacity=".25"><animate attributeName="opacity" values=".2;.75;.2" dur="1.6s" repeatCount="indefinite"/></polyline>`),
+  towellegcurl: () => W(
+    ground() + head(26,90,6) + sPts("34,96 44,98") +
+    aPts("64,100 78,100", "82,100 96,100", 2.4, "wt") +
+    aPts("34,92 52,80 66,78 70,96", "34,92 50,88 74,86 88,96", 2.4)),
+  isosqueeze: () => W(
+    ground() + head(60,26) + sPts("60,33 60,64") + sPts("60,64 50,102") + sPts("60,64 70,102") +
+    aPts("53,40 47,52 57,50", "53,40 48,53 58,51", 1.6) +
+    aPts("67,40 73,52 63,50", "67,40 72,53 62,51", 1.6) +
+    `<circle cx="60" cy="50" r="4" fill="none" stroke="var(--accent)" stroke-width="2"><animate attributeName="r" values="3;9;3" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0;.8" dur="1.6s" repeatCount="indefinite"/></circle>`),
+  legraise: () => W(
+    ground() + head(27,88,6) + sPts("34,90 58,92") + sPts("38,96 48,98") +
+    aRot(-76, 58, 92, sPts("58,92 88,94") + sPts("86,94 90,90", "fig"), 2.4)),
+  crunch: () => W(
+    ground() + sPts("58,92 72,78") + sPts("72,78 80,96") +
+    aRot(26, 58, 92, head(30,86,6) + sPts("58,92 36,88") + sPts("42,88 50,82"), 2)),
+  plank: () => W(
+    ground() +
+    aMove(0,-1.5, head(35,64,6) + sPts("42,70 84,86") + sPts("42,70 40,88 52,90") + sPts("84,86 90,100"), 3)),
+  mountain: () => W(
+    ground() + head(33,58,6) + sPts("40,64 66,74") + sPts("40,64 40,88 50,90") +
+    `<polyline class="fig" points="66,74 80,84 92,100"><animate attributeName="points" values="66,74 80,84 92,100;66,74 56,80 62,92;66,74 80,84 92,100" dur="1.5s" repeatCount="indefinite"/></polyline>` +
+    `<polyline class="fig ghost" points="66,74 58,81 64,93"><animate attributeName="points" values="66,74 58,81 64,93;66,74 82,86 94,101;66,74 58,81 64,93" dur="1.5s" repeatCount="indefinite"/></polyline>`),
+};
+function animSVG(name){ return (ANIMS[name] || ANIMS.hammercurl)(); }
+/* Gerçek çekim fotoğraf animasyonu (media.js'ten MEDIA sözlüğü; yoksa çizim figürüne düşer) */
+function mediaHTML(key){
+  const m = (typeof MEDIA !== "undefined") && MEDIA[key];
+  if(m) return `<div class="ph"><img src="${m[0]}" alt="" loading="lazy"><img class="f2" src="${m[1]}" alt="" loading="lazy"></div>`;
+  return animSVG(key);
+}
+
+/* ════════════════════ PROGRAM (standart) ════════════════════ */
+const KARIN_NOT = "Haftada 2 gün, arada 3 gün olsun. Sabah kardiyo öncesi ya da ağırlık antrenmanından hemen sonra.";
+function IT(id, salon, ev, dinlen, karin){
+  return Object.assign({id, dinlen: dinlen || "", salon, ev}, karin ? {karin:true} : {});
+}
+const DEFAULT_PROGRAM = { days: [
+  { id:"d1", ad:"1. Gün", odak:"Göğüs · Omuz · Arka Kol", items:[
+    IT("d1_1", {name:"Incline Chest Press (Makine)", anim:"inclinepress", sets:["10","10"], kg:"yes",
+        not:"Göğsünü iyice gerdirerek yap. Dipte göğsün essin ve kasılsın, sonra kontrollü kaldır (negatifi 1 saniyede yap)."},
+      {name:"Incline Dumbbell Press (Bench)", anim:"dbinclinepress", sets:["10","10"], kg:"yes",
+        not:"Bench sırtlığını 30-45° kaldır (ayarlanmıyorsa alt ucuna blok koy). Dipte göğsün essin, kontrollü it; negatif 1 saniye."}, "2-3 dk"),
+    IT("d1_2", {name:"Cable Crossover", anim:"crossover", sets:["12","12","12"], kg:"yes",
+        not:"2 saniyede kontrollü bırak, 1 saniyede göğsünü sıkıştır."},
+      {name:"Direnç Bandı Crossover", anim:"crossover", sets:["12","12","12"], kg:"opt",
+        not:"Bandı kapıya/sabit noktaya omuz hizasında sabitle. Kollarını önde birleştirirken göğsünü 1 saniye sık, 2 saniyede aç."}, "1-2 dk"),
+    IT("d1_3", {name:"Chest Press (Makine)", anim:"chestpress", sets:["10","10"], kg:"yes",
+        not:"Göğsünü iyice gerdirerek yap. Dipte göğsün essin ve kasılsın, sonra kontrollü kaldır (negatifi 1 saniyede yap)."},
+      {name:"Dumbbell Bench Press", anim:"dbbenchpress", sets:["10","10"], kg:"yes",
+        not:"Bench'te; dambılları göğüs hizasından yukarı it, 1 saniyede indir. Dipte göğsün essin."}, "2-3 dk"),
+    IT("d1_4", {name:"Dumbbell Lateral Raise", anim:"latraise", sets:["12","10","10"], kg:"yes",
+        not:"Gövden sabit kalsın; yalnızca yan omuza odaklan, vücudun hareket etmesin."},
+      {name:"Dumbbell Lateral Raise", anim:"latraise", sets:["12","10","10"], kg:"yes",
+        not:"Gövden sabit kalsın; yalnızca yan omuza odaklan, vücudun hareket etmesin."}, "1-2 dk"),
+    IT("d1_5", {name:"Triceps Cable Pushdown", anim:"pushdown", sets:["15","15"], kg:"yes",
+        not:"Dipte triceps'in iyice kasılsın ve kontrollü bir şekilde bırak."},
+      {name:"Direnç Bandı Pushdown", anim:"pushdown", sets:["15","15"], kg:"opt",
+        not:"Bandı yüksek bir noktaya sabitle; dirsekler gövdene yapışık, dipte triceps'i iyice sık."}, "1-2 dk"),
+    IT("d1_6", {name:"Rope Skull Crusher", anim:"skullcrusher", sets:["15","15"], kg:"yes",
+        not:"Dipte triceps'in iyice kasılsın ve kontrollü bir şekilde bırak."},
+      {name:"Band Skull Crusher (Bench)", anim:"bandskull", sets:["15","15"], kg:"opt",
+        not:"Bench'e uzan, band başının arkasında sabit; dirsekten açarak uzat, kontrollü geri dön. Dipte triceps'i sık."}, "1-2 dk"),
+    IT("d1_7", {name:"Leg Raises", anim:"legraise", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Belini kaldırmadan, salınım vermeden; sadece bacaklarınla alt karnını sıkıştır."},
+      {name:"Leg Raises", anim:"legraise", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Belini kaldırmadan, salınım vermeden; sadece bacaklarınla alt karnını sıkıştır."}, "45-60 sn", true),
+    IT("d1_8", {name:"Crunch", anim:"crunch", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Düz matta; belin sabit, kafan düz. Sadece karın kasın sıkışsın."},
+      {name:"Crunch", anim:"crunch", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Düz matta; belin sabit, kafan düz. Sadece karın kasın sıkışsın."}, "45-60 sn", true),
+    IT("d1_9", {name:"Plank", anim:"plank", sets:["max sn"], kg:"no",
+        not:"1 set, dayanabildiğin kadar. Vücut düz bir çizgide."},
+      {name:"Plank", anim:"plank", sets:["max sn"], kg:"no",
+        not:"1 set, dayanabildiğin kadar. Vücut düz bir çizgide."}, "", true),
+  ]},
+  { id:"d2", ad:"2. Gün", odak:"Sırt · Ön Kol", items:[
+    IT("d2_1", {name:"Lat Pulldown", anim:"pulldown", sets:["10","10"], kg:"yes",
+        not:"Tam çekip sırtını iyice sıkıştırdıktan sonra yavaş yavaş bırak."},
+      {name:"Dumbbell Pullover (Bench)", anim:"dbpullover", sets:["10","10"], kg:"yes",
+        not:"Sırtın bench'te; dambılı göğüs üzerinden başının arkasına indir, latlarını gererek geri çek."}, "2-3 dk"),
+    IT("d2_2", {name:"V-Bar Seated Row", anim:"seatedrow", sets:["10","10","10"], kg:"yes",
+        not:"Tepede 1 saniye bekletip yavaşça bırak."},
+      {name:"Tek Kol Dumbbell Row (Bench)", anim:"dbrow", sets:["10","10","10"], kg:"yes",
+        not:"Dizin ve elin bench'te, sırtın düz; dambılı kaburgana çek, tepede 1 saniye sık, yavaş bırak."}, "2-3 dk"),
+    IT("d2_3", {name:"Open Grip Row (Makine)", anim:"rowmachine", sets:["10","10","10"], kg:"yes",
+        not:"İyice esnetip kontrollü olarak yap."},
+      {name:"Eğilerek Çift Dumbbell Row", anim:"dbrow2", sets:["10","10","10"], kg:"yes",
+        not:"Öne eğil, sırtın düz; iki dambılı karnına doğru çek, iyice esnet, kontrollü bırak."}, "2-3 dk"),
+    IT("d2_4", {name:"Hyperextension", anim:"hyperext", sets:["15","15"], kg:"no",
+        not:"Ağırlıksız yapılacak."},
+      {name:"Yerde Hyperextension", anim:"floorhyper", sets:["15","15"], kg:"no",
+        not:"Yüzüstü; göğsünü yerden kaldır, belini sık, kontrollü in. Ağırlıksız."}, "1-2 dk"),
+    IT("d2_5", {name:"Dumbbell Shrug (Trapez)", anim:"shrug", sets:["12","12","12"], kg:"yes",
+        not:"Kasıldığı noktada trapezleri 1 saniye sık ve bekle, yavaşça bırak."},
+      {name:"Dumbbell Shrug", anim:"shrug", sets:["12","12","12"], kg:"yes",
+        not:"Kasıldığı noktada trapezleri 1 saniye sık ve bekle, yavaşça bırak."}, "1-2 dk"),
+    IT("d2_6", {name:"Z-Bar Preacher Curl", anim:"preachercurl", sets:["15","15"], kg:"yes",
+        not:"Tam bırakıp tam kaldıracaksın; tepede 1-2 saniye bekleyip yavaşça bırakacaksın."},
+      {name:"Concentration Curl (Bench)", anim:"conccurl", sets:["15","15"], kg:"yes",
+        not:"Bench'te otur, dirseğin iç dizine dayalı; tam indir tam kaldır, tepede 1-2 saniye bekle."}, "1-2 dk"),
+    IT("d2_7", {name:"Dumbbell Hammer Curl", anim:"hammercurl", sets:["15","15"], kg:"yes",
+        not:"Bırakırken odaklı ve yavaşça bırak."},
+      {name:"Dumbbell Hammer Curl", anim:"hammercurl", sets:["15","15"], kg:"yes",
+        not:"Avuçlar birbirine bakar; bırakırken odaklı ve yavaş bırak."}, "1-2 dk"),
+  ]},
+  { id:"d4", ad:"4. Gün", odak:"Bacak", items:[
+    IT("d4_1", {name:"Smith Machine Squat", anim:"squat", sets:["10","10"], kg:"yes",
+        not:"Tam derinlikte, sallanmadan, doğru formda; kontrollü aşağı inip kalk."},
+      {name:"Dumbbell Squat", anim:"dbsquat", sets:["10","10"], kg:"yes",
+        not:"Dambıllar yanlarda ya da göğüs hizasında (goblet); tam derinlik, sallanmadan kontrollü in-kalk."}, "2-3 dk"),
+    IT("d4_2", {name:"Leg Curl", anim:"legcurl", sets:["12","12","12"], kg:"yes",
+        not:"Tam indirilip tam kaldırılacak. Gereksiz ağır kilolara girme."},
+      {name:"Dumbbell Romanian Deadlift", anim:"dbrdl", sets:["12","12","12"], kg:"yes",
+        not:"Dizler hafif kırık; dambılları bacak önünden indirirken kalçanı geri it, arka bacakta gerilmeyi hisset. Gereksiz ağır girme."}, "2-3 dk"),
+    IT("d4_3", {name:"Leg Extension", anim:"legext", sets:["15","12","10"], kg:"yes",
+        not:"Tam indirilip tam kaldırılacak. Gereksiz ağır kilolara girme."},
+      {name:"Dumbbell Lunge", anim:"dblunge", sets:["15","12","10"], kg:"yes",
+        not:"Her bacak için sayılır. Elinde dambıllarla öne adım at, arka diz yere yaklaşsın; ön bacağınla iterek kalk."}, "2-3 dk"),
+    IT("d4_4", {name:"Smith Machine Hip Thrust", anim:"hipthrust", sets:["15","12","10"], kg:"yes",
+        not:"Ağırlıklı veya ağırlıksız olarak yapabilirsin."},
+      {name:"Dumbbell Hip Thrust (Bench)", anim:"hipthrust", sets:["15","12","10"], kg:"yes",
+        not:"Sırtın bench'e dayalı, dambıl kalçanda; tepede kalçanı 1 saniye sık. Ağırlıksız da yapabilirsin."}, "2-3 dk"),
+    IT("d4_5", {name:"Calf Raise", anim:"calfraise", sets:["20","20","20"], kg:"yes",
+        not:"Calf'lerinin iyice gerildiğini hisset."},
+      {name:"Dumbbell Calf Raise", anim:"dbcalf", sets:["20","20","20"], kg:"yes",
+        not:"Elinde dambıllarla basamak kenarında; topuğu iyice sarkıt, parmak ucunda tepeye çık. Calf'in gerildiğini hisset."}, "1 dk"),
+    IT("d4_6", {name:"Leg Raises", anim:"legraise", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Belini kaldırmadan, salınım vermeden; sadece bacaklarınla alt karnını sıkıştır."},
+      {name:"Leg Raises", anim:"legraise", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Belini kaldırmadan, salınım vermeden; sadece bacaklarınla alt karnını sıkıştır."}, "45-60 sn", true),
+    IT("d4_7", {name:"Crunch", anim:"crunch", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Düz matta; belin sabit, kafan düz. Sadece karın kasın sıkışsın."},
+      {name:"Crunch", anim:"crunch", sets:["10-12","10-12","10-12"], kg:"no",
+        not:"Düz matta; belin sabit, kafan düz. Sadece karın kasın sıkışsın."}, "45-60 sn", true),
+    IT("d4_8", {name:"Mountain Climber", anim:"mountain", sets:["15-10","15-10","15-10"], kg:"no",
+        not:"Tek bacak tekrarıdır. Kalçan düşmeden, karnın sıkı."},
+      {name:"Mountain Climber", anim:"mountain", sets:["15-10","15-10","15-10"], kg:"no",
+        not:"Tek bacak tekrarıdır. Kalçan düşmeden, karnın sıkı."}, "", true),
+  ]},
+  { id:"d5", ad:"5. Gün", odak:"Omuz · Göğüs · Sırt", items:[
+    IT("d5_1", {name:"Shoulder Press (Makine)", anim:"shoulderpress", sets:["10","10"], kg:"yes",
+        not:"Ağırlığı 1 saniyede indir ve 1 saniyede kaldır."},
+      {name:"Dumbbell Shoulder Press (Bench)", anim:"dbshoulderpress", sets:["10","10"], kg:"yes",
+        not:"Bench sırtlığı dikse yaslan; dambılları omuz hizasından başının üstüne it, 1 saniyede indir."}, "2-3 dk"),
+    IT("d5_2", {name:"Cable Lateral Raise", anim:"latraise", sets:["12","12","12"], kg:"yes",
+        not:"Setler yavaş ve hissederek yapılacak. Son set drop set."},
+      {name:"Direnç Bandı Lateral Raise", anim:"bandlat", sets:["12","12","12"], kg:"opt",
+        not:"Bandın ortasına bas, uçlarından tut; yavaş ve hissederek, son seti tükenene kadar uzat."}, "1-2 dk"),
+    IT("d5_3", {name:"Butterfly (Makine)", anim:"butterfly", sets:["15","15","15"], kg:"yes",
+        not:"Ağırlığı 1 saniyede indir ve 1 saniyede kaldır."},
+      {name:"Dumbbell Fly (Bench)", anim:"dbfly", sets:["15","15","15"], kg:"yes",
+        not:"Bench'te; kollar hafif kırık, dambılları yanlara aç, göğsünü sıkarak kapat. 1 saniyede indir, 1 saniyede kaldır."}, "1-2 dk"),
+    IT("d5_4", {name:"Chest Press (Makine)", anim:"chestpress", sets:["10","10"], kg:"yes",
+        not:"Göğsünü iyice gerdirerek yap. Dipte göğsün essin ve kasılsın, sonra kontrollü kaldır."},
+      {name:"Dumbbell Bench Press", anim:"dbbenchpress", sets:["10","10"], kg:"yes",
+        not:"Bench'te; dambılları göğüs hizasından yukarı it, 1 saniyede indir. Dipte göğsün essin."}, "2-3 dk"),
+    IT("d5_5", {name:"Reverse Grip Lat Pulldown", anim:"revpulldown", sets:["10","10"], kg:"yes",
+        not:"Dipte 1 saniye tutup 1 saniyede bırak."},
+      {name:"Direnç Bandı Pulldown (ters tutuş)", anim:"revpulldown", sets:["10","10"], kg:"opt",
+        not:"Bandı yüksek bir noktaya sabitle, avuçlar sana dönük; dirsekleri kaburgana çek, dipte 1 saniye tut."}, "2-3 dk"),
+    IT("d5_6", {name:"Wide Grip Seated Row", anim:"seatedrow", sets:["10","10"], kg:"yes",
+        not:"Negatifte iyice odaklan, hızlı yapma. Tepe noktada 1 saniye bekle, 1 saniyede bırak."},
+      {name:"Direnç Bandı Row (geniş, oturarak)", anim:"seatedrow", sets:["10","10"], kg:"opt",
+        not:"Otur, bandı ayak tabanlarına dola; geniş tutuşla göğsüne çek, tepede 1 saniye bekle, negatifte odaklan."}, "2-3 dk"),
+  ]},
+]};
+/* ════════════════════ BESLENME (standart — koç programından) ════════════════════ */
+const DEFAULT_BESLENME = {
+  ogunler: [
+    { ad:"1. Öğün · Kahvaltı", items:[
+        "250-300 g haşlanmış/fırın patates YA DA 70 g basmati pirinç (çiğ tartım) YA DA 1 dilim tam buğday ekmeği + 200 g patates",
+        "1 adet orta boy muz",
+        "30 g fıstık ezmesi ya da 30 g badem ezmesi",
+        "4 yumurta (2 tam + 2 beyaz)",
+        "1 adet domates, 1 adet salatalık",
+      ],
+      not:"Mısır gevreği, yulaf ve ekmek ağırlıklı seçenekler sevmediğin için çıkarıldı; buradaki seçenekler programdaki 80 g yulafla aynı karbonhidratı verir. Tek başına 1 dilim ekmek hedefin çok altında kalır." },
+    { ad:"2. Öğün", items:[
+        "250 g tavuk göğsü ya da 250 g hindi eti",
+        "100 g basmati pirinç ya da kepekli makarna",
+        "1 adet domates, 1 adet salatalık",
+        "5 g zeytinyağı",
+        "1 adet yeşil elma",
+      ]},
+    { ad:"3. Öğün", items:[
+        "250 g tavuk göğsü ya da 250 g hindi eti",
+        "100 g basmati pirinç ya da kepekli makarna",
+        "1 adet domates, 1 adet salatalık",
+        "10 g çiğ badem ya da 10 g çiğ ceviz içi",
+        "100 g brokoli",
+      ]},
+  ],
+  su:"Günde 4 – 4.5 litre su",
+  tuz:"6-10 g tuz (tercihen Himalaya)",
+  kural:"Tüm yemeklerin gramajı çiğ tartılır. Yağlar, yemek piştikten sonra üzerine eklenir.",
+};
+const METRIKLER = [
+  ["kilo","Kilo","kg"],["omuz","Omuz","cm"],["gogus","Göğüs","cm"],["bel","Bel","cm"],
+  ["kol","Kol","cm"],["basen","Basen","cm"],["bacak","Bacak","cm"],["calf","Calf","cm"],
+];
+const SUPPLEMENTLER = [
+  ["1. öğün sonrası", "2 tablet Omega-3 + multivitamin + D vitamini 2000 IU"],
+  ["Antrenman sonrası", "Kreatin 5 g"],
+  ["Yatmadan önce", "ZMA"],
+];
+
+const REST_DAYS = [
+  {ad:"3. Gün", not:"Dinlenme · Kardiyo 35 dk"},
+  {ad:"6. Gün", not:"Dinlenme · Kardiyo 35 dk"},
+  {ad:"7. Gün", not:"Dinlenme · Kardiyo 35 dk"},
+];
+const HAFTA_SAYISI = 4;
+
+/* ════════════════════ DURUM ════════════════════ */
+const KEY = "sporGunlugu.v2";
+function loadState(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){
+      const s = JSON.parse(raw);
+      if(s && s.program && s.log) return s;
+    }
+  }catch(e){}
+  return null;
+}
+let state = loadState() || {
+  v:2,
+  program: JSON.parse(JSON.stringify(DEFAULT_PROGRAM)),
+  log: {},
+  tipOk: false,
+};
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+/* Bu ortamda kalıcı kayıt mümkün mü? (claude.ai sanal çerçevesi tarayıcı depolamasını engelleyebiliyor) */
+const KALICI = (() => {
+  if(location.hash === "#nokalici") return false;
+  try{ localStorage.setItem("__sgTest", "1"); localStorage.removeItem("__sgTest"); return true; }
+  catch(e){ return false; }
+})();
+
+/* Eski kayıtlı programları yeni görsellere ve ekipmanlı ev sürümüne taşı (kullanıcı düzenlemelerine dokunmaz) */
+const ESKI_EV_ADLARI = new Set([
+  "Eğimli Şınav (ayaklar yükseltide)","Geniş Şınav (yavaş negatif)","Şınav","Su Şişesiyle Yan Açış",
+  "Sandalye Dips","Elmas Şınav","Ters Row (masa altında)","Havlu Row (kapıda)","Havlu Row (geniş tutuş)",
+  "Superman","Şişe/Çanta ile Shrug","Şişe/Çanta Biceps Curl","Havlu/Şişe Hammer Curl",
+  "Vücut Ağırlığı Squat","Havluyla Hamstring Curl","Duvar Oturuşu (Wall Sit)","Lunge (İleri Adım)",
+  "Kalça Köprüsü (Hip Thrust)","Basamakta Calf Raise","Pike Şınav","Şişe/Çanta ile Omuz Press",
+  "Şişeyle Yan Açış","İzometrik Göğüs Sıkıştırma","Yerde Lat Çekişi (Superman Pull)","Havlu Row (geniş)",
+]);
+(function migrate(){
+  if(!state.olcumler){ state.olcumler = []; save(); }
+  if(!state.beslenme){ state.beslenme = JSON.parse(JSON.stringify(DEFAULT_BESLENME)); save(); }
+  else {
+    // Kahvaltı revizyonu: yulaf/ekmek seçenekleri de çıkarıldı (Erkan sevmiyor)
+    const o0 = state.beslenme.ogunler[0];
+    if(o0 && o0.items[0] === "80 g yulaf ezmesi YA DA 4 dilim tam buğday/çavdar ekmeği YA DA 150 g haşlanmış patates"){
+      o0.items[0] = DEFAULT_BESLENME.ogunler[0].items[0];
+      o0.not = DEFAULT_BESLENME.ogunler[0].not;
+      save();
+    }
+  }
+  const defs = {};
+  for(const d of DEFAULT_PROGRAM.days) for(const it of d.items) defs[it.id] = it;
+  let degisti = false;
+  for(const d of state.program.days) for(const it of d.items){
+    const df = defs[it.id]; if(!df) continue;
+    if(it.salon.anim !== df.salon.anim){ it.salon.anim = df.salon.anim; degisti = true; }
+    if(ESKI_EV_ADLARI.has(it.ev.name) && it.ev.name !== df.ev.name){
+      it.ev = JSON.parse(JSON.stringify(df.ev)); degisti = true;
+    } else if(it.ev.anim !== df.ev.anim){ it.ev.anim = df.ev.anim; degisti = true; }
+  }
+  if(degisti) save();
+})();
+
+/* ════════════════════ Yardımcılar ════════════════════ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID().slice(0,8) : Date.now().toString(36) + Math.random().toString(36).slice(2,6));
+const num = v => { const n = parseFloat(String(v).replace(",", ".")); return isFinite(n) && n >= 0 ? n : null; };
+const AYLAR = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
+const GUNLER = ["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
+const fmtKisa  = iso => { const d = new Date(iso); return `${d.getDate()} ${AYLAR[d.getMonth()]}`; };
+const fmtTarih = iso => { const d = new Date(iso); return `${d.getDate()} ${AYLAR[d.getMonth()]} ${d.getFullYear()}, ${GUNLER[d.getDay()]}`; };
+
+let tab = "program";
+let view = { name:"program" };   // veya {name:"day", w, di}
+let hafta = 1;
+
+function dayByIdx(di){ return state.program.days[di]; }
+function logKey(w, di){ return "w" + w + "d" + di; }
+function getLog(w, di){ return state.log[logKey(w, di)] || null; }
+function ensureLog(w, di){
+  const k = logKey(w, di);
+  if(!state.log[k]) state.log[k] = { mode:"salon", items:{}, ts:Date.now() };
+  return state.log[k];
+}
+function itemLog(log, itemId, mode){
+  const k = itemId + "@" + mode;
+  if(!log.items[k]) log.items[k] = { t:[], ex:[], kg:null };
+  return log.items[k];
+}
+function variant(item, mode){ return mode === "ev" ? item.ev : item.salon; }
+
+function itemDone(item, log, mode){
+  if(!log) return false;
+  const il = log.items[item.id + "@" + mode];
+  if(!il) return false;
+  const v = variant(item, mode);
+  return v.sets.length > 0 && v.sets.every((_, i) => il.t[i]);
+}
+function dayStats(w, di){
+  const day = dayByIdx(di);
+  const log = getLog(w, di);
+  const mode = log ? log.mode : "salon";
+  let total = 0, done = 0;
+  for(const item of day.items){
+    const v = variant(item, mode);
+    total += v.sets.length;
+    const il = log ? log.items[item.id + "@" + mode] : null;
+    if(il){
+      done += v.sets.filter((_, i) => il.t[i]).length;
+      done += (il.ex || []).filter(e => e.done).length * 0; // ekstralar yüzdeyi bozmasın
+    }
+  }
+  return { total, done, pct: total ? Math.round(done / total * 100) : 0, mode };
+}
+function weekPct(w){
+  const days = state.program.days;
+  let t = 0, d = 0;
+  days.forEach((_, di) => { const s = dayStats(w, di); t += s.total; d += s.done; });
+  return t ? Math.round(d / t * 100) : 0;
+}
+
+/* Kilo hafızası: aynı hareket ADI + mod için önceki (hafta, gün) kayıtlarından en yenisi */
+function itemName(itemId, mode){
+  for(const day of state.program.days)
+    for(const it of day.items)
+      if(it.id === itemId) return variant(it, mode).name;
+  return null;
+}
+function kgMem(item, mode, w, di){
+  const name = variant(item, mode).name;
+  let best = null;
+  for(const [k, log] of Object.entries(state.log)){
+    const m = k.match(/^w(\d+)d(\d+)$/); if(!m) continue;
+    const lw = +m[1], ld = +m[2];
+    const ord = lw * 10 + ld;
+    if(ord >= w * 10 + di) continue;
+    for(const [ik, il] of Object.entries(log.items)){
+      if(il.kg == null) continue;
+      const [iid, imode] = ik.split("@");
+      if(imode !== mode) continue;
+      if(itemName(iid, imode) !== name) continue;
+      if(!best || ord > best.ord) best = { ord, kg: il.kg, w: lw };
+    }
+  }
+  return best;
+}
+function kgSessions(name, mode){
+  const out = [];
+  const keys = Object.keys(state.log).map(k => {
+    const m = k.match(/^w(\d+)d(\d+)$/);
+    return m ? { k, w:+m[1], di:+m[2] } : null;
+  }).filter(Boolean).sort((a, b) => (a.w * 10 + a.di) - (b.w * 10 + b.di));
+  for(const { k, w, di } of keys){
+    const log = state.log[k];
+    for(const [ik, il] of Object.entries(log.items)){
+      if(il.kg == null) continue;
+      const [iid, imode] = ik.split("@");
+      if(imode !== mode || itemName(iid, imode) !== name) continue;
+      out.push({ lab: "H" + w + "·" + dayByIdx(di).ad.replace(". Gün",""), val: il.kg });
+    }
+  }
+  return out;
+}
+
+function metrikSeri(k){
+  return state.olcumler.filter(o => o[k] != null).map(o => ({ t: o.t, lab: fmtKisa(o.t), val: o[k] }));
+}
+
+/* ════════════════════ RENDER ════════════════════ */
+function render(){
+  document.querySelectorAll("#tabbar button").forEach(b =>
+    b.setAttribute("aria-current", b.dataset.tab === tab ? "true" : "false"));
+  if(location.hash === "#anims"){ renderAnimGrid(); return; }
+  if(tab === "ilerleme") renderIlerleme();
+  else if(tab === "beslenme") renderBeslenme();
+  else if(view.name === "day") renderDay();
+  else renderProgram();
+  window.scrollTo(0, 0);
+  pauseIfReduced();
+}
+function pauseIfReduced(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)
+    document.querySelectorAll("svg.anim").forEach(s => { try{ s.pauseAnimations(); }catch(e){} });
+}
+
+function renderAnimGrid(){
+  const keys = [...new Set([...(typeof MEDIA !== "undefined" ? Object.keys(MEDIA) : []), ...Object.keys(ANIMS)])];
+  $("#screen").innerHTML = `<header class="screen-head"><h1 class="t-title">Animasyonlar</h1></header>
+    <div class="anim-grid">` +
+    keys.map(n => `<div class="cell"><div style="height:110px; border-radius:9px; overflow:hidden">${mediaHTML(n)}</div><div>${n}</div></div>`).join("") +
+    `</div>`;
+}
+
+/* ── Program sekmesi ── */
+function renderProgram(){
+  const days = state.program.days;
+  const dayCards = days.map((day, di) => {
+    const s = dayStats(hafta, di);
+    const tam = s.pct === 100;
+    return `<button class="day-card ${tam ? "tam" : ""}" data-action="open-day" data-di="${di}">
+      <span class="dnum">${tam ? "✓" : esc(day.ad.replace(". Gün",""))}</span>
+      <span class="grow">
+        <b>${esc(day.ad)} · ${esc(day.odak)}</b>
+        <span class="sub">${day.items.length} hareket · ${s.done}/${s.total} set${s.mode === "ev" ? " · Ev" : ""}</span>
+        <span class="bar"><i style="width:${s.pct}%"></i></span>
+      </span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--ink3)"><path d="M9 6l6 6-6 6"/></svg>
+    </button>`;
+  });
+  // Dinlenme günlerini sıraya yerleştir: 1,2,(3),4,5,(6),(7)
+  const sira = [dayCards[0], dayCards[1], rest(0), dayCards[2], dayCards[3], rest(1), rest(2)];
+  $("#screen").innerHTML = `
+    <header class="screen-head">
+      <div><div class="micro">4 Haftalık Program</div><h1 class="t-title">Program</h1></div>
+    </header>
+    <div class="stack" style="margin-top:8px">
+      ${!KALICI ? `
+      <div class="card stack" style="border-color:var(--danger); gap:10px">
+        <div class="row">
+          <span class="tip-ic" style="background:var(--danger-soft); color:var(--danger)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5A4.5 4.5 0 0 1 6 8a6 6 0 0 1 11.3-1.4A5 5 0 0 1 20.5 15M3 3l18 18"/></svg></span>
+          <div class="grow sub"><b style="color:var(--ink)">Bu ortam kayıtları kalıcı tutamıyor.</b> Antrenman bitince <b>Yedek İndir</b> ile dosya olarak kaydet; bir sonraki açılışta <b>Yedekten Yükle</b> ile kaldığın yerden devam et.</div>
+        </div>
+        <div class="row">
+          <button class="btn grow" data-action="export">Yedek İndir</button>
+          <label class="btn grow" style="justify-content:center">Yedekten Yükle<input id="import-file2" type="file" accept=".json,application/json" style="display:none"></label>
+        </div>
+      </div>` : ""}
+      <div class="weeks">
+        ${Array.from({length: HAFTA_SAYISI}, (_, i) => {
+          const w = i + 1, p = weekPct(w);
+          return `<button class="week-chip ${p === 100 ? "tam" : ""}" data-action="hafta" data-w="${w}" aria-pressed="${hafta === w}">
+            <div class="n">H${w}</div><div class="s">${p === 100 ? "Bitti ✓" : "%" + p}</div></button>`;
+        }).join("")}
+      </div>
+      ${sira.join("")}
+      <div class="card">
+        <div class="micro" style="margin-bottom:8px">Kardiyo Planı</div>
+        <p class="sub" style="margin-bottom:6px"><b style="color:var(--ink)">Her gün:</b> 35 dk yürüyüş — 10 eğim, 3.2 km/sa. Sabah aç karnına ya da antrenman sonunda; salonda ya da evdeki eğimli koşu bandında.</p>
+        <p class="sub"><b style="color:var(--ink)">Haftada 3 gün:</b> antrenman sonrası 10 dk HIIT bisiklet — 30 sn hızlı / 30 sn yavaş × 8 tur.</p>
+      </div>
+      ${!state.tipEv ? `
+      <div class="card row">
+        <span class="tip-ic" style="background:var(--amber-soft); color:var(--amber)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg></span>
+        <div class="grow sub"><b style="color:var(--ink)">Ev programı:</b> Herhangi bir günü açınca üstteki <b>Salon / Ev Versiyonu</b> düğmesiyle geçiş yapabilirsin. Ev hareketleri dambıl, direnç bandı ve bench'ine göre ayarlı.</div>
+        <button class="btn btn-soft" data-action="tip-ev">Anladım</button>
+      </div>` : ""}
+      ${!state.tipOk ? `
+      <div class="card row">
+        <div class="grow sub">İpucu: Safari'de <b>Paylaş → Ana Ekrana Ekle</b> dersen bu uygulama telefonunda uygulama gibi açılır.</div>
+        <button class="btn btn-soft" data-action="tip-ok">Anladım</button>
+      </div>` : ""}
+    </div>`;
+  function rest(i){
+    return `<div class="rest-card"><span class="dnum">${esc(REST_DAYS[i].ad.replace(". Gün",""))}</span>
+      <span class="sub">${esc(REST_DAYS[i].not)}</span></div>`;
+  }
+}
+
+/* ── Gün ekranı ── */
+function renderDay(){
+  const { w, di } = view;
+  const day = dayByIdx(di);
+  const log = getLog(w, di);
+  const mode = log ? log.mode : "salon";
+  const s = dayStats(w, di);
+  let karinBasladi = false;
+  const items = day.items.map(item => {
+    let html = "";
+    if(item.karin && !karinBasladi){
+      karinBasladi = true;
+      html += `<div class="divider"><span class="micro">Karın</span></div>
+        <p class="sub" style="margin:-2px 2px 0; font-size:12px">${esc(KARIN_NOT)}</p>`;
+    }
+    return html + exCard(item, w, di, mode);
+  }).join("");
+  $("#screen").innerHTML = `
+    <header class="screen-head">
+      <div class="row" style="gap:6px">
+        <button class="btn-icon" data-action="back" aria-label="Programa dön" style="margin-left:-8px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div>
+          <div class="micro">Hafta ${w} · ${esc(day.odak)}</div>
+          <h1 class="t-title" style="font-size:22px">${esc(day.ad)}</h1>
+        </div>
+      </div>
+      <span class="pill ${s.pct === 100 ? "pill-ok" : "pill-kas"}" style="font-variant-numeric:tabular-nums">${s.done}/${s.total} set</span>
+    </header>
+    <div class="stack" style="margin-top:8px">
+      <div class="seg">
+        <button data-action="day-mode" data-mode="salon" aria-pressed="${mode === "salon"}">Salon</button>
+        <button data-action="day-mode" data-mode="ev" aria-pressed="${mode === "ev"}">Ev Versiyonu</button>
+      </div>
+      ${mode === "ev" ? `<p class="sub" style="margin:0 2px; font-size:12.5px">Salona gidemediğin günler için aynı kasları çalıştıran ev hareketleri.</p>` : ""}
+      ${items}
+      <button class="btn btn-soft btn-block" data-action="add-item">＋ Bu Güne Hareket Ekle</button>
+    </div>`;
+}
+
+function exCard(item, w, di, mode){
+  const v = variant(item, mode);
+  const log = getLog(w, di);
+  const il = log ? log.items[item.id + "@" + mode] : null;
+  const done = itemDone(item, log, mode);
+  const mem = kgMem(item, mode, w, di);
+  const kgVal = il && il.kg != null ? il.kg : "";
+  const chips = v.sets.map((rep, i) => {
+    const t = il && il.t[i];
+    return `<button class="chip ${t ? "done" : ""}" data-action="tick" data-item="${item.id}" data-i="${i}"
+      aria-pressed="${!!t}" aria-label="Set ${i+1}: ${esc(rep)}">
+      <span class="rep">${t ? "✓ " : ""}${esc(rep)}</span><span class="lbl">${i + 1}. set</span></button>`;
+  }).join("");
+  const extra = (il && il.ex || []).map((e, i) =>
+    `<button class="chip ${e.done ? "done" : ""}" data-action="tick-ex" data-item="${item.id}" data-i="${i}" aria-pressed="${!!e.done}">
+      <span class="rep">${e.done ? "✓ " : ""}${esc(e.lab)}</span><span class="lbl">ekstra</span>
+      <span class="rm" data-action="rm-ex" data-item="${item.id}" data-i="${i}" role="button" aria-label="Ekstra seti sil">×</span></button>`).join("");
+  const kgHtml = v.kg === "no" ? "" : `
+    <div class="row kg-row">
+      <input type="number" inputmode="decimal" step="2.5" min="0" value="${kgVal}"
+        placeholder="${mem ? mem.kg : "kg"}" data-kg-item="${item.id}" aria-label="${esc(v.name)} kilo">
+      <span style="font-size:12px; font-weight:650; color:var(--ink3)">kg${v.kg === "opt" ? " (ops.)" : ""}</span>
+      <span class="grow"></span>
+      <span class="mem">${mem ? `Geçen: <b>${mem.kg} kg</b> · ${mem.w}. Hafta` : "İlk kayıt"}</span>
+    </div>`;
+  return `
+  <div class="card ex-card stack ${done ? "done" : ""}" style="gap:9px">
+    <div class="row">
+      <button class="thumb" data-action="open-item" data-item="${item.id}" aria-label="${esc(v.name)} animasyonunu büyüt">${mediaHTML(v.anim)}</button>
+      <div class="grow">
+        <b style="font-size:15px">${esc(v.name)}</b>
+        <div class="sub" style="font-size:12.5px">${v.sets.length} set${item.dinlen ? " · dinlenme " + esc(item.dinlen) : ""}</div>
+        ${done ? `<span class="pill pill-ok" style="margin-top:3px">Tamamlandı ✓</span>` : ""}
+      </div>
+      <button class="btn-icon" data-action="edit-item" data-item="${item.id}" aria-label="${esc(v.name)} düzenle">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg></button>
+    </div>
+    ${v.not ? `<button class="not-line" style="text-align:left; cursor:pointer" data-action="open-item" data-item="${item.id}">${esc(v.not)}</button>` : ""}
+    <div class="chips">
+      ${chips}${extra}
+      <button class="chip chip-add" data-action="add-ex" data-item="${item.id}" aria-label="Ekstra set ekle"><span class="rep">＋</span><span class="lbl">set</span></button>
+    </div>
+    ${kgHtml}
+  </div>`;
+}
+
+/* ── Beslenme sekmesi ── */
+function renderBeslenme(){
+  const b = state.beslenme;
+  $("#screen").innerHTML = `
+    <header class="screen-head">
+      <div><div class="micro">Koç Programı</div><h1 class="t-title">Beslenme</h1></div>
+    </header>
+    <div class="stack" style="margin-top:8px">
+      <div class="card row" style="background:var(--accent-soft); border-color:transparent">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 3c3 4.5 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-6.5 6-11Z"/></svg>
+        <div class="grow"><b style="color:var(--accent)">${esc(b.su)}</b>
+          <div class="sub">${esc(b.tuz)}</div></div>
+      </div>
+      ${b.ogunler.map((o, i) => `
+      <div class="card stack" style="gap:9px">
+        <div class="row">
+          <b style="font-size:15.5px" class="grow">${esc(o.ad)}</b>
+          <button class="btn-icon" data-action="edit-ogun" data-i="${i}" aria-label="${esc(o.ad)} düzenle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg></button>
+        </div>
+        ${o.items.map(it => `<div class="row" style="align-items:flex-start; gap:9px">
+          <span style="flex:none; width:5px; height:5px; border-radius:50%; background:var(--accent); margin-top:8px"></span>
+          <span style="font-size:14px">${esc(it)}</span></div>`).join("")}
+        ${o.not ? `<div class="not-line" style="-webkit-line-clamp:4">${esc(o.not)}</div>` : ""}
+      </div>`).join("")}
+      <div class="card stack" style="gap:8px">
+        <div class="micro">Supplementler</div>
+        ${SUPPLEMENTLER.map(([z, s]) => `<div class="row" style="align-items:flex-start">
+          <span class="pill pill-kas" style="flex:none; min-width:128px; justify-content:center">${esc(z)}</span>
+          <span class="grow" style="font-size:13.5px">${esc(s)}</span></div>`).join("")}
+      </div>
+      <div class="card">
+        <div class="micro" style="margin-bottom:6px">Kurallar</div>
+        <p class="sub">${esc(b.kural)}</p>
+      </div>
+    </div>`;
+}
+function sheetOgun(i){
+  const o = state.beslenme.ogunler[i];
+  openSheet(`
+    <div class="sheet-head"><div class="sheet-title">Öğünü Düzenle</div>
+      <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="stack" style="gap:14px">
+      <div class="field"><label for="og-ad">Öğün adı</label>
+        <input id="og-ad" type="text" value="${esc(o.ad)}" maxlength="40"></div>
+      <div class="field"><label for="og-items">İçerik (her satır bir madde)</label>
+        <textarea id="og-items" rows="8">${esc(o.items.join("\n"))}</textarea></div>
+      <button class="btn btn-primary btn-block" data-action="save-ogun" data-i="${i}">Kaydet</button>
+    </div>`);
+}
+
+/* ── İlerleme sekmesi ── */
+function renderIlerleme(){
+  const days = state.program.days;
+  const grid = [`<div class="gw-lab"></div>` + days.map(d =>
+      `<div class="gw-lab" style="text-align:center">${esc(d.ad.replace(". Gün", ". G"))}</div>`).join("")];
+  for(let w = 1; w <= HAFTA_SAYISI; w++){
+    grid.push(`<div class="gw-lab">H${w}</div>` + days.map((_, di) => {
+      const s = dayStats(w, di);
+      const cls = s.pct === 100 ? "tam" : s.pct > 0 ? "part" : "";
+      return `<div class="gw-cell ${cls}">${s.pct === 100 ? "✓" : s.pct > 0 ? "%" + s.pct : "–"}</div>`;
+    }).join(""));
+  }
+  // kilo takibi listesi: kaydı olan hareket adları
+  const seen = new Map();
+  for(const day of days) for(const it of day.items){
+    for(const mode of ["salon", "ev"]){
+      const v = variant(it, mode);
+      if(v.kg === "no") continue;
+      const key = v.name + "@" + mode;
+      if(seen.has(key)) continue;
+      const ss = kgSessions(v.name, mode);
+      if(ss.length) seen.set(key, { name: v.name, mode, ss });
+    }
+  }
+  const kgList = [...seen.values()].map(({ name, mode, ss }) => {
+    const son = ss[ss.length - 1];
+    const ilk = ss[0];
+    const fark = ss.length > 1 ? son.val - ilk.val : 0;
+    return `<button class="kg-item" data-action="open-kg" data-name="${esc(name)}" data-mode="${mode}">
+      <span class="grow"><span style="font-weight:650">${esc(name)}</span>
+        ${mode === "ev" ? `<span class="pill pill-ev" style="margin-left:5px">Ev</span>` : ""}
+        <div class="d">${ss.length} kayıt</div></span>
+      <span style="text-align:right"><div class="v">${son.val} kg</div>
+        ${fark ? `<div class="d" style="color:${fark > 0 ? "var(--green)" : "var(--ink3)"}">${fark > 0 ? "+" : ""}${fark} kg</div>` : ""}</span>
+    </button>`;
+  }).join("");
+  const toplamTik = Object.values(state.log).reduce((n, log) =>
+    n + Object.values(log.items).reduce((m, il) => m + il.t.filter(Boolean).length + (il.ex || []).filter(e => e.done).length, 0), 0);
+  $("#screen").innerHTML = `
+    <header class="screen-head"><h1 class="t-title">İlerleme</h1></header>
+    <div class="stack" style="margin-top:8px">
+      <div class="tiles">
+        <div class="tile"><div class="v">${toplamTik}</div><div class="l">Set Yapıldı</div></div>
+        <div class="tile"><div class="v">${state.program.days.reduce((n, _, di) => n + (Array.from({length: HAFTA_SAYISI}, (_, i) => i + 1).filter(w => dayStats(w, di).pct === 100).length), 0)}</div><div class="l">Gün Bitti</div></div>
+        <div class="tile"><div class="v">%${Math.round(Array.from({length: HAFTA_SAYISI}, (_, i) => weekPct(i + 1)).reduce((a, b) => a + b, 0) / HAFTA_SAYISI)}</div><div class="l">Program</div></div>
+      </div>
+      <div class="card">
+        <div class="micro" style="margin-bottom:10px">Haftalık Takip</div>
+        <div class="grid-weeks">${grid.join("")}</div>
+      </div>
+      <div class="card stack" style="gap:10px">
+        <div class="row">
+          <div class="micro grow">Vücut Ölçüleri</div>
+          <button class="btn btn-soft" data-action="add-olcum" style="padding:7px 12px; font-size:13px">＋ Yeni Ölçüm</button>
+        </div>
+        ${state.olcumler.length ? `<div class="sub" style="margin-top:-4px">Son ölçüm: ${fmtTarih(state.olcumler[state.olcumler.length - 1].t)}</div>` : ""}
+        <div class="m-grid">
+          ${METRIKLER.map(([k, ad, u]) => {
+            const s = metrikSeri(k);
+            const son = s[s.length - 1], onceki = s[s.length - 2];
+            const fark = son && onceki ? +(son.val - onceki.val).toFixed(1) : null;
+            return `<button class="m-tile" data-action="open-metrik" data-k="${k}" ${son ? "" : "disabled"} aria-label="${ad} gelişimi">
+              <span class="l">${ad}</span>
+              <span class="v">${son ? son.val : "–"}${son ? `<small> ${u}</small>` : ""}</span>
+              <span class="d">${fark != null && fark !== 0 ? (fark > 0 ? "▲ " : "▼ ") + Math.abs(fark) : ""}</span>
+            </button>`;
+          }).join("")}
+        </div>
+      </div>
+      <div class="card" style="padding:8px 14px">
+        <div class="micro" style="margin:8px 0 4px">Ağırlık Takibi · Hareket Kiloları</div>
+        ${kgList || `<div class="empty" style="padding:18px 8px">Henüz kilo kaydı yok. Antrenmanda hareketin altındaki kg alanını doldurdukça burada birikecek.</div>`}
+      </div>
+      <div class="card stack">
+        <details class="io">
+          <summary>Veriler · yedekleme ve sıfırlama</summary>
+          <div class="stack" style="margin-top:12px">
+            <p class="sub">${KALICI
+              ? "Tüm kayıtlar yalnızca bu cihazın tarayıcısında saklanır. Ara sıra yedek almanı öneririm."
+              : "Bu ortamda kayıtlar kalıcı saklanamıyor — antrenman sonunda Yedek İndir, bir sonraki açılışta İçe Aktar ile devam et."}</p>
+            <p class="sub" style="font-size:11.5px">Hareket fotoğrafları: <b>Free Exercise DB</b> (kamu malı / Unlicense).</p>
+            <div class="row">
+              <button class="btn grow" data-action="export">Yedek İndir</button>
+              <label class="btn grow" style="text-align:center">İçe Aktar<input id="import-file" type="file" accept=".json,application/json" style="display:none"></label>
+            </div>
+            <button class="btn btn-danger btn-block" data-action="reset-all">Tüm İlerlemeyi Sıfırla</button>
+          </div>
+        </details>
+      </div>
+    </div>`;
+}
+
+/* ════════════════════ Alt sayfalar ════════════════════ */
+function openSheet(html){ $("#sheet").innerHTML = `<div class="grabber"></div>` + html; $("#overlay").classList.add("open"); pauseIfReduced(); }
+function closeSheet(){ $("#overlay").classList.remove("open"); }
+
+function findItem(itemId){
+  for(let di = 0; di < state.program.days.length; di++){
+    const idx = state.program.days[di].items.findIndex(x => x.id === itemId);
+    if(idx >= 0) return { di, idx, item: state.program.days[di].items[idx] };
+  }
+  return null;
+}
+
+function sheetItem(itemId){
+  const f = findItem(itemId); if(!f) return;
+  const mode = view.name === "day" ? (getLog(view.w, view.di)?.mode || "salon") : "salon";
+  const v = variant(f.item, mode);
+  const ss = v.kg === "no" ? [] : kgSessions(v.name, mode);
+  openSheet(`
+    <div class="sheet-head">
+      <div><div class="sheet-title">${esc(v.name)}</div>
+        <div style="display:flex; gap:5px; margin-top:5px">
+          <span class="pill ${mode === "ev" ? "pill-ev" : "pill-salon"}">${mode === "ev" ? "Ev" : "Salon"}</span>
+          <span class="pill pill-kas">${v.sets.length} set: ${esc(v.sets.join(" / "))}</span>
+          ${f.item.dinlen ? `<span class="pill pill-kas">Dinlenme ${esc(f.item.dinlen)}</span>` : ""}
+        </div></div>
+      <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="stack">
+      <div class="big-anim">${mediaHTML(v.anim)}</div>
+      ${v.not ? `<div class="card"><div class="micro" style="margin-bottom:6px">Nasıl yapılır?</div>
+        <p style="font-size:14px">${esc(v.not)}</p></div>` : ""}
+      ${ss.length >= 2 ? `<div class="card">
+        <div class="micro" style="margin-bottom:10px">Kilo Gelişimi</div>
+        <div class="chart-wrap">${chartSVG(ss)}<div id="chart-tip"></div></div>
+      </div>` : ""}
+    </div>`);
+}
+
+function sheetKg(name, mode){
+  const ss = kgSessions(name, mode);
+  openSheet(`
+    <div class="sheet-head">
+      <div><div class="sheet-title">${esc(name)}</div>
+        <div style="margin-top:5px"><span class="pill ${mode === "ev" ? "pill-ev" : "pill-salon"}">${mode === "ev" ? "Ev" : "Salon"}</span></div></div>
+      <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <div class="micro" style="margin-bottom:10px">Kilo Gelişimi</div>
+        <div class="chart-wrap">${chartSVG(ss)}<div id="chart-tip"></div></div>
+      </div>
+      <div class="card" style="padding:4px 14px">
+        ${ss.slice().reverse().map(s => `<div class="row hist-row" style="padding:9px 0; border-bottom:1px solid var(--line)">
+          <span class="grow sub">${esc(s.lab)}. Gün</span>
+          <span style="font-weight:700; font-variant-numeric:tabular-nums">${s.val} kg</span></div>`).join("")}
+      </div>
+    </div>`);
+}
+
+function sheetEdit(itemId){
+  const f = findItem(itemId); if(!f) return;
+  const mode = view.name === "day" ? (getLog(view.w, view.di)?.mode || "salon") : "salon";
+  const v = variant(f.item, mode);
+  openSheet(`
+    <div class="sheet-head"><div class="sheet-title">Hareketi Düzenle</div>
+      <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="stack" style="gap:14px">
+      <p class="sub" style="margin:-4px 2px 0">Şu an <b>${mode === "ev" ? "ev" : "salon"}</b> versiyonunu düzenliyorsun. Değişiklik tüm haftalara uygulanır.</p>
+      <div class="field"><label for="ed-name">Hareket adı</label>
+        <input id="ed-name" type="text" value="${esc(v.name)}" maxlength="70"></div>
+      <div class="field"><label for="ed-sets">Setler (virgülle ayır — ör. 10, 10, 12)</label>
+        <input id="ed-sets" type="text" value="${esc(v.sets.join(", "))}"></div>
+      <div class="field"><label for="ed-not">Not</label>
+        <textarea id="ed-not" rows="2">${esc(v.not || "")}</textarea></div>
+      <div class="field"><label for="ed-dinlen">Dinlenme süresi</label>
+        <input id="ed-dinlen" type="text" value="${esc(f.item.dinlen || "")}" placeholder="ör. 2-3 dk"></div>
+      <button class="btn btn-primary btn-block" data-action="save-edit" data-item="${itemId}" data-mode="${mode}">Kaydet</button>
+      <button class="btn btn-danger btn-block" data-action="del-item" data-item="${itemId}">Hareketi Programdan Çıkar</button>
+    </div>`);
+}
+
+const ANIM_SECENEK = [
+  ["pushup","Şınav"], ["airsquat","Squat"], ["hammercurl","Curl"], ["shoulderpress","Omuz Press"],
+  ["seatedrow","Row / Çekiş"], ["pulldown","Pulldown"], ["chestpress","Göğüs Press"], ["latraise","Yan Açış"],
+  ["dbbenchpress","Dumbbell Press"], ["dbrow","Dumbbell Row"], ["dbsquat","Dumbbell Squat"],
+  ["crunch","Karın"], ["plank","Plank"], ["glutebridge","Kalça"], ["calfraise","Calf"],
+];
+function sheetAdd(){
+  openSheet(`
+    <div class="sheet-head"><div class="sheet-title">Yeni Hareket</div>
+      <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="stack" style="gap:14px">
+      <div class="field"><label for="ne-name">Hareket adı (salon)</label>
+        <input id="ne-name" type="text" placeholder="ör. Face Pull" maxlength="70"></div>
+      <div class="field"><label for="ne-evname">Ev versiyonu adı (boşsa aynı kalır)</label>
+        <input id="ne-evname" type="text" placeholder="ör. Bantla Face Pull" maxlength="70"></div>
+      <div class="field"><label for="ne-sets">Setler (virgülle ayır)</label>
+        <input id="ne-sets" type="text" value="10, 10, 10"></div>
+      <div class="field"><label for="ne-anim">Animasyon</label>
+        <select id="ne-anim">${ANIM_SECENEK.map(([k, l]) => `<option value="${k}">${l}</option>`).join("")}</select></div>
+      <div class="field"><label for="ne-dinlen">Dinlenme süresi</label>
+        <input id="ne-dinlen" type="text" placeholder="ör. 1-2 dk"></div>
+      <button class="btn btn-primary btn-block" data-action="save-add">Ekle</button>
+    </div>`);
+  setTimeout(() => $("#ne-name")?.focus(), 250);
+}
+
+function sheetOlcum(){
+  const son = state.olcumler[state.olcumler.length - 1] || {};
+  const d = new Date();
+  const iso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  openSheet(`
+    <div class="sheet-head"><div class="sheet-title">Yeni Ölçüm</div>
+      <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="stack" style="gap:14px">
+      <div class="field"><label for="ol-t">Tarih</label><input id="ol-t" type="date" value="${iso}"></div>
+      <div class="m-form">
+        ${METRIKLER.map(([k, ad, u]) => `<div class="field"><label for="ol-${k}">${ad} (${u})</label>
+          <input id="ol-${k}" type="number" inputmode="decimal" step="0.1" min="0" placeholder="${son[k] ?? "–"}"></div>`).join("")}
+      </div>
+      <p class="sub" style="font-size:12.5px; margin-top:-4px">Sadece ölçtüklerini doldur; boş bıraktıkların kaydedilmez. Soluk yazılar son ölçümün.</p>
+      <button class="btn btn-primary btn-block" data-action="save-olcum">Kaydet</button>
+    </div>`);
+}
+function sheetMetrik(k){
+  const m = METRIKLER.find(x => x[0] === k); if(!m) return;
+  const [, ad, u] = m;
+  const ss = metrikSeri(k);
+  openSheet(`
+    <div class="sheet-head"><div class="sheet-title">${ad}</div>
+      <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="stack">
+      <div class="card">
+        <div class="micro" style="margin-bottom:10px">Gelişim · ${u}</div>
+        <div class="chart-wrap">${chartSVG(ss, u)}<div id="chart-tip"></div></div>
+      </div>
+      <div class="card" style="padding:4px 14px">
+        ${ss.slice().reverse().map(s => `<div class="row hist-row" style="padding:6px 0; border-bottom:1px solid var(--line)">
+          <span class="grow sub">${fmtTarih(s.t)}</span>
+          <span style="font-weight:700; font-variant-numeric:tabular-nums">${s.val} ${u}</span>
+          <button class="btn-icon" data-action="del-olcum" data-k="${k}" data-t="${esc(s.t)}" aria-label="Bu değeri sil">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>`).join("")}
+      </div>
+    </div>`);
+}
+
+/* ── Grafik (tek seri çizgi) ── */
+function chartSVG(ss, unit = "kg"){
+  if(ss.length < 2) return `<div class="chart-empty">Grafik için en az iki kilo kaydı gerekli.</div>`;
+  const data = ss.slice(-12);
+  const Wd = 340, H = 168, L = 40, R = 16, T = 16, B = 24;
+  const vals = data.map(d => d.val);
+  const mn = Math.min(...vals), mx = Math.max(...vals);
+  const pad = Math.max((mx - mn) * .25, mx * .06, 1);
+  const y0 = Math.max(0, mn - pad), y1 = mx + pad;
+  const X = i => L + (Wd - L - R) * (i / (data.length - 1));
+  const Y = v => T + (H - T - B) * (1 - (v - y0) / (y1 - y0));
+  const pts = data.map((d, i) => `${X(i).toFixed(1)},${Y(d.val).toFixed(1)}`);
+  const line = "M" + pts.join(" L");
+  const area = line + ` L${X(data.length - 1).toFixed(1)},${(H - B).toFixed(1)} L${L},${(H - B).toFixed(1)} Z`;
+  const prIdx = vals.lastIndexOf(mx);
+  const gridY = [0, .5, 1].map(t => T + (H - T - B) * t);
+  const gridV = [y1, (y0 + y1) / 2, y0].map(v => Math.round(v));
+  return `
+  <svg viewBox="0 0 ${Wd} ${H}" role="img" aria-label="Kilo gelişim grafiği">
+    ${gridY.map((gy, i) => `<line x1="${L}" y1="${gy}" x2="${Wd - R}" y2="${gy}" stroke="var(--line)" stroke-width="1"/>
+      <text x="${L - 6}" y="${gy + 3.5}" text-anchor="end" font-size="10" fill="var(--ink3)" style="font-variant-numeric:tabular-nums">${gridV[i]}</text>`).join("")}
+    <text x="${L}" y="${H - 6}" font-size="10" fill="var(--ink3)">${esc(data[0].lab)}</text>
+    <text x="${Wd - R}" y="${H - 6}" text-anchor="end" font-size="10" fill="var(--ink3)">${esc(data[data.length - 1].lab)}</text>
+    <path d="${area}" fill="var(--accent)" opacity="0.09"/>
+    <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    ${data.map((d, i) => {
+      const son = i === data.length - 1, isPr = i === prIdx;
+      return `<circle cx="${X(i).toFixed(1)}" cy="${Y(d.val).toFixed(1)}" r="${son ? 5 : 3.5}"
+          fill="${isPr ? "var(--green)" : "var(--accent)"}" stroke="var(--surface)" stroke-width="2"/>
+        ${son ? `<text x="${X(i).toFixed(1)}" y="${(Y(d.val) - 10).toFixed(1)}" text-anchor="${i > data.length / 2 ? "end" : "middle"}"
+          font-size="11.5" font-weight="700" fill="var(--ink)" style="font-variant-numeric:tabular-nums">${d.val}</text>` : ""}
+        <circle cx="${X(i).toFixed(1)}" cy="${Y(d.val).toFixed(1)}" r="14" fill="transparent"
+          data-action="pt" data-x="${(X(i) / Wd * 100).toFixed(2)}" data-y="${(Y(d.val) / H * 100).toFixed(2)}"
+          data-d="${esc(d.lab)}" data-v="${d.val} ${unit}" style="cursor:pointer"/>`;
+    }).join("")}
+  </svg>`;
+}
+
+/* ════════════════════ Onay & bildirim ════════════════════ */
+let confirmCb = null;
+function confirmDlg(msg, btnLabel, cb){
+  $("#confirm-msg").textContent = msg;
+  $("#confirm-ok").textContent = btnLabel;
+  confirmCb = cb;
+  $("#confirm-overlay").classList.add("open");
+}
+let toastT = null;
+const TOAST_IKON = {
+  kupa: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v6a4 4 0 0 1-8 0V4ZM8 5H4.5c0 3.5 1.5 5.5 3.5 5.8M16 5h3.5c0 3.5-1.5 5.5-3.5 5.8M12 14v3M8.5 21c.5-2.5 1.8-4 3.5-4s3 1.5 3.5 4Z"/></svg>`,
+  check: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg>`,
+};
+function toast(msg, cls, ikon){
+  const t = $("#toast");
+  t.innerHTML = (ikon && TOAST_IKON[ikon] || "") + `<span>${esc(msg)}</span>`;
+  t.className = cls || "";
+  requestAnimationFrame(() => t.classList.add("show"));
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove("show"), 2400);
+}
+
+/* ════════════════════ Eylemler ════════════════════ */
+async function exportData(){
+  const d = new Date();
+  const dosya = `spor-gunlugu-${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}.json`;
+  const icerik = JSON.stringify(state, null, 1);
+  if(window.claude && window.claude.downloads){
+    try{
+      await window.claude.downloads.save({ filename: dosya, data: icerik });
+      toast("Yedek kaydedildi", "ok", "check");
+      return;
+    }catch(err){
+      if(err && err.code === "declined") return;
+      if(err && err.code === "rate_limited"){ toast("Bir kayıt isteği zaten açık — birazdan tekrar dene"); return; }
+      // diğer durumlarda klasik indirmeyi dene
+    }
+  }
+  const a = document.createElement("a");
+  a.href = "data:application/json;charset=utf-8," + encodeURIComponent(icerik);
+  a.download = dosya;
+  document.body.appendChild(a); a.click(); a.remove();
+  toast("Yedek indirildi");
+}
+function importData(file){
+  const rd = new FileReader();
+  rd.onload = () => {
+    try{
+      const s = JSON.parse(rd.result);
+      if(!s || !s.program || !s.log) throw 0;
+      confirmDlg("Mevcut veriler bu yedekle değiştirilsin mi?", "Geri Yükle", () => {
+        state = s; save(); render(); toast("Yedek geri yüklendi");
+      });
+    }catch(e){ toast("Dosya okunamadı — geçerli bir yedek değil"); }
+  };
+  rd.readAsText(file);
+}
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-action]");
+  if(!el){
+    if(e.target.id === "overlay") closeSheet();
+    if(e.target.id === "confirm-overlay"){ $("#confirm-overlay").classList.remove("open"); confirmCb = null; }
+    return;
+  }
+  const act = el.dataset.action;
+  switch(act){
+    case "tab": tab = el.dataset.tab; view = { name:"program" }; render(); break;
+    case "hafta": hafta = +el.dataset.w; render(); break;
+    case "open-day": view = { name:"day", w: hafta, di: +el.dataset.di }; render(); break;
+    case "back": view = { name:"program" }; render(); break;
+    case "tip-ok": state.tipOk = true; save(); render(); break;
+    case "tip-ev": state.tipEv = true; save(); render(); break;
+    case "day-mode": {
+      const log = ensureLog(view.w, view.di);
+      log.mode = el.dataset.mode; log.ts = Date.now();
+      save(); render(); break;
+    }
+    case "tick": {
+      const log = ensureLog(view.w, view.di);
+      const il = itemLog(log, el.dataset.item, log.mode);
+      const i = +el.dataset.i;
+      il.t[i] = !il.t[i];
+      log.ts = Date.now(); save();
+      const f = findItem(el.dataset.item);
+      render();
+      if(f && itemDone(f.item, log, log.mode)){
+        const s = dayStats(view.w, view.di);
+        if(s.pct === 100) toast("Gün tamamlandı!", "ok", "kupa");
+        else toast("Hareket tamamlandı", "ok", "check");
+      }
+      break;
+    }
+    case "tick-ex": {
+      const log = ensureLog(view.w, view.di);
+      const il = itemLog(log, el.dataset.item, log.mode);
+      il.ex[+el.dataset.i].done = !il.ex[+el.dataset.i].done;
+      log.ts = Date.now(); save(); render(); break;
+    }
+    case "add-ex": {
+      const log = ensureLog(view.w, view.di);
+      const il = itemLog(log, el.dataset.item, log.mode);
+      const f = findItem(el.dataset.item);
+      const v = variant(f.item, log.mode);
+      const lab = il.ex.length ? il.ex[il.ex.length - 1].lab : (v.sets[v.sets.length - 1] || "10");
+      il.ex.push({ lab, done: false });
+      log.ts = Date.now(); save(); render(); break;
+    }
+    case "rm-ex": {
+      e.stopPropagation();
+      const log = ensureLog(view.w, view.di);
+      const il = itemLog(log, el.dataset.item, log.mode);
+      il.ex.splice(+el.dataset.i, 1);
+      save(); render(); break;
+    }
+    case "open-item": sheetItem(el.dataset.item); break;
+    case "edit-item": sheetEdit(el.dataset.item); break;
+    case "save-edit": {
+      const f = findItem(el.dataset.item); if(!f) break;
+      const mode = el.dataset.mode;
+      const v = variant(f.item, mode);
+      const name = $("#ed-name").value.trim();
+      if(!name){ toast("Harekete bir ad ver"); return; }
+      const sets = $("#ed-sets").value.split(",").map(s => s.trim()).filter(Boolean);
+      if(!sets.length){ toast("En az bir set gerekli"); return; }
+      v.name = name; v.sets = sets; v.not = $("#ed-not").value.trim();
+      f.item.dinlen = $("#ed-dinlen").value.trim();
+      save(); closeSheet(); render(); toast("Kaydedildi");
+      break;
+    }
+    case "del-item": {
+      const f = findItem(el.dataset.item); if(!f) break;
+      confirmDlg(`"${variant(f.item, "salon").name}" programdan (tüm haftalardan) çıkarılsın mı?`, "Çıkar", () => {
+        state.program.days[f.di].items.splice(f.idx, 1);
+        save(); closeSheet(); render();
+      });
+      break;
+    }
+    case "add-item": sheetAdd(); break;
+    case "save-add": {
+      if(view.name !== "day") break;
+      const name = $("#ne-name").value.trim();
+      if(!name){ toast("Harekete bir ad ver"); $("#ne-name").focus(); return; }
+      const evName = $("#ne-evname").value.trim() || name;
+      const sets = $("#ne-sets").value.split(",").map(s => s.trim()).filter(Boolean);
+      if(!sets.length){ toast("En az bir set gerekli"); return; }
+      const anim = $("#ne-anim").value;
+      const dinlen = $("#ne-dinlen").value.trim();
+      state.program.days[view.di].items.push(
+        IT("x" + uid(), {name, anim, sets:[...sets], kg:"yes", not:""},
+          {name: evName, anim, sets:[...sets], kg:"opt", not:""}, dinlen));
+      save(); closeSheet(); render(); toast(`"${name}" eklendi`);
+      break;
+    }
+    case "add-olcum": sheetOlcum(); break;
+    case "save-olcum": {
+      const t = $("#ol-t").value || new Date().toISOString().slice(0, 10);
+      const rec = { t };
+      let dolu = 0;
+      for(const [k] of METRIKLER){
+        const el2 = $("#ol-" + k);
+        if(el2 && el2.value.trim() !== ""){ const v = num(el2.value); if(v != null){ rec[k] = v; dolu++; } }
+      }
+      if(!dolu){ toast("En az bir ölçü gir"); return; }
+      state.olcumler.push(rec);
+      state.olcumler.sort((a, b) => a.t < b.t ? -1 : 1);
+      save(); closeSheet(); render(); toast("Ölçüm kaydedildi", "ok", "check");
+      break;
+    }
+    case "open-metrik": sheetMetrik(el.dataset.k); break;
+    case "del-olcum": {
+      const k = el.dataset.k, t = el.dataset.t;
+      confirmDlg("Bu ölçüm değeri silinsin mi?", "Sil", () => {
+        for(const o of state.olcumler){ if(o.t === t) delete o[k]; }
+        state.olcumler = state.olcumler.filter(o => METRIKLER.some(([mk]) => o[mk] != null));
+        save(); closeSheet(); render();
+      });
+      break;
+    }
+    case "edit-ogun": sheetOgun(+el.dataset.i); break;
+    case "save-ogun": {
+      const o = state.beslenme.ogunler[+el.dataset.i];
+      const ad = $("#og-ad").value.trim();
+      const items = $("#og-items").value.split("\n").map(s => s.trim()).filter(Boolean);
+      if(!items.length){ toast("En az bir madde gerekli"); return; }
+      if(ad) o.ad = ad;
+      o.items = items;
+      save(); closeSheet(); render(); toast("Kaydedildi");
+      break;
+    }
+    case "open-kg": sheetKg(el.dataset.name, el.dataset.mode); break;
+    case "export": exportData(); break;
+    case "reset-all":
+      confirmDlg("Tüm tikler ve kilo kayıtları silinecek; program yapısı korunacak. Emin misin?", "Sıfırla", () => {
+        state.log = {}; save(); render(); toast("İlerleme sıfırlandı");
+      });
+      break;
+    case "close-sheet": closeSheet(); break;
+    case "confirm-ok": $("#confirm-overlay").classList.remove("open"); if(confirmCb){ const cb = confirmCb; confirmCb = null; cb(); } break;
+    case "confirm-cancel": $("#confirm-overlay").classList.remove("open"); confirmCb = null; break;
+    case "pt": {
+      const tip = $("#chart-tip");
+      if(tip){
+        tip.textContent = `${el.dataset.d} · ${el.dataset.v}`;
+        tip.style.left = el.dataset.x + "%";
+        tip.style.top = el.dataset.y + "%";
+        tip.style.display = "block";
+        clearTimeout(tip._t);
+        tip._t = setTimeout(() => tip.style.display = "none", 2600);
+      }
+      break;
+    }
+  }
+});
+
+document.addEventListener("input", e => {
+  const t = e.target;
+  if(t.dataset.kgItem && view.name === "day"){
+    const log = ensureLog(view.w, view.di);
+    const il = itemLog(log, t.dataset.kgItem, log.mode);
+    il.kg = num(t.value);
+    log.ts = Date.now(); save();
+  }
+});
+document.addEventListener("change", e => {
+  if((e.target.id === "import-file" || e.target.id === "import-file2") && e.target.files[0]) importData(e.target.files[0]);
+});
+window.addEventListener("hashchange", render);
+
+render();
+</script>
+<script>
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
+</script>
+</body>
+</html>
