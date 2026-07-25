@@ -1883,7 +1883,21 @@ window.addEventListener("hashchange", render);
 render();
 </script>
 <script>
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").then(reg => {
+    // Uygulama one gelince guncelleme kontrolu (iOS ana ekran uygulamasi arkaplanda uyudugu icin sart)
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) reg.update(); });
+    reg.update();
+  });
+  // Yeni surum devreye girince sayfayi bir kez otomatik yenile
+  const oncekiVardi = !!navigator.serviceWorker.controller;
+  let yenilendi = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!oncekiVardi || yenilendi) return;
+    yenilendi = true;
+    location.reload();
+  });
+}
 </script>
 </body>
 </html>
