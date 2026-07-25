@@ -1074,15 +1074,22 @@ function metrikSeri(k){
 }
 
 /* ════════════════════ RENDER ════════════════════ */
+let sonGorunum = "";
 function render(){
   document.querySelectorAll("#tabbar button").forEach(b =>
     b.setAttribute("aria-current", b.dataset.tab === tab ? "true" : "false"));
   if(location.hash === "#anims"){ renderAnimGrid(); return; }
+  // Aynı sayfa yeniden çizilirken (set tikleme vb.) kaydırma konumunu koru;
+  // yalnızca sayfa/sekme değişince en üste dön.
+  const kimlik = tab + "|" + view.name + "|" + (view.w || "") + "|" + (view.di ?? "");
+  const ayniSayfa = kimlik === sonGorunum;
+  const kaydirma = window.scrollY;
   if(tab === "ilerleme") renderIlerleme();
   else if(tab === "beslenme") renderBeslenme();
   else if(view.name === "day") renderDay();
   else renderProgram();
-  window.scrollTo(0, 0);
+  window.scrollTo(0, ayniSayfa ? kaydirma : 0);
+  sonGorunum = kimlik;
   pauseIfReduced();
 }
 function pauseIfReduced(){
