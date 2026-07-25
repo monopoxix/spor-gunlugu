@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<script>window.SURUM="25.07.2026 23:55";</script>
+<script>window.SURUM="26.07.2026 00:05";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -224,7 +224,28 @@
     -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
     border-top:1px solid var(--line);
     padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
-  nav#tabbar .inner{max-width:520px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr)}
+  nav#tabbar .inner{max-width:520px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr)}
+
+  /* Alarm */
+  #alarm-overlay{position:fixed; inset:0; z-index:90; display:none; align-items:center; justify-content:center; background:#D63838}
+  #alarm-overlay.acik{display:flex; animation:alarmYanip 1.2s steps(2) infinite}
+  @keyframes alarmYanip{0%{background:#D63838}50%{background:#1B2A6B}100%{background:#D63838}}
+  @media (prefers-reduced-motion: reduce){ #alarm-overlay.acik{animation:none} }
+  .alarm-ic{text-align:center; color:#fff; padding:24px; width:100%; max-width:380px; display:flex; flex-direction:column; gap:14px}
+  .alarm-ic .buyuk{font-family:var(--font-disp); font-size:60px; font-weight:800; font-variant-numeric:tabular-nums}
+  .alarm-ic .soru{font-family:var(--font-disp); font-size:30px; font-weight:800; font-variant-numeric:tabular-nums}
+  .alarm-ic input{background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.6); border-radius:14px;
+    padding:14px; font-size:26px; font-weight:800; text-align:center; color:#fff; width:100%;
+    font-variant-numeric:tabular-nums; -moz-appearance:textfield; appearance:textfield}
+  .alarm-ic input::-webkit-outer-spin-button,.alarm-ic input::-webkit-inner-spin-button{-webkit-appearance:none}
+  .alarm-ic input::placeholder{color:rgba(255,255,255,.6)}
+  .alarm-ic .btn{border:none}
+  .al-simdi{font-family:var(--font-disp); font-size:54px; font-weight:800; text-align:center;
+    font-variant-numeric:tabular-nums; letter-spacing:.01em}
+  .al-saat-input{background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:12px 16px; font-size:30px; font-family:var(--font-disp); font-weight:800; width:100%;
+    text-align:center; font-variant-numeric:tabular-nums}
+  .al-saat-input:focus{border-color:var(--accent); outline:none}
   nav#tabbar button{display:flex; flex-direction:column; align-items:center; gap:2px;
     padding:6px 4px; color:var(--ink3); font-size:10.5px; font-weight:650;
     letter-spacing:.03em; border-radius:12px}
@@ -328,7 +349,22 @@
   <button data-action="tab" data-tab="ilerleme" aria-current="false">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M6 16V9M11 16V5M16 16v-6M21 16V8"/></svg>
     İlerleme</button>
+  <button data-action="tab" data-tab="alarm" aria-current="false">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="7.2"/><path d="M12 9.6V13l2.6 1.6M5 4.5 7.3 3M19 4.5 16.7 3"/></svg>
+    Alarm</button>
 </div></nav>
+
+<div id="alarm-overlay" role="alertdialog" aria-label="Alarm çalıyor">
+  <div class="alarm-ic">
+    <div class="buyuk" id="ao-saat">06:30</div>
+    <div style="font-size:17px; font-weight:700">Kalk! Antrenman seni bekliyor.</div>
+    <div style="font-size:13px; opacity:.85">Kapatmak için soruyu çöz:</div>
+    <div class="soru" id="ao-soru">? + ?</div>
+    <input id="ao-cevap" type="number" inputmode="numeric" placeholder="Cevabı yaz" aria-label="Cevap">
+    <button class="btn btn-block" style="background:#fff; color:#D63838; font-weight:800" data-action="alarm-coz">Uyandım — Kapat</button>
+    <button class="btn btn-block" style="background:rgba(255,255,255,.18); color:#fff" data-action="alarm-snooze">5 dakika daha</button>
+  </div>
+</div>
 
 <div id="overlay"><div id="sheet" role="dialog" aria-modal="true"></div></div>
 <div id="confirm-overlay"><div id="confirm-box" role="alertdialog">
@@ -917,6 +953,7 @@ const ESKI_EV_ADLARI = new Set([
 ]);
 (function migrate(){
   if(!state.olcumler){ state.olcumler = []; save(); }
+  if(!state.alarm){ state.alarm = { saat:"06:30", aktif:false }; save(); }
   if(!state.beslenme){ state.beslenme = JSON.parse(JSON.stringify(DEFAULT_BESLENME)); save(); }
   else if(state.beslenme.ogunler[0] && !state.beslenme.ogunler[0].secenekler){
     // Tek listeli eski öğünleri 5 seçenekli yapıya taşı; kullanıcı düzenlemesi Seçenek 1 olur
@@ -1087,6 +1124,7 @@ function render(){
   const kaydirma = window.scrollY;
   if(tab === "ilerleme") renderIlerleme();
   else if(tab === "beslenme") renderBeslenme();
+  else if(tab === "alarm") renderAlarm();
   else if(view.name === "day") renderDay();
   else renderProgram();
   window.scrollTo(0, ayniSayfa ? kaydirma : 0);
@@ -1096,6 +1134,129 @@ function render(){
 function pauseIfReduced(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)
     document.querySelectorAll("svg.anim").forEach(s => { try{ s.pauseAnimations(); }catch(e){} });
+}
+
+/* ════════════════════ ALARM MOTORU ════════════════════ */
+function wavYap(desen, tekrar){
+  // desen: [frekans(Hz, 0=sessiz), süre(sn)] listesi; ham WAV üretip data URI döndürür
+  const sr = 22050;
+  let tur = 0; for(const [, d] of desen) tur += d;
+  const n = Math.floor(sr * tur * tekrar);
+  const veri = new Int16Array(n);
+  let i = 0;
+  for(let t = 0; t < tekrar; t++) for(const [f, d] of desen){
+    const adet = Math.floor(sr * d);
+    for(let k = 0; k < adet && i < n; k++, i++){
+      veri[i] = f ? Math.round(Math.sin(2 * Math.PI * f * (k / sr)) * 30000 *
+        Math.min(1, k / 220, (adet - k) / 220)) : 0;
+    }
+  }
+  const bayt = new Uint8Array(44 + veri.length * 2);
+  const dv = new DataView(bayt.buffer);
+  const yaz = (o, s) => { for(let j = 0; j < s.length; j++) bayt[o + j] = s.charCodeAt(j); };
+  yaz(0, "RIFF"); dv.setUint32(4, 36 + veri.length * 2, true); yaz(8, "WAVEfmt ");
+  dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true);
+  dv.setUint32(24, sr, true); dv.setUint32(28, sr * 2, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true);
+  yaz(36, "data"); dv.setUint32(40, veri.length * 2, true);
+  new Uint8Array(bayt.buffer, 44).set(new Uint8Array(veri.buffer));
+  let s = "";
+  for(let o = 0; o < bayt.length; o += 0x8000)
+    s += String.fromCharCode.apply(null, bayt.subarray(o, Math.min(o + 0x8000, bayt.length)));
+  return "data:audio/wav;base64," + btoa(s);
+}
+
+let alarmHedef = null, alarmInt = null, saatInt = null, wl = null;
+let sessizSes = null, alarmSes = null, aoCevap = 0, alarmCaliyor = false;
+
+const simdikiSaat = () => new Date().toLocaleTimeString("tr-TR", { hour:"2-digit", minute:"2-digit", second:"2-digit" });
+function sonrakiZaman(saatStr){
+  const [h, m] = saatStr.split(":").map(Number);
+  const d = new Date(); d.setHours(h, m, 0, 0);
+  if(d <= new Date()) d.setDate(d.getDate() + 1);
+  return d;
+}
+function kalanMetni(){
+  if(!alarmHedef) return "";
+  const dk = Math.max(0, Math.round((alarmHedef.getTime() - Date.now()) / 60000));
+  return Math.floor(dk / 60) + " sa " + (dk % 60) + " dk sonra";
+}
+
+async function alarmMotoruBaslat(){
+  alarmHedef = sonrakiZaman(state.alarm.saat);
+  clearInterval(alarmInt);
+  alarmInt = setInterval(() => {
+    if(state.alarm.aktif && !alarmCaliyor && alarmHedef && Date.now() >= alarmHedef.getTime()) alarmCal();
+  }, 1000);
+  if(!sessizSes){ sessizSes = new Audio(wavYap([[0, 1]], 1)); sessizSes.loop = true; sessizSes.volume = 0.02; }
+  if(!alarmSes){ alarmSes = new Audio(wavYap([[880,.18],[0,.06],[880,.18],[0,.06],[1150,.32],[0,.18]], 4)); alarmSes.loop = true; }
+  // Kullanıcı dokunuşuyla iki sesi de "kutsa" (iOS sonradan programatik çalmaya izin versin)
+  try{ alarmSes.volume = 0; await alarmSes.play(); alarmSes.pause(); alarmSes.currentTime = 0; alarmSes.volume = 1; }catch(e){}
+  try{ await sessizSes.play(); }catch(e){}
+  try{ if(navigator.wakeLock) wl = await navigator.wakeLock.request("screen"); }catch(e){}
+}
+function alarmMotoruDurdur(){
+  clearInterval(alarmInt); alarmInt = null; alarmHedef = null;
+  try{ sessizSes && sessizSes.pause(); }catch(e){}
+  try{ wl && wl.release(); }catch(e){} wl = null;
+}
+function alarmCal(){
+  alarmCaliyor = true;
+  try{ alarmSes.volume = 1; alarmSes.play(); }catch(e){}
+  try{ navigator.vibrate && navigator.vibrate([600, 200, 600, 200, 600]); }catch(e){}
+  const a = 11 + Math.floor(Math.random() * 28), b = 12 + Math.floor(Math.random() * 27);
+  aoCevap = a + b;
+  $("#ao-soru").textContent = a + " + " + b + " = ?";
+  $("#ao-saat").textContent = state.alarm.saat;
+  $("#ao-cevap").value = "";
+  $("#alarm-overlay").classList.add("acik");
+  setTimeout(() => $("#ao-cevap") && $("#ao-cevap").focus(), 400);
+}
+function alarmSustur(){
+  try{ alarmSes && alarmSes.pause(); }catch(e){}
+  $("#alarm-overlay").classList.remove("acik");
+  alarmCaliyor = false;
+}
+document.addEventListener("visibilitychange", async () => {
+  if(document.hidden || !state.alarm || !state.alarm.aktif || !alarmInt) return;
+  try{ await sessizSes.play(); }catch(e){}
+  try{ if(navigator.wakeLock && (!wl || wl.released)) wl = await navigator.wakeLock.request("screen"); }catch(e){}
+});
+
+/* ── Alarm sekmesi ── */
+function renderAlarm(){
+  const s = state.alarm;
+  const motor = !!alarmInt;
+  $("#screen").innerHTML = `
+    <header class="screen-head">
+      <div><div class="micro">Sabah Antrenmanı İçin</div><h1 class="t-title">Alarm</h1></div>
+      ${s.aktif && motor ? `<span class="pill pill-ok">Kurulu · ${esc(kalanMetni())}</span>` : ""}
+    </header>
+    <div class="stack" style="margin-top:8px">
+      <div class="al-simdi" id="al-simdi">${simdikiSaat()}</div>
+      <div class="card stack">
+        <div class="micro">Alarm Saati</div>
+        <input class="al-saat-input" id="al-saat" type="time" value="${esc(s.saat)}">
+        ${s.aktif && motor
+          ? `<button class="btn btn-danger btn-block" data-action="alarm-kur">Alarmı Kapat</button>`
+          : s.aktif
+            ? `<button class="btn btn-primary btn-block" data-action="alarm-kur">Alarmı Yeniden Etkinleştir</button>
+               <p class="sub" style="font-size:12.5px">Uygulama kapanınca alarm devre dışı kaldı — kurmak için dokun.</p>`
+            : `<button class="btn btn-primary btn-block" data-action="alarm-kur">Alarmı Kur</button>`}
+        <button class="btn btn-block" data-action="alarm-dene">Alarm Sesini Dene</button>
+      </div>
+      <div class="card stack" style="gap:8px">
+        <div class="micro">Çalması İçin Şart</div>
+        <p class="sub">1 · Telefonu <b style="color:var(--ink)">şarja tak</b> ve sesini aç (sessiz modda olmasın).</p>
+        <p class="sub">2 · Alarmı kurduktan sonra <b style="color:var(--ink)">bu uygulamayı açık bırak</b> — ekran otomatik uyanık tutulur, kapatma.</p>
+        <p class="sub">3 · Alarm çalınca susturmak için <b style="color:var(--ink)">matematik sorusu çözeceksin</b> — uyanmadan kapatamazsın.</p>
+        <p class="sub" style="border-top:1px solid var(--line); padding-top:8px"><b style="color:var(--ink)">Önemli:</b> iPhone, kapalı web uygulamalarının ses çalmasına izin vermez. Bu yüzden garanti olsun diye iPhone'un kendi alarmını da aynı saate kur — biri kaçarsa öbürü yakalar.</p>
+      </div>
+    </div>`;
+  clearInterval(saatInt);
+  saatInt = setInterval(() => {
+    const el = document.getElementById("al-simdi");
+    if(el) el.textContent = simdikiSaat(); else clearInterval(saatInt);
+  }, 1000);
 }
 
 function renderAnimGrid(){
@@ -1850,6 +2011,41 @@ document.addEventListener("click", e => {
         state.log = {}; save(); render(); toast("İlerleme sıfırlandı");
       });
       break;
+    case "alarm-kur": {
+      const saatInp = $("#al-saat");
+      if(saatInp && saatInp.value) state.alarm.saat = saatInp.value;
+      if(state.alarm.aktif && alarmInt){
+        state.alarm.aktif = false; alarmMotoruDurdur(); toast("Alarm kapatıldı");
+      } else {
+        state.alarm.aktif = true; alarmMotoruBaslat(); toast("Alarm kuruldu — uygulamayı açık bırak", "ok");
+      }
+      save(); render(); break;
+    }
+    case "alarm-dene": {
+      if(!alarmSes) alarmSes = new Audio(wavYap([[880,.18],[0,.06],[880,.18],[0,.06],[1150,.32],[0,.18]], 4));
+      alarmSes.loop = false; alarmSes.volume = 1; alarmSes.currentTime = 0;
+      alarmSes.play().then(() => setTimeout(() => { alarmSes.pause(); alarmSes.loop = true; }, 3000)).catch(() => {});
+      break;
+    }
+    case "alarm-coz": {
+      const c = parseInt($("#ao-cevap").value, 10);
+      if(c === aoCevap){
+        alarmSustur();
+        alarmHedef = sonrakiZaman(state.alarm.saat);
+        toast("Günaydın! Bugünün programı seni bekliyor.", "ok");
+        tab = "program"; view = { name:"program" }; render();
+      } else {
+        $("#ao-cevap").value = "";
+        $("#ao-cevap").placeholder = "Yanlış — tekrar dene";
+      }
+      break;
+    }
+    case "alarm-snooze": {
+      alarmSustur();
+      alarmHedef = new Date(Date.now() + 5 * 60000);
+      toast("5 dakika ertelendi");
+      break;
+    }
     case "close-sheet": closeSheet(); break;
     case "confirm-ok": $("#confirm-overlay").classList.remove("open"); if(confirmCb){ const cb = confirmCb; confirmCb = null; cb(); } break;
     case "confirm-cancel": $("#confirm-overlay").classList.remove("open"); confirmCb = null; break;
@@ -1878,6 +2074,11 @@ document.addEventListener("input", e => {
   }
 });
 document.addEventListener("change", e => {
+  if(e.target.id === "al-saat" && e.target.value){
+    state.alarm.saat = e.target.value;
+    if(alarmInt) alarmHedef = sonrakiZaman(state.alarm.saat);
+    save(); render();
+  }
   if((e.target.id === "import-file" || e.target.id === "import-file2") && e.target.files[0]) importData(e.target.files[0]);
 });
 window.addEventListener("hashchange", render);
