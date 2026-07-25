@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
+<script>window.SURUM="25.07.2026 23:55";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -1442,6 +1443,7 @@ function renderIlerleme(){
               <label class="btn grow" style="text-align:center">İçe Aktar<input id="import-file" type="file" accept=".json,application/json" style="display:none"></label>
             </div>
             <button class="btn btn-danger btn-block" data-action="reset-all">Tüm İlerlemeyi Sıfırla</button>
+            ${typeof SURUM !== "undefined" ? `<p class="sub" style="font-size:11px; text-align:center; color:var(--ink3)">Uygulama sürümü: ${SURUM}</p>` : ""}
           </div>
         </details>
       </div>
