@@ -563,6 +563,13 @@ function mediaHTML(key){
   if(m) return `<div class="ph"><img src="${m[0]}" alt="" loading="lazy"><img class="f2" src="${m[1]}" alt="" loading="lazy"></div>`;
   return animSVG(key);
 }
+/* Salondaki alet fotoğrafı (Erkan'ın çektiği; media.js'te alet_<itemId> anahtarı) */
+const ALET_ALIAS = { d5_4: "d1_3" }; // aynı makine birden çok günde
+function aletFoto(itemId){
+  if(typeof MEDIA === "undefined") return null;
+  const m = MEDIA["alet_" + itemId] || (ALET_ALIAS[itemId] ? MEDIA["alet_" + ALET_ALIAS[itemId]] : null);
+  return m ? m[0] : null;
+}
 
 /* ════════════════════ PROGRAM (standart) ════════════════════ */
 const KARIN_NOT = "Haftada 2 gün, arada 3 gün olsun. Sabah kardiyo öncesi ya da ağırlık antrenmanından hemen sonra.";
@@ -737,6 +744,13 @@ const DEFAULT_BESLENME = {
           "1 adet domates, 1 adet salatalık",
           "İstersen +1 dilim tam buğday ekmeği",
         ]},
+      { orj:true, items:[
+          "80 g yulaf ezmesi YA DA 80 g corn flex YA DA 80 g pirinç unu",
+          "1 adet orta boy muz",
+          "30 g fıstık ezmesi ya da 30 g badem ezmesi",
+          "4 yumurta (2 tam + 2 beyaz)",
+          "1 adet domates, 1 adet salatalık",
+        ], not:"Koçun verdiği orijinal kahvaltı — programdaki birebir hali." },
     ]},
     { ad:"2. Öğün", secili:0, secenekler:[
       { items:[
@@ -770,6 +784,13 @@ const DEFAULT_BESLENME = {
           "Yanında bol salata",
           "5 g zeytinyağı",
         ]},
+      { orj:true, items:[
+          "250 g tavuk göğsü ya da 250 g hindi eti",
+          "100 g basmati pirinç ya da kepekli makarna",
+          "1 adet domates, 1 adet salatalık",
+          "5 g zeytinyağı",
+          "1 adet yeşil elma",
+        ], not:"Koçun verdiği orijinal öğün — programdaki birebir hali." },
     ]},
     { ad:"3. Öğün", secili:0, secenekler:[
       { items:[
@@ -803,6 +824,13 @@ const DEFAULT_BESLENME = {
           "Bol salata (limon + 5 g zeytinyağı)",
           "10 g çiğ ceviz içi",
         ]},
+      { orj:true, items:[
+          "250 g tavuk göğsü ya da 250 g hindi eti",
+          "100 g basmati pirinç ya da kepekli makarna",
+          "1 adet domates, 1 adet salatalık",
+          "10 g çiğ badem ya da 10 g çiğ ceviz içi",
+          "100 g brokoli",
+        ], not:"Koçun verdiği orijinal öğün — programdaki birebir hali." },
     ]},
   ],
   su:"Günde 4 – 4.5 litre su",
@@ -905,6 +933,18 @@ const ESKI_EV_ADLARI = new Set([
     });
     state.beslenme = yeni;
     save();
+  }
+  // Koç orijinali ("K") seçeneği eksikse kayıtlı öğünlere ekle
+  {
+    let orjEklendi = false;
+    state.beslenme.ogunler.forEach((o, i) => {
+      const df = DEFAULT_BESLENME.ogunler[i];
+      if(df && o.secenekler && !o.secenekler.some(s => s.orj)){
+        const orj = df.secenekler.find(s => s.orj);
+        if(orj){ o.secenekler.push(JSON.parse(JSON.stringify(orj))); orjEklendi = true; }
+      }
+    });
+    if(orjEklendi) save();
   }
   // Kayıtlı programa kardiyo/HIIT ekle ve gün içi sıralamayı uygula (bir kez çalışır)
   let siraDegisti = false;
@@ -1271,7 +1311,7 @@ function renderBeslenme(){
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg></button>
         </div>
         <div class="row" style="gap:6px">
-          ${o.secenekler.map((_, si) => `<button class="sec-chip ${si === (o.secili || 0) ? "on" : ""}" data-action="sec-ogun" data-i="${i}" data-s="${si}" aria-pressed="${si === (o.secili || 0)}" aria-label="Seçenek ${si + 1}">${si + 1}</button>`).join("")}
+          ${o.secenekler.map((s2, si) => `<button class="sec-chip ${si === (o.secili || 0) ? "on" : ""}" data-action="sec-ogun" data-i="${i}" data-s="${si}" aria-pressed="${si === (o.secili || 0)}" aria-label="${s2.orj ? "Koçun orijinali" : "Seçenek " + (si + 1)}">${s2.orj ? "K" : si + 1}</button>`).join("")}
           <span class="micro" style="margin-left:2px">Seçenek</span>
         </div>
         ${sec.items.map(it => `<div class="row" style="align-items:flex-start; gap:9px">
@@ -1296,7 +1336,7 @@ function sheetOgun(i){
   const si = o.secili || 0;
   const sec = o.secenekler[si];
   openSheet(`
-    <div class="sheet-head"><div class="sheet-title">${esc(o.ad)} · ${si + 1}. Seçenek</div>
+    <div class="sheet-head"><div class="sheet-title">${esc(o.ad)} · ${sec.orj ? "Koç Orijinali" : (si + 1) + ". Seçenek"}</div>
       <button class="btn-icon" data-action="close-sheet" aria-label="Kapat">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="stack" style="gap:14px">
@@ -1438,6 +1478,9 @@ function sheetItem(itemId){
         </span></div>` : `<div class="big-anim">${mediaHTML(v.anim)}</div>`}
       ${v.not ? `<div class="card"><div class="micro" style="margin-bottom:6px">Nasıl yapılır?</div>
         <p style="font-size:14px">${esc(v.not)}</p></div>` : ""}
+      ${(() => { const af = !f.item.tip && mode === "salon" ? aletFoto(f.item.id) : null;
+        return af ? `<div class="card"><div class="micro" style="margin-bottom:8px">Salondaki Alet</div>
+          <img src="${af}" alt="Salondaki alet fotoğrafı" style="width:100%; border-radius:12px; display:block"></div>` : ""; })()}
       ${ss.length >= 2 ? `<div class="card">
         <div class="micro" style="margin-bottom:10px">Kilo Gelişimi</div>
         <div class="chart-wrap">${chartSVG(ss)}<div id="chart-tip"></div></div>
