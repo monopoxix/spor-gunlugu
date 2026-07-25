@@ -572,7 +572,7 @@ function IT(id, salon, ev, dinlen, karin){
 const DEFAULT_PROGRAM = { days: [
   { id:"d1", ad:"1. Gün", odak:"Göğüs · Omuz · Arka Kol", items:[
     IT("d1_1", {name:"Incline Chest Press (Makine)", anim:"inclinepress", sets:["10","10"], kg:"yes",
-        not:"Göğsünü iyice gerdirerek yap. Dipte göğsün essin ve kasılsın, sonra kontrollü kaldır (negatifi 1 saniyede yap)."},
+        not:"Göğsünü iyice gerdirerek yap. Dipte göğsün essin ve kasılsın, sonra kontrollü kaldır (negatifi 1 saniyede yap). Salondaki alet: eğimli sırtlıklı, iki sarı itiş kollu plate-loaded makine."},
       {name:"Incline Dumbbell Press (Bench)", anim:"dbinclinepress", sets:["10","10"], kg:"yes",
         not:"Bench sırtlığını 30-45° kaldır (ayarlanmıyorsa alt ucuna blok koy). Dipte göğsün essin, kontrollü it; negatif 1 saniye."}, "2-3 dk"),
     IT("d1_2", {name:"Cable Crossover", anim:"crossover", sets:["12","12","12"], kg:"yes",
@@ -580,7 +580,7 @@ const DEFAULT_PROGRAM = { days: [
       {name:"Direnç Bandı Crossover", anim:"crossover", sets:["12","12","12"], kg:"opt",
         not:"Bandı kapıya/sabit noktaya omuz hizasında sabitle. Kollarını önde birleştirirken göğsünü 1 saniye sık, 2 saniyede aç."}, "1-2 dk"),
     IT("d1_3", {name:"Chest Press (Makine)", anim:"chestpress", sets:["10","10"], kg:"yes",
-        not:"Göğsünü iyice gerdirerek yap. Dipte göğsün essin ve kasılsın, sonra kontrollü kaldır (negatifi 1 saniyede yap)."},
+        not:"Göğsünü iyice gerdirerek yap. Dipte göğsün essin ve kasılsın, sonra kontrollü kaldır (negatifi 1 saniyede yap). Salondaki alet: dik sırtlıklı, iki yandan tutamaklı, ayak pedallı press makinesi (yanında sarı ağırlık kulesi)."},
       {name:"Dumbbell Bench Press", anim:"dbbenchpress", sets:["10","10"], kg:"yes",
         not:"Bench'te; dambılları göğüs hizasından yukarı it, 1 saniyede indir. Dipte göğsün essin."}, "2-3 dk"),
     IT("d1_4", {name:"Dumbbell Lateral Raise", anim:"latraise", sets:["12","10","10"], kg:"yes",
@@ -592,7 +592,7 @@ const DEFAULT_PROGRAM = { days: [
       {name:"Direnç Bandı Pushdown", anim:"pushdown", sets:["15","15"], kg:"opt",
         not:"Bandı yüksek bir noktaya sabitle; dirsekler gövdene yapışık, dipte triceps'i iyice sık."}, "1-2 dk"),
     IT("d1_6", {name:"Rope Skull Crusher", anim:"skullcrusher", sets:["15","15"], kg:"yes",
-        not:"Dipte triceps'in iyice kasılsın ve kontrollü bir şekilde bırak."},
+        not:"Dipte triceps'in iyice kasılsın ve kontrollü bir şekilde bırak. Salonda böyle yap: bench'e uzan, rope yerine 15 kg'lık EZ bar ile yap."},
       {name:"Band Skull Crusher (Bench)", anim:"bandskull", sets:["15","15"], kg:"opt",
         not:"Bench'e uzan, band başının arkasında sabit; dirsekten açarak uzat, kontrollü geri dön. Dipte triceps'i sık."}, "1-2 dk"),
     IT("d1_7", {name:"Leg Raises", anim:"legraise", sets:["10-12","10-12","10-12"], kg:"no",
@@ -618,7 +618,7 @@ const DEFAULT_PROGRAM = { days: [
       {name:"Tek Kol Dumbbell Row (Bench)", anim:"dbrow", sets:["10","10","10"], kg:"yes",
         not:"Dizin ve elin bench'te, sırtın düz; dambılı kaburgana çek, tepede 1 saniye sık, yavaş bırak."}, "2-3 dk"),
     IT("d2_3", {name:"Open Grip Row (Makine)", anim:"rowmachine", sets:["10","10","10"], kg:"yes",
-        not:"İyice esnetip kontrollü olarak yap."},
+        not:"İyice esnetip kontrollü olarak yap. Salondaki alet: oturmalı, iki sarı dik kollu plate-loaded row makinesi — üstten açık tutuşla kendine çek."},
       {name:"Eğilerek Çift Dumbbell Row", anim:"dbrow2", sets:["10","10","10"], kg:"yes",
         not:"Öne eğil, sırtın düz; iki dambılı karnına doğru çek, iyice esnet, kontrollü bırak."}, "2-3 dk"),
     IT("d2_4", {name:"Hyperextension", anim:"hyperext", sets:["15","15"], kg:"no",
@@ -652,7 +652,7 @@ const DEFAULT_PROGRAM = { days: [
       {name:"Dumbbell Lunge", anim:"dblunge", sets:["15","12","10"], kg:"yes",
         not:"Her bacak için sayılır. Elinde dambıllarla öne adım at, arka diz yere yaklaşsın; ön bacağınla iterek kalk."}, "2-3 dk"),
     IT("d4_4", {name:"Smith Machine Hip Thrust", anim:"hipthrust", sets:["15","12","10"], kg:"yes",
-        not:"Ağırlıklı veya ağırlıksız olarak yapabilirsin."},
+        not:"Ağırlıklı veya ağırlıksız olarak yapabilirsin. Salonda: Smith yerine özel hip thrust istasyonunu kullan — selenin iki yanında bar kolları olan, sarı platformlu alet."},
       {name:"Dumbbell Hip Thrust (Bench)", anim:"hipthrust", sets:["15","12","10"], kg:"yes",
         not:"Sırtın bench'e dayalı, dambıl kalçanda; tepede kalçanı 1 saniye sık. Ağırlıksız da yapabilirsin."}, "2-3 dk"),
     IT("d4_5", {name:"Calf Raise", anim:"calfraise", sets:["20","20","20"], kg:"yes",
@@ -674,11 +674,11 @@ const DEFAULT_PROGRAM = { days: [
   ]},
   { id:"d5", ad:"5. Gün", odak:"Omuz · Göğüs · Sırt", items:[
     IT("d5_1", {name:"Shoulder Press (Makine)", anim:"shoulderpress", sets:["10","10"], kg:"yes",
-        not:"Ağırlığı 1 saniyede indir ve 1 saniyede kaldır."},
+        not:"Ağırlığı 1 saniyede indir ve 1 saniyede kaldır. Salondaki alet: dik sırtlıklı, sarı tutamaklı plate-loaded omuz press makinesi (önünde TRX askıları asılı olan)."},
       {name:"Dumbbell Shoulder Press (Bench)", anim:"dbshoulderpress", sets:["10","10"], kg:"yes",
         not:"Bench sırtlığı dikse yaslan; dambılları omuz hizasından başının üstüne it, 1 saniyede indir."}, "2-3 dk"),
     IT("d5_2", {name:"Cable Lateral Raise", anim:"latraise", sets:["12","12","12"], kg:"yes",
-        not:"Setler yavaş ve hissederek yapılacak. Son set drop set."},
+        not:"Setler yavaş ve hissederek yapılacak. Son set drop set. Salonda: kablo istasyonunda makarayı en alt seviyeye al (1'in de altı), tek kolla yandan kaldır."},
       {name:"Direnç Bandı Lateral Raise", anim:"bandlat", sets:["12","12","12"], kg:"opt",
         not:"Bandın ortasına bas, uçlarından tut; yavaş ve hissederek, son seti tükenene kadar uzat."}, "1-2 dk"),
     IT("d5_3", {name:"Butterfly (Makine)", anim:"butterfly", sets:["15","15","15"], kg:"yes",
@@ -916,6 +916,10 @@ const ESKI_EV_ADLARI = new Set([
   for(const d of state.program.days) for(const it of d.items){
     const df = defs[it.id]; if(!df) continue;
     if(it.salon.anim !== df.salon.anim){ it.salon.anim = df.salon.anim; degisti = true; }
+    // Not güncellemeleri: varsayılan nota yalnızca ekleme yapıldıysa (kullanıcı düzenlemesine dokunma)
+    if(df.salon.not && it.salon.not && df.salon.not !== it.salon.not && df.salon.not.startsWith(it.salon.not)){
+      it.salon.not = df.salon.not; degisti = true;
+    }
     if(ESKI_EV_ADLARI.has(it.ev.name) && it.ev.name !== df.ev.name){
       it.ev = JSON.parse(JSON.stringify(df.ev)); degisti = true;
     } else if(it.ev.anim !== df.ev.anim){ it.ev.anim = df.ev.anim; degisti = true; }
