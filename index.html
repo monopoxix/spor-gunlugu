@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<script>window.SURUM="26.07.2026 00:05";</script>
+<script>window.SURUM="05.09.2026 21:44";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -909,6 +909,72 @@ function gunSirala(day){
 }
 DEFAULT_PROGRAM.days.forEach(gunSirala);
 
+/* MacFit egzersiz kütüphanesi videoları — aletlerdeki QR ile açılan eğitmen çekimlerinin aynısı (MacFit CDN'inden oynatılır) */
+const MACFIT_VIDEO_URL = {
+  "incline-bench-press": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_147_INCLINE_BENCH_PRESS_MEN_1920X1080_v3_new.mp4",
+  "dumbbell-press": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_111_DUMBBELL_PRESS_MEN_1920X1080_v4.mp4",
+  "cable-crossover": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/CABLE_CROSS_OVER.mp4",
+  "chest-press-machine": "https://marsathletic-p.mncdn.com/TT148_Machine%20Chest%20Press_ANIMATED.mp4",
+  "triceps-pushdown": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/REVERSE_TRICEPS_PUSH_DOWN.mp4",
+  "floor-leg-raises": "https://marsathletic-p.mncdn.com/exercise_library/kadin/1920/062_FLOOR_LEG_RAISE_1920x1080_WOMAN.mp4",
+  "floor-plank": "https://marsathletic-p.mncdn.com/exercise_library/kadin/1920/109_FLOOR_PLANK_WOMAN_1920x1080.mp4",
+  "lat-pulldown": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/COMMON_GRIP_PULLDOWN.mp4",
+  "dumbell-pullover": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/65_DUMBELL_PULLOVER_MAN_1920X1080_V2_new.mp4",
+  "seated-cable-row": "https://marsathletic-p.mncdn.com/TT111_Seated%20Alternate%20Cable%20Row_ANIMATED.mp4",
+  "dumbbell-row": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_1_ONE_ARM_DUMBBELL_ROW_RIGHT_MEN_1920X1080_V5_new.mp4",
+  "bent-over-wide-row": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_371_BENT_OVER_WIDE_ROW_MEN_1920X1080_v5.mp4",
+  "hyperextension": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/E_HYPER_EXTENSION.mp4",
+  "back-extension": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/029_BACK_EXPENSION_MAN_1920x1080_new.mp4",
+  "dumbbell-shrug": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/83_DUMBELL_SHRUG_MAN_1920X1080_new.mp4",
+  "ez-barbell-preacher-curl": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_196_BARBELL_PREACHER_CURL_MAN_1920x1080.mp4",
+  "biceps-curl-hammer": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_55_STANDING_HAMMER_CURL_MEN1920X1080_v02_new.mp4",
+  "barbell-back-squat": "https://marsathletic-p.mncdn.com/exercise_library/yenikadin1920/exr_39_BARBELL_BACK_SQUAT_WOMEN_1920X1080_new.mp4",
+  "goblet-squat": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/45-GobletSquat_izmir.mp4",
+  "leg-curl": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/LYING_LEG_CURL_MACHINE.mp4",
+  "romanian-deadlift": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/84-RomanianDeadlift_izmir.mp4",
+  "leg-extension": "https://marsathletic-p.mncdn.com/O231_Leg%20Extension%20-%20Circuit%20Series_Animated.mp4",
+  "lunge-front-dumbbell": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_5_DUMBELL_LARGE_MEN1929X1080_V5_new.mp4",
+  "hip-thrust": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/56-HipThrust_izmir.mp4",
+  "standing-calf-raise": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/421_STANDING_CALF_RAISING_MAN_1920x1080_new.mp4",
+  "dumbbell-shoulder-press": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_384_SEATED_DUMBBELL_SHOULDER_PRESS_MEN_1920X1080.mp4",
+  "cable-lateral-raises": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/CABLE_LATERAL_RAISES.mp4",
+  "lateral-raise-eb": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_342_ELASTIC_BAND_LATERAL_RAISES_MEN_1920X1080_new.mp4",
+  "dumbbell-fly": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1080/exr_110_DUMBBELL_FLY_MEN_1080X1080_1_V5_new.mp4",
+};
+const VIDEO_ESLEME = {
+  d1_1: { salon:"incline-bench-press", ev:"dumbbell-press" },
+  d1_2: { salon:"cable-crossover" },
+  d1_3: { salon:"chest-press-machine", ev:"dumbbell-press" },
+  d1_5: { salon:"triceps-pushdown" },
+  d1_7: { salon:"floor-leg-raises", ev:"floor-leg-raises" },
+  d1_9: { salon:"floor-plank", ev:"floor-plank" },
+  d2_1: { salon:"lat-pulldown", ev:"dumbell-pullover" },
+  d2_2: { salon:"seated-cable-row", ev:"dumbbell-row" },
+  d2_3: { ev:"bent-over-wide-row" },
+  d2_4: { salon:"hyperextension", ev:"back-extension" },
+  d2_5: { salon:"dumbbell-shrug", ev:"dumbbell-shrug" },
+  d2_6: { salon:"ez-barbell-preacher-curl" },
+  d2_7: { salon:"biceps-curl-hammer", ev:"biceps-curl-hammer" },
+  d4_1: { salon:"barbell-back-squat", ev:"goblet-squat" },
+  d4_2: { salon:"leg-curl", ev:"romanian-deadlift" },
+  d4_3: { salon:"leg-extension", ev:"lunge-front-dumbbell" },
+  d4_4: { salon:"hip-thrust", ev:"hip-thrust" },
+  d4_5: { salon:"standing-calf-raise", ev:"standing-calf-raise" },
+  d4_6: { salon:"floor-leg-raises", ev:"floor-leg-raises" },
+  d5_1: { salon:"dumbbell-shoulder-press", ev:"dumbbell-shoulder-press" },
+  d5_2: { salon:"cable-lateral-raises", ev:"lateral-raise-eb" },
+  d5_3: { ev:"dumbbell-fly" },
+  d5_4: { salon:"chest-press-machine", ev:"dumbbell-press" },
+  d5_6: { salon:"seated-cable-row" },
+};
+function videolariUygula(days){
+  for(const d of days) for(const it of d.items){
+    const e = VIDEO_ESLEME[it.id]; if(!e) continue;
+    for(const m of ["salon", "ev"]) if(e[m] && MACFIT_VIDEO_URL[e[m]] && it[m]) it[m].video = MACFIT_VIDEO_URL[e[m]];
+  }
+}
+videolariUygula(DEFAULT_PROGRAM.days);
+
 const REST_DAYS = [
   {ad:"3. Gün", not:"Dinlenme · Kardiyo 35 dk"},
   {ad:"6. Gün", not:"Dinlenme · Kardiyo 35 dk"},
@@ -994,6 +1060,9 @@ const ESKI_EV_ADLARI = new Set([
   for(const d of state.program.days) for(const it of d.items){
     const df = defs[it.id]; if(!df) continue;
     if(it.salon.anim !== df.salon.anim){ it.salon.anim = df.salon.anim; degisti = true; }
+    for(const m of ["salon", "ev"]){
+      if(df[m] && df[m].video && it[m] && it[m].video !== df[m].video){ it[m].video = df[m].video; degisti = true; }
+    }
     // Not güncellemeleri: varsayılan nota yalnızca ekleme yapıldıysa (kullanıcı düzenlemesine dokunma)
     if(df.salon.not && it.salon.not && df.salon.not !== it.salon.not && df.salon.not.startsWith(it.salon.not)){
       it.salon.not = df.salon.not; degisti = true;
@@ -1648,6 +1717,9 @@ function sheetItem(itemId){
         </span></div>` : `<div class="big-anim">${mediaHTML(v.anim)}</div>`}
       ${v.not ? `<div class="card"><div class="micro" style="margin-bottom:6px">Nasıl yapılır?</div>
         <p style="font-size:14px">${esc(v.not)}</p></div>` : ""}
+      ${v.video ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · MacFit Eğitmeni</div>
+        <video src="${esc(v.video)}" controls playsinline preload="metadata" style="width:100%; border-radius:12px; display:block; background:#000"></video>
+        <p class="sub" style="font-size:11px; margin-top:6px">Video MacFit egzersiz kütüphanesinden; izlemek için internet gerekir.</p></div>` : ""}
       ${(() => { const af = !f.item.tip && mode === "salon" ? aletFoto(f.item.id) : null;
         return af ? `<div class="card"><div class="micro" style="margin-bottom:8px">Salondaki Alet</div>
           <img src="${af}" alt="Salondaki alet fotoğrafı" style="width:100%; border-radius:12px; display:block"></div>` : ""; })()}
