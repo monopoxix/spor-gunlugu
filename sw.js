@@ -1,4 +1,4 @@
-const CACHE = "sg-1788641933";
+const CACHE = "sg-1788643059";
 const DOSYALAR = ["./", "./index.html", "./media.js", "./manifest.webmanifest", "./icon-180.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {

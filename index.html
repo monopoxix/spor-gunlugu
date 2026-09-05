@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<script>window.SURUM="05.09.2026 23:58";</script>
+<script>window.SURUM="06.09.2026 00:17";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -889,54 +889,82 @@ DEFAULT_PROGRAM.days.forEach(gunSirala);
 
 /* MacFit egzersiz kütüphanesi videoları — aletlerdeki QR ile açılan eğitmen çekimlerinin aynısı (MacFit CDN'inden oynatılır) */
 const MACFIT_VIDEO_URL = {
-  "incline-bench-press": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_147_INCLINE_BENCH_PRESS_MEN_1920X1080_v3_new.mp4",
-  "dumbbell-press": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_111_DUMBBELL_PRESS_MEN_1920X1080_v4.mp4",
-  "cable-crossover": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/CABLE_CROSS_OVER.mp4",
-  "chest-press-machine": "https://marsathletic-p.mncdn.com/TT148_Machine%20Chest%20Press_ANIMATED.mp4",
-  "triceps-pushdown": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/REVERSE_TRICEPS_PUSH_DOWN.mp4",
-  "floor-leg-raises": "https://marsathletic-p.mncdn.com/exercise_library/kadin/1920/062_FLOOR_LEG_RAISE_1920x1080_WOMAN.mp4",
-  "floor-plank": "https://marsathletic-p.mncdn.com/exercise_library/kadin/1920/109_FLOOR_PLANK_WOMAN_1920x1080.mp4",
-  "lat-pulldown": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/COMMON_GRIP_PULLDOWN.mp4",
-  "dumbell-pullover": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/65_DUMBELL_PULLOVER_MAN_1920X1080_V2_new.mp4",
-  "seated-cable-row": "https://marsathletic-p.mncdn.com/TT111_Seated%20Alternate%20Cable%20Row_ANIMATED.mp4",
-  "dumbbell-row": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_1_ONE_ARM_DUMBBELL_ROW_RIGHT_MEN_1920X1080_V5_new.mp4",
-  "bent-over-wide-row": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_371_BENT_OVER_WIDE_ROW_MEN_1920X1080_v5.mp4",
-  "hyperextension": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/E_HYPER_EXTENSION.mp4",
-  "back-extension": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/029_BACK_EXPENSION_MAN_1920x1080_new.mp4",
-  "dumbbell-shrug": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/83_DUMBELL_SHRUG_MAN_1920X1080_new.mp4",
-  "ez-barbell-preacher-curl": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_196_BARBELL_PREACHER_CURL_MAN_1920x1080.mp4",
-  "biceps-curl-hammer": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_55_STANDING_HAMMER_CURL_MEN1920X1080_v02_new.mp4",
-  "barbell-back-squat": "https://marsathletic-p.mncdn.com/exercise_library/yenikadin1920/exr_39_BARBELL_BACK_SQUAT_WOMEN_1920X1080_new.mp4",
-  "goblet-squat": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/45-GobletSquat_izmir.mp4",
-  "leg-curl": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/LYING_LEG_CURL_MACHINE.mp4",
-  "romanian-deadlift": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/84-RomanianDeadlift_izmir.mp4",
-  "leg-extension": "https://marsathletic-p.mncdn.com/O231_Leg%20Extension%20-%20Circuit%20Series_Animated.mp4",
-  "lunge-front-dumbbell": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_5_DUMBELL_LARGE_MEN1929X1080_V5_new.mp4",
-  "hip-thrust": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/56-HipThrust_izmir.mp4",
-  "standing-calf-raise": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/421_STANDING_CALF_RAISING_MAN_1920x1080_new.mp4",
-  "dumbbell-shoulder-press": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_384_SEATED_DUMBBELL_SHOULDER_PRESS_MEN_1920X1080.mp4",
+  "029-back-expension-man-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/029_BACK_EXPENSION_MAN_1920x1080_new.mp4",
+  "034-crunch-man-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/034_CRUNCH_MAN_1920x1080_new.mp4",
+  "062-floor-leg-raise-1920x1080-woman": "https://marsathletic-p.mncdn.com/exercise_library/kadin/1920/062_FLOOR_LEG_RAISE_1920x1080_WOMAN.mp4",
+  "104-mountain-climber-man-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/104_MOUNTAIN_CLIMBER_MAN_1920x1080_new.mp4",
+  "111-plank-woman-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenikadin1920/111_PLANK_WOMAN_1920x1080_new.mp4",
+  "421-standing-calf-raising-man-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/421_STANDING_CALF_RAISING_MAN_1920x1080_new.mp4",
+  "45-gobletsquat-izmir": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/45-GobletSquat_izmir.mp4",
+  "56-hipthrust-izmir": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/56-HipThrust_izmir.mp4",
+  "65-dumbell-pullover-man-1920x1080-v2-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/65_DUMBELL_PULLOVER_MAN_1920X1080_V2_new.mp4",
+  "83-dumbell-shrug-man-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/83_DUMBELL_SHRUG_MAN_1920X1080_new.mp4",
+  "84-romaniandeadlift-izmir": "https://marsathletic-p.mncdn.com/exercise_library/yeni1920/84-RomanianDeadlift_izmir.mp4",
+  "cable-cross-over": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/CABLE_CROSS_OVER.mp4",
   "cable-lateral-raises": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/CABLE_LATERAL_RAISES.mp4",
-  "lateral-raise-eb": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_342_ELASTIC_BAND_LATERAL_RAISES_MEN_1920X1080_new.mp4",
-  "dumbbell-fly": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1080/exr_110_DUMBBELL_FLY_MEN_1080X1080_1_V5_new.mp4",
+  "common-grip-pulldown": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/COMMON_GRIP_PULLDOWN.mp4",
+  "dikey-bisiklet": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/DIKEY_BISIKLET.mp4",
+  "e-hyper-extension": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/E_HYPER_EXTENSION.mp4",
+  "exr-1-lateral-raise-right-men-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_1_LATERAL_RAISE_RIGHT_MEN_1920X1080_new.mp4",
+  "exr-1-one-arm-dumbbell-row-right-men-1920x1080-v5-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_1_ONE_ARM_DUMBBELL_ROW_RIGHT_MEN_1920X1080_V5_new.mp4",
+  "exr-110-dumbbell-fly-men-1920x1080-1-v5-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_110_DUMBBELL_FLY_MEN_1920X1080_1_V5_new.mp4",
+  "exr-111-dumbbell-press-men-1920x1080-v4-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_111_DUMBBELL_PRESS_MEN_1920X1080_v4_new.mp4",
+  "exr-147-incline-bench-press-men-1920x1080-v3-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_147_INCLINE_BENCH_PRESS_MEN_1920X1080_v3_new.mp4",
+  "exr-196-barbell-preacher-curl-man-1920x1080": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_196_BARBELL_PREACHER_CURL_MAN_1920x1080.mp4",
+  "exr-342-elastic-band-lateral-raises-men-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_342_ELASTIC_BAND_LATERAL_RAISES_MEN_1920X1080_new.mp4",
+  "exr-371-bent-over-wide-row-men-1920x1080-v5": "https://marsathletic-p.mncdn.com/exercise_library/erkek/1920/exr_371_BENT_OVER_WIDE_ROW_MEN_1920X1080_v5.mp4",
+  "exr-383-seated-dumbbell-curl-men-1920x1080-v5-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_383_SEATED_DUMBBELL_CURL_MEN_1920X1080_V5_new.mp4",
+  "exr-384-seated-dumbbell-shoulder-press-men-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_384_SEATED_DUMBBELL_SHOULDER_PRESS_MEN_1920X1080_new.mp4",
+  "exr-39-barbell-back-squat-women-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenikadin1920/exr_39_BARBELL_BACK_SQUAT_WOMEN_1920X1080_new.mp4",
+  "exr-5-dumbell-large-men1929x1080-v5-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_5_DUMBELL_LARGE_MEN1929X1080_V5_new.mp4",
+  "exr-55-standing-hammer-curl-men1920x1080-v02-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_55_STANDING_HAMMER_CURL_MEN1920X1080_v02_new.mp4",
+  "lying-leg-curl-machine": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/LYING_LEG_CURL_MACHINE.mp4",
+  "machine-leg-extension": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/MACHINE_LEG_EXTENSION.mp4",
+  "reverse-triceps-push-down": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/REVERSE_TRICEPS_PUSH_DOWN.mp4",
+  "seated-cable-row": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/SEATED_CABLE_ROW.mp4",
+  "tt148-machine-chest-press-animated": "https://marsathletic-p.mncdn.com/TT148_Machine%20Chest%20Press_ANIMATED.mp4",
 };
-const VIDEO_ESLEME = { // yalnızca erkek eğitmen çekimi + birebir aynı alet/hareket
-  d1_3: { salon:"chest-press-machine", ev:"dumbbell-press" },
-  d2_1: { ev:"dumbell-pullover" },
-  d2_2: { ev:"dumbbell-row" },
-  d2_4: { salon:"hyperextension", ev:"back-extension" },
-  d2_5: { salon:"dumbbell-shrug", ev:"dumbbell-shrug" },
-  d2_6: { salon:"ez-barbell-preacher-curl" },
-  d2_7: { salon:"biceps-curl-hammer", ev:"biceps-curl-hammer" },
-  d4_3: { ev:"lunge-front-dumbbell" },
-  d5_1: { ev:"dumbbell-shoulder-press" },
-  d5_2: { salon:"cable-lateral-raises", ev:"lateral-raise-eb" },
-  d5_3: { ev:"dumbbell-fly" },
-  d5_4: { salon:"chest-press-machine", ev:"dumbbell-press" },
+const VIDEO_ESLEME = {
+  d1_1: { salon:"exr-147-incline-bench-press-men-1920x1080-v3-new", salonNot:"Videoda bar; sen makinede — aynı eğimli itiş, dipte göğsü ger.", ev:"exr-147-incline-bench-press-men-1920x1080-v3-new", evNot:"Videoda bar; sen dambıllarla." },
+  d1_2: { salon:"cable-cross-over", salonNot:"Videoda tek kol; sen iki kolla, 1 sn sık 2 sn bırak.", ev:"cable-cross-over", evNot:"Videoda kablo; sen bandı kapıya sabitleyip." },
+  d1_3: { salon:"tt148-machine-chest-press-animated", ev:"exr-111-dumbbell-press-men-1920x1080-v4-new" },
+  d1_4: { salon:"exr-1-lateral-raise-right-men-1920x1080-new", salonNot:"Videoda tek kol; sen iki kolla, gövde sabit.", ev:"exr-1-lateral-raise-right-men-1920x1080-new", evNot:"Videoda tek kol; sen iki kolla." },
+  d1_5: { salon:"reverse-triceps-push-down", salonNot:"Videoda ters tutuş (kadın eğitmen); sen düz tutuş/halatla — dirsekler sabit, dipte sık.", ev:"reverse-triceps-push-down", evNot:"Videoda kablo; sen bandı yüksek noktaya sabitleyip." },
+  d1_7: { salon:"062-floor-leg-raise-1920x1080-woman", ev:"062-floor-leg-raise-1920x1080-woman" },
+  d1_8: { salon:"034-crunch-man-1920x1080-new", ev:"034-crunch-man-1920x1080-new" },
+  d1_9: { salon:"111-plank-woman-1920x1080-new", ev:"111-plank-woman-1920x1080-new" },
+  d2_1: { salon:"common-grip-pulldown", ev:"65-dumbell-pullover-man-1920x1080-v2-new" },
+  d2_2: { salon:"seated-cable-row", ev:"exr-1-one-arm-dumbbell-row-right-men-1920x1080-v5-new" },
+  d2_3: { salon:"seated-cable-row", salonNot:"Videoda kablo V tutuş; sen makinede açık tutuşla — aynı çekiş, sırtı sık.", ev:"exr-371-bent-over-wide-row-men-1920x1080-v5", evNot:"Videoda bar; sen iki dambılla." },
+  d2_4: { salon:"e-hyper-extension", ev:"029-back-expension-man-1920x1080-new" },
+  d2_5: { salon:"83-dumbell-shrug-man-1920x1080-new", ev:"83-dumbell-shrug-man-1920x1080-new" },
+  d2_6: { salon:"exr-196-barbell-preacher-curl-man-1920x1080", ev:"exr-383-seated-dumbbell-curl-men-1920x1080-v5-new", evNot:"Videoda oturarak dambıl curl; sen dirseğin iç dizine dayalı (concentration)." },
+  d2_7: { salon:"exr-55-standing-hammer-curl-men1920x1080-v02-new", ev:"exr-55-standing-hammer-curl-men1920x1080-v02-new" },
+  d4_1: { salon:"exr-39-barbell-back-squat-women-1920x1080-new", salonNot:"Videoda serbest bar (kadın eğitmen); sen Smith'te — tam derinlik.", ev:"45-gobletsquat-izmir", evNot:"Videoda dambıl göğüste (goblet); yanlarda da tutabilirsin." },
+  d4_2: { salon:"lying-leg-curl-machine", salonNot:"Videoda yatar makine; oturmalı makinede aynı hareket.", ev:"84-romaniandeadlift-izmir", evNot:"Videoda bar; sen dambıllarla." },
+  d4_3: { salon:"machine-leg-extension", ev:"exr-5-dumbell-large-men1929x1080-v5-new" },
+  d4_4: { salon:"56-hipthrust-izmir", salonNot:"Videoda bar (kadın eğitmen); sen istasyonda — aynı kalça itişi, tepede 1 sn sık.", ev:"56-hipthrust-izmir", evNot:"Videoda bar; sen dambılla, sırt bench'te." },
+  d4_5: { salon:"421-standing-calf-raising-man-1920x1080-new", salonNot:"Videoda ağırlıksız; makinede aynı hareket, tam gerilme.", ev:"421-standing-calf-raising-man-1920x1080-new", evNot:"Elinde dambıllarla, basamak kenarında." },
+  d4_6: { salon:"062-floor-leg-raise-1920x1080-woman", ev:"062-floor-leg-raise-1920x1080-woman" },
+  d4_7: { salon:"034-crunch-man-1920x1080-new", ev:"034-crunch-man-1920x1080-new" },
+  d4_8: { salon:"104-mountain-climber-man-1920x1080-new", ev:"104-mountain-climber-man-1920x1080-new" },
+  d5_1: { salon:"exr-384-seated-dumbbell-shoulder-press-men-1920x1080-new", salonNot:"Videoda dambıl; sen makinede — aynı itiş, 1 sn in 1 sn kalk.", ev:"exr-384-seated-dumbbell-shoulder-press-men-1920x1080-new" },
+  d5_2: { salon:"cable-lateral-raises", ev:"exr-342-elastic-band-lateral-raises-men-1920x1080-new" },
+  d5_3: { salon:"exr-110-dumbbell-fly-men-1920x1080-1-v5-new", salonNot:"Videoda dambıl fly; butterfly makinesinde aynı kapama.", ev:"exr-110-dumbbell-fly-men-1920x1080-1-v5-new" },
+  d5_4: { salon:"tt148-machine-chest-press-animated", ev:"exr-111-dumbbell-press-men-1920x1080-v4-new" },
+  d5_5: { salon:"common-grip-pulldown", salonNot:"Videoda düz tutuş (kadın eğitmen); sen avuçlar sana dönük — dipte 1 sn tut.", ev:"common-grip-pulldown", evNot:"Videoda kablo; sen bantla." },
+  d5_6: { salon:"seated-cable-row", salonNot:"Videoda V tutuş; sen geniş tutuşla — negatifte odaklan.", ev:"seated-cable-row", evNot:"Videoda kablo; sen bandı ayak tabanlarına dolayıp." },
+  d1_h: { salon:"dikey-bisiklet", salonNot:"Videoda sakin tempo; sen 30 sn hızlı / 30 sn yavaş × 8." },
+  d4_h: { salon:"dikey-bisiklet", salonNot:"Videoda sakin tempo; sen 30 sn hızlı / 30 sn yavaş × 8." },
+  d5_h: { salon:"dikey-bisiklet", salonNot:"Videoda sakin tempo; sen 30 sn hızlı / 30 sn yavaş × 8." },
 };
 function videolariUygula(days){
   for(const d of days) for(const it of d.items){
     const e = VIDEO_ESLEME[it.id]; if(!e) continue;
-    for(const m of ["salon", "ev"]) if(e[m] && MACFIT_VIDEO_URL[e[m]] && it[m]) it[m].video = MACFIT_VIDEO_URL[e[m]];
+    for(const m of ["salon", "ev"]) if(e[m] && MACFIT_VIDEO_URL[e[m]] && it[m]){
+      it[m].video = MACFIT_VIDEO_URL[e[m]];
+      if(e[m + "Not"]) it[m].videoNot = e[m + "Not"]; else delete it[m].videoNot;
+    }
   }
 }
 videolariUygula(DEFAULT_PROGRAM.days);
@@ -1031,6 +1059,7 @@ const ESKI_ADLAR = { "Rope Skull Crusher":"Skull Crusher (EZ Bar · bench'te)", 
     for(const m of ["salon", "ev"]){
       if(df[m] && df[m].video && it[m] && it[m].video !== df[m].video){ it[m].video = df[m].video; degisti = true; }
       if(df[m] && !df[m].video && it[m] && it[m].video){ delete it[m].video; degisti = true; }
+      if(df[m] && it[m] && (df[m].videoNot || "") !== (it[m].videoNot || "")){ if(df[m].videoNot) it[m].videoNot = df[m].videoNot; else delete it[m].videoNot; degisti = true; }
     }
     // Not güncellemeleri: varsayılan nota yalnızca ekleme yapıldıysa (kullanıcı düzenlemesine dokunma)
     if(df.salon.not && it.salon.not && df.salon.not !== it.salon.not && df.salon.not.startsWith(it.salon.not)){
@@ -1686,6 +1715,7 @@ function sheetItem(itemId){
         </span></div>` : v.video ? "" : `<div class="big-anim">${mediaHTML(v.anim, f.item.id)}</div>`}
       ${v.video ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · MacFit Eğitmeni</div>
         <video src="${esc(v.video)}" controls playsinline preload="metadata" style="width:100%; border-radius:12px; display:block; background:#000"></video>
+        ${v.videoNot ? `<p class="sub" style="margin-top:8px; padding:8px 10px; background:var(--surface2); border-radius:9px"><b style="color:var(--ink)">Dikkat:</b> ${esc(v.videoNot)}</p>` : ""}
         <p class="sub" style="font-size:11px; margin-top:6px">Video MacFit egzersiz kütüphanesinden; izlemek için internet gerekir.</p></div>` : ""}
       ${v.not ? `<div class="card"><div class="micro" style="margin-bottom:6px">Nasıl yapılır?</div>
         <p style="font-size:14px">${esc(v.not)}</p></div>` : ""}
