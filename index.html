@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<script>window.SURUM="05.09.2026 23:51";</script>
+<script>window.SURUM="05.09.2026 23:58";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -17,8 +17,8 @@
 <style>
   /* ── Tokenlar ─────────────────────────────────────────────── */
   :root{
-    --bg:#F2F3F5; --surface:#FFFFFF; --surface2:#F6F7F9;
-    --ink:#15171C; --ink2:#5A6070; --ink3:#8A91A3; --line:#E4E6EC;
+    --bg:#FFFFFF; --surface:#FFFFFF; --surface2:#F3F4F6;
+    --ink:#15171C; --ink2:#5A6070; --ink3:#8A91A3; --line:#DFE2E8;
     --accent:#2E5BE6; --accent-ink:#FFFFFF; --accent-soft:#E9EEFB;
     --amber:#D97A08; --amber-soft:#F9EFDF;
     --green:#1E9E5A; --green-soft:#E2F4EA;
@@ -28,34 +28,14 @@
     --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
     --font-disp:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#101216; --surface:#1C1F26; --surface2:#232732;
-      --ink:#EEF0F5; --ink2:#9AA1B2; --ink3:#6B7284; --line:#2B303C;
-      --accent:#5B80F2; --accent-ink:#0D1220; --accent-soft:#242E48;
-      --amber:#C58122; --amber-soft:#352A15;
-      --green:#2FA96C; --green-soft:#17301F;
-      --danger:#E25858; --danger-soft:#3A1D1D;
-      --shadow:none;
-    }
-  }
   :root[data-theme="light"]{
-    --bg:#F2F3F5; --surface:#FFFFFF; --surface2:#F6F7F9;
-    --ink:#15171C; --ink2:#5A6070; --ink3:#8A91A3; --line:#E4E6EC;
+    --bg:#FFFFFF; --surface:#FFFFFF; --surface2:#F3F4F6;
+    --ink:#15171C; --ink2:#5A6070; --ink3:#8A91A3; --line:#DFE2E8;
     --accent:#2E5BE6; --accent-ink:#FFFFFF; --accent-soft:#E9EEFB;
     --amber:#D97A08; --amber-soft:#F9EFDF;
     --green:#1E9E5A; --green-soft:#E2F4EA;
     --danger:#D63838; --danger-soft:#FBE9E9;
     --shadow:0 1px 2px rgba(21,23,28,.05);
-  }
-  :root[data-theme="dark"]{
-    --bg:#101216; --surface:#1C1F26; --surface2:#232732;
-    --ink:#EEF0F5; --ink2:#9AA1B2; --ink3:#6B7284; --line:#2B303C;
-    --accent:#5B80F2; --accent-ink:#0D1220; --accent-soft:#242E48;
-    --amber:#C58122; --amber-soft:#352A15;
-    --green:#2FA96C; --green-soft:#17301F;
-    --danger:#E25858; --danger-soft:#3A1D1D;
-    --shadow:none;
   }
 
   *{box-sizing:border-box; margin:0; padding:0}
@@ -322,6 +302,9 @@
   /* Fotoğraf animasyonları (gerçek çekim, 2 kare) */
   .ph{position:relative; width:100%; height:100%; background:var(--surface2); border-radius:inherit; overflow:hidden}
   .ph img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+  .ph-video{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+    color:var(--accent); background:var(--accent-soft)}
+  .ph-video span{font-size:9px; font-weight:750; letter-spacing:.06em; text-transform:uppercase}
   .ph-bos{display:flex; align-items:center; justify-content:center; color:var(--ink3); background:var(--surface2)}
   .big-anim .ph img{object-fit:contain}
   .big-anim .ph{background:transparent}
@@ -599,17 +582,8 @@ function animSVG(name){ return (ANIMS[name] || ANIMS.hammercurl)(); }
 function mediaHTML(key, itemId){
   const m = (typeof MEDIA !== "undefined") && key && MEDIA[key];
   if(m) return `<div class="ph"><img src="${m[0]}" alt="" loading="lazy"><img class="f2" src="${m[1]}" alt="" loading="lazy"></div>`;
-  const af = itemId && typeof aletFoto === "function" ? aletFoto(itemId) : null;
-  if(af) return `<div class="ph"><img src="${af}" alt="" loading="lazy"></div>`;
   // Birebir eşleşen fotoğraf yoksa çizim yerine tarafsız yer tutucu
   return `<div class="ph ph-bos" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 7.5v9M3.8 9.5v5M17 7.5v9M20.2 9.5v5M7 12h10"/></svg></div>`;
-}
-/* Salondaki alet fotoğrafı (Erkan'ın çektiği; media.js'te alet_<itemId> anahtarı) */
-const ALET_ALIAS = { d5_4: "d1_3" }; // aynı makine birden çok günde
-function aletFoto(itemId){
-  if(typeof MEDIA === "undefined") return null;
-  const m = MEDIA["alet_" + itemId] || (ALET_ALIAS[itemId] ? MEDIA["alet_" + ALET_ALIAS[itemId]] : null);
-  return m ? m[0] : null;
 }
 
 /* ════════════════════ PROGRAM (standart) ════════════════════ */
@@ -1504,7 +1478,7 @@ function exCard(item, w, di, mode){
   return `
   <div class="card ex-card stack ${done ? "done" : ""}" style="gap:9px">
     <div class="row">
-      <button class="thumb" data-action="open-item" data-item="${item.id}" aria-label="${esc(v.name)} animasyonunu büyüt">${mediaHTML(v.anim, item.id)}</button>
+      <button class="thumb" data-action="open-item" data-item="${item.id}" aria-label="${esc(v.name)} ${v.video ? "videosunu aç" : "fotoğrafını büyüt"}">${v.video ? `<div class="ph ph-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span>MacFit</span></div>` : mediaHTML(v.anim, item.id)}</button>
       <div class="grow">
         <b style="font-size:15px">${esc(v.name)}</b>
         <div class="sub" style="font-size:12.5px">${v.sets.length} set${item.dinlen ? " · dinlenme " + esc(item.dinlen) : ""}</div>
@@ -1709,15 +1683,14 @@ function sheetItem(itemId){
           ${f.item.tip === "hiit"
             ? `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 4.5 14H10l-1 8 8.5-12H12l1-8Z"/></svg>`
             : `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="1.9" fill="currentColor" stroke="none"/><path d="M10.5 22l2-6-2.5-3 1-5 3 2.5 3.5 1M11 8l-3 2.5M13 16l3.5 6"/></svg>`}
-        </span></div>` : `<div class="big-anim">${mediaHTML(v.anim, f.item.id)}</div>`}
-      ${v.not ? `<div class="card"><div class="micro" style="margin-bottom:6px">Nasıl yapılır?</div>
-        <p style="font-size:14px">${esc(v.not)}</p></div>` : ""}
+        </span></div>` : v.video ? "" : `<div class="big-anim">${mediaHTML(v.anim, f.item.id)}</div>`}
       ${v.video ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · MacFit Eğitmeni</div>
         <video src="${esc(v.video)}" controls playsinline preload="metadata" style="width:100%; border-radius:12px; display:block; background:#000"></video>
         <p class="sub" style="font-size:11px; margin-top:6px">Video MacFit egzersiz kütüphanesinden; izlemek için internet gerekir.</p></div>` : ""}
-      ${(() => { const af = !f.item.tip && mode === "salon" ? aletFoto(f.item.id) : null;
-        return af ? `<div class="card"><div class="micro" style="margin-bottom:8px">Salondaki Alet</div>
-          <img src="${af}" alt="Salondaki alet fotoğrafı" style="width:100%; border-radius:12px; display:block"></div>` : ""; })()}
+      ${v.not ? `<div class="card"><div class="micro" style="margin-bottom:6px">Nasıl yapılır?</div>
+        <p style="font-size:14px">${esc(v.not)}</p></div>` : ""}
+      
+      
       ${ss.length >= 2 ? `<div class="card">
         <div class="micro" style="margin-bottom:10px">Kilo Gelişimi</div>
         <div class="chart-wrap">${chartSVG(ss)}<div id="chart-tip"></div></div>
