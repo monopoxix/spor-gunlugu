@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<script>window.SURUM="06.09.2026 00:17";</script>
+<script>window.SURUM="06.09.2026 00:23";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -925,6 +925,7 @@ const MACFIT_VIDEO_URL = {
   "tt148-machine-chest-press-animated": "https://marsathletic-p.mncdn.com/TT148_Machine%20Chest%20Press_ANIMATED.mp4",
 };
 const VIDEO_ESLEME = {
+  d1_6: { salon:"yt:D47mYdoKllE", ev:"yt:D47mYdoKllE", evNot:"Videoda EZ bar; sen bench'te bandı başının arkasında sabitleyip aynı dirsek açma hareketini yap." },
   d1_1: { salon:"exr-147-incline-bench-press-men-1920x1080-v3-new", salonNot:"Videoda bar; sen makinede — aynı eğimli itiş, dipte göğsü ger.", ev:"exr-147-incline-bench-press-men-1920x1080-v3-new", evNot:"Videoda bar; sen dambıllarla." },
   d1_2: { salon:"cable-cross-over", salonNot:"Videoda tek kol; sen iki kolla, 1 sn sık 2 sn bırak.", ev:"cable-cross-over", evNot:"Videoda kablo; sen bandı kapıya sabitleyip." },
   d1_3: { salon:"tt148-machine-chest-press-animated", ev:"exr-111-dumbbell-press-men-1920x1080-v4-new" },
@@ -961,8 +962,10 @@ const VIDEO_ESLEME = {
 function videolariUygula(days){
   for(const d of days) for(const it of d.items){
     const e = VIDEO_ESLEME[it.id]; if(!e) continue;
-    for(const m of ["salon", "ev"]) if(e[m] && MACFIT_VIDEO_URL[e[m]] && it[m]){
-      it[m].video = MACFIT_VIDEO_URL[e[m]];
+    for(const m of ["salon", "ev"]) if(e[m] && it[m]){
+      if(e[m].startsWith("yt:")){ it[m].youtube = e[m].slice(3); delete it[m].video; }
+      else if(MACFIT_VIDEO_URL[e[m]]){ it[m].video = MACFIT_VIDEO_URL[e[m]]; delete it[m].youtube; }
+      else continue;
       if(e[m + "Not"]) it[m].videoNot = e[m + "Not"]; else delete it[m].videoNot;
     }
   }
@@ -1059,6 +1062,7 @@ const ESKI_ADLAR = { "Rope Skull Crusher":"Skull Crusher (EZ Bar · bench'te)", 
     for(const m of ["salon", "ev"]){
       if(df[m] && df[m].video && it[m] && it[m].video !== df[m].video){ it[m].video = df[m].video; degisti = true; }
       if(df[m] && !df[m].video && it[m] && it[m].video){ delete it[m].video; degisti = true; }
+      if(df[m] && it[m] && (df[m].youtube || "") !== (it[m].youtube || "")){ if(df[m].youtube) it[m].youtube = df[m].youtube; else delete it[m].youtube; degisti = true; }
       if(df[m] && it[m] && (df[m].videoNot || "") !== (it[m].videoNot || "")){ if(df[m].videoNot) it[m].videoNot = df[m].videoNot; else delete it[m].videoNot; degisti = true; }
     }
     // Not güncellemeleri: varsayılan nota yalnızca ekleme yapıldıysa (kullanıcı düzenlemesine dokunma)
@@ -1507,7 +1511,7 @@ function exCard(item, w, di, mode){
   return `
   <div class="card ex-card stack ${done ? "done" : ""}" style="gap:9px">
     <div class="row">
-      <button class="thumb" data-action="open-item" data-item="${item.id}" aria-label="${esc(v.name)} ${v.video ? "videosunu aç" : "fotoğrafını büyüt"}">${v.video ? `<div class="ph ph-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span>MacFit</span></div>` : mediaHTML(v.anim, item.id)}</button>
+      <button class="thumb" data-action="open-item" data-item="${item.id}" aria-label="${esc(v.name)} ${(v.video || v.youtube) ? "videosunu aç" : "fotoğrafını büyüt"}">${(v.video || v.youtube) ? `<div class="ph ph-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span>${v.video ? "MacFit" : "Video"}</span></div>` : mediaHTML(v.anim, item.id)}</button>
       <div class="grow">
         <b style="font-size:15px">${esc(v.name)}</b>
         <div class="sub" style="font-size:12.5px">${v.sets.length} set${item.dinlen ? " · dinlenme " + esc(item.dinlen) : ""}</div>
@@ -1712,7 +1716,11 @@ function sheetItem(itemId){
           ${f.item.tip === "hiit"
             ? `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 4.5 14H10l-1 8 8.5-12H12l1-8Z"/></svg>`
             : `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="1.9" fill="currentColor" stroke="none"/><path d="M10.5 22l2-6-2.5-3 1-5 3 2.5 3.5 1M11 8l-3 2.5M13 16l3.5 6"/></svg>`}
-        </span></div>` : v.video ? "" : `<div class="big-anim">${mediaHTML(v.anim, f.item.id)}</div>`}
+        </span></div>` : (v.video || v.youtube) ? "" : `<div class="big-anim">${mediaHTML(v.anim, f.item.id)}</div>`}
+      ${v.youtube ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · YouTube</div>
+        <div style="position:relative; padding-top:56.25%; border-radius:12px; overflow:hidden; background:#000"><iframe src="https://www.youtube-nocookie.com/embed/${esc(v.youtube)}?rel=0&modestbranding=1" title="${esc(v.name)} video" style="position:absolute; inset:0; width:100%; height:100%; border:0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>
+        ${v.videoNot ? `<p class="sub" style="margin-top:8px; padding:8px 10px; background:var(--surface2); border-radius:9px"><b style="color:var(--ink)">Dikkat:</b> ${esc(v.videoNot)}</p>` : ""}
+        <p class="sub" style="font-size:11px; margin-top:6px">İzlemek için internet gerekir.</p></div>` : ""}
       ${v.video ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · MacFit Eğitmeni</div>
         <video src="${esc(v.video)}" controls playsinline preload="metadata" style="width:100%; border-radius:12px; display:block; background:#000"></video>
         ${v.videoNot ? `<p class="sub" style="margin-top:8px; padding:8px 10px; background:var(--surface2); border-radius:9px"><b style="color:var(--ink)">Dikkat:</b> ${esc(v.videoNot)}</p>` : ""}
