@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<script>window.SURUM="05.09.2026 21:44";</script>
+<script>window.SURUM="05.09.2026 22:20";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -941,31 +941,21 @@ const MACFIT_VIDEO_URL = {
   "lateral-raise-eb": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/exr_342_ELASTIC_BAND_LATERAL_RAISES_MEN_1920X1080_new.mp4",
   "dumbbell-fly": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1080/exr_110_DUMBBELL_FLY_MEN_1080X1080_1_V5_new.mp4",
 };
-const VIDEO_ESLEME = {
-  d1_1: { salon:"incline-bench-press", ev:"dumbbell-press" },
-  d1_2: { salon:"cable-crossover" },
+const VIDEO_ESLEME = { // yalnızca erkek eğitmen çekimi + birebir aynı alet/hareket
   d1_3: { salon:"chest-press-machine", ev:"dumbbell-press" },
-  d1_5: { salon:"triceps-pushdown" },
-  d1_7: { salon:"floor-leg-raises", ev:"floor-leg-raises" },
-  d1_9: { salon:"floor-plank", ev:"floor-plank" },
-  d2_1: { salon:"lat-pulldown", ev:"dumbell-pullover" },
-  d2_2: { salon:"seated-cable-row", ev:"dumbbell-row" },
-  d2_3: { ev:"bent-over-wide-row" },
+  d2_1: { ev:"dumbell-pullover" },
+  d2_2: { ev:"dumbbell-row" },
   d2_4: { salon:"hyperextension", ev:"back-extension" },
   d2_5: { salon:"dumbbell-shrug", ev:"dumbbell-shrug" },
   d2_6: { salon:"ez-barbell-preacher-curl" },
   d2_7: { salon:"biceps-curl-hammer", ev:"biceps-curl-hammer" },
-  d4_1: { salon:"barbell-back-squat", ev:"goblet-squat" },
-  d4_2: { salon:"leg-curl", ev:"romanian-deadlift" },
-  d4_3: { salon:"leg-extension", ev:"lunge-front-dumbbell" },
-  d4_4: { salon:"hip-thrust", ev:"hip-thrust" },
+  d4_2: { salon:"leg-curl" },
+  d4_3: { ev:"lunge-front-dumbbell" },
   d4_5: { salon:"standing-calf-raise", ev:"standing-calf-raise" },
-  d4_6: { salon:"floor-leg-raises", ev:"floor-leg-raises" },
-  d5_1: { salon:"dumbbell-shoulder-press", ev:"dumbbell-shoulder-press" },
+  d5_1: { ev:"dumbbell-shoulder-press" },
   d5_2: { salon:"cable-lateral-raises", ev:"lateral-raise-eb" },
   d5_3: { ev:"dumbbell-fly" },
   d5_4: { salon:"chest-press-machine", ev:"dumbbell-press" },
-  d5_6: { salon:"seated-cable-row" },
 };
 function videolariUygula(days){
   for(const d of days) for(const it of d.items){
@@ -1062,6 +1052,7 @@ const ESKI_EV_ADLARI = new Set([
     if(it.salon.anim !== df.salon.anim){ it.salon.anim = df.salon.anim; degisti = true; }
     for(const m of ["salon", "ev"]){
       if(df[m] && df[m].video && it[m] && it[m].video !== df[m].video){ it[m].video = df[m].video; degisti = true; }
+      if(df[m] && !df[m].video && it[m] && it[m].video){ delete it[m].video; degisti = true; }
     }
     // Not güncellemeleri: varsayılan nota yalnızca ekleme yapıldıysa (kullanıcı düzenlemesine dokunma)
     if(df.salon.not && it.salon.not && df.salon.not !== it.salon.not && df.salon.not.startsWith(it.salon.not)){
