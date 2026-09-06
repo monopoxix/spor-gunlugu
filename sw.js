@@ -1,4 +1,4 @@
-const CACHE = "sg-1788644961";
+const CACHE = "sg-1788729071";
 const DOSYALAR = ["./", "./index.html", "./media.js", "./manifest.webmanifest", "./icon-180.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
@@ -15,7 +15,9 @@ self.addEventListener("activate", e => {
 /* Önce ağ (güncel sürüm anında gelir), ağ yoksa önbellek (çevrimdışı çalışma) */
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
-  if (new URL(e.request.url).origin !== location.origin) return;
+  const u = new URL(e.request.url);
+  if (u.origin !== location.origin) return;
+  if (u.pathname.includes("/video/")) return;  /* klipler önbelleğe alınmaz (Range/206) */
   e.respondWith(
     fetch(e.request).then(res => {
       if (res && res.ok) {

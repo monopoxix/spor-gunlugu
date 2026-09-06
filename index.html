@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<script>window.SURUM="06.09.2026 00:49";</script>
+<script>window.SURUM="07.09.2026 00:11";</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
@@ -130,7 +130,7 @@
   .thumb:active{transform:scale(.94)}
   .ex-card.done .thumb{background:var(--green-soft)}
   .not-line{font-size:12.5px; color:var(--ink2); background:var(--surface2); border-radius:9px;
-    padding:6px 10px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical}
+    padding:6px 10px; line-height:1.35}
 
   .chips{display:flex; flex-wrap:wrap; gap:7px}
   .chip{position:relative; min-width:47px; height:47px; border-radius:12px; padding:0 8px;
@@ -923,38 +923,60 @@ const MACFIT_VIDEO_URL = {
   "reverse-triceps-push-down": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/REVERSE_TRICEPS_PUSH_DOWN.mp4",
   "seated-cable-row": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/SEATED_CABLE_ROW.mp4",
   "tt148-machine-chest-press-animated": "https://marsathletic-p.mncdn.com/TT148_Machine%20Chest%20Press_ANIMATED.mp4",
+  "iso-lateral-incline-chest-press": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/ISO_LATERAL_INCLINE_CHEST_PRESS.mp4",
+  "high-cable-crossover": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/HIGH_CABLE_CROSSOVER.mp4",
+  "rope-push-down": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/ROPE_PUSH_DOWN.mp4",
+  "tt112-lat-pulldown": "https://marsathletic-p.mncdn.com/TT112_Lat%20Pulldown_ANIMATED.mp4",
+  "wide-grip-row": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/WIDE_GRIP_ROW.mp4",
+  "smith-machine-wide-stance-squat": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/SMITH_MACHINE_WIDE_STANCE_SQUAT.mp4",
+  "hip-thrust-machine": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/HIP_THRUST.mp4",
+  "seated-calf-raise": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/SEATED_CALF_RAISE.mp4",
+  "shoulder-press-machine-wide-grip": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/SHOULDER_PRESS_MACHINE_WIDE_GRIP.mp4",
+  "machine-pectoral-fly": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/MACHINE_PECTORAL_FLY.mp4",
+  "machine-reverse-fly": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/MACHINE_REVERSE_FLY.mp4",
+  "reverse-grip-lat-pulldown": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/REVERSE_GRIP_LAT_PULLDOWN.mp4",
+  "seated-cable-wide-grip-row": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/SEATED_CABLE_WIDE_GRIP_ROW.mp4",
+  "leg-curl-seated": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/LEG_CURL.mp4",
+  "glute-kick-back-right": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/GLUTE_KICK_BACK_RIGHT.mp4",
+  "machine-hip-abduction": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/MACHINE_HIP_ABDUCTION.mp4",
+  "machine-hip-adduction": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/MACHINE_HIP_ADDUCTION.mp4",
+  "low-pulley-cable-crossover": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/LOW_PULLEY_CABLE_CROSSOVER.mp4",
+  "sumo-leg-press": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/SUMO_LEG_PRESS.mp4",
+  "cable-pull-throughs": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/CABLE_PULL_THROUGHS.mp4",
+  "standing-cable-reverse-fly": "https://marsathletic-p.mncdn.com/exercise_library/yenikulup/STANDING_CABLE_REVERSE_FLY.mp4",
+  "237-triceps-dips-chair-man-1920x1080-new": "https://marsathletic-p.mncdn.com/exercise_library/yenierkek1920/237_TRICEPS_DIPS_CHAIR_MAN_1920x1080_new.mp4",
 };
 const VIDEO_ESLEME = {
-  d1_6: { salon:"yt:D47mYdoKllE", ev:"yt:xtb-gltsmMU" },
-  d1_1: { salon:"yt:ig0NyNlSce4", ev:"yt:oZVCBM9f8Eo" },
-  d1_2: { salon:"yt:QcTcWpkn_bw", ev:"yt:UpyX0O740Gg", evNot:"Bandı kapının üst menteşesine sabitle; kolları göğüs önünde birleştir, 1 sn sık." },
+  d1_6: { salon:"yerel:skull-crusher-ez-bar", ev:"yerel:band-skull-crusher" },
+  d1_1: { salon:"iso-lateral-incline-chest-press", ev:"yerel:incline-dumbbell-press" },
+  d1_2: { salon:"high-cable-crossover", ev:"yerel:band-chest-fly", evNot:"Bandı kapının üst menteşesine sabitle; kolları göğüs önünde birleştir, 1 sn sık." },
   d1_3: { salon:"tt148-machine-chest-press-animated", ev:"exr-111-dumbbell-press-men-1920x1080-v4-new" },
   d1_4: { salon:"exr-1-lateral-raise-right-men-1920x1080-new", salonNot:"Videoda tek kol; sen iki kolla, gövde sabit.", ev:"exr-1-lateral-raise-right-men-1920x1080-new", evNot:"Videoda tek kol; sen iki kolla." },
-  d1_5: { salon:"yt:vB5OHsJ3EME", ev:"yt:p1pmKGJgcr0" },
+  d1_5: { salon:"rope-push-down", ev:"yerel:band-pushdown" },
   d1_7: { salon:"062-floor-leg-raise-1920x1080-woman", ev:"062-floor-leg-raise-1920x1080-woman" },
   d1_8: { salon:"034-crunch-man-1920x1080-new", ev:"034-crunch-man-1920x1080-new" },
   d1_9: { salon:"111-plank-woman-1920x1080-new", ev:"111-plank-woman-1920x1080-new" },
-  d2_1: { salon:"yt:HRW6o9Udbjg", ev:"65-dumbell-pullover-man-1920x1080-v2-new" },
+  d2_1: { salon:"tt112-lat-pulldown", ev:"65-dumbell-pullover-man-1920x1080-v2-new" },
   d2_2: { salon:"seated-cable-row", ev:"exr-1-one-arm-dumbbell-row-right-men-1920x1080-v5-new" },
-  d2_3: { salon:"yt:TIr-oyMwAko", ev:"yt:6gvmcqr226U" },
+  d2_3: { salon:"wide-grip-row", ev:"yerel:bent-over-dumbbell-row" },
   d2_4: { salon:"e-hyper-extension", ev:"029-back-expension-man-1920x1080-new" },
   d2_5: { salon:"83-dumbell-shrug-man-1920x1080-new", ev:"83-dumbell-shrug-man-1920x1080-new" },
-  d2_6: { salon:"exr-196-barbell-preacher-curl-man-1920x1080", ev:"yt:Jvj2wV0vOYU" },
+  d2_6: { salon:"exr-196-barbell-preacher-curl-man-1920x1080", ev:"yerel:concentration-curl" },
   d2_7: { salon:"exr-55-standing-hammer-curl-men1920x1080-v02-new", ev:"exr-55-standing-hammer-curl-men1920x1080-v02-new" },
-  d4_1: { salon:"yt:0YAU3w_o2UQ", ev:"yt:v_c67Omje48" },
-  d4_2: { salon:"lying-leg-curl-machine", salonNot:"Videoda yatar makine; oturmalı makinede aynı hareket.", ev:"yt:hQgFixeXdZo" },
+  d4_1: { salon:"smith-machine-wide-stance-squat", salonNot:"Videoda geniş duruş; sen omuz genişliğinde, tam derinlik.", ev:"45-gobletsquat-izmir", evNot:"Videoda dambıl göğüste (goblet); yanlarda da tutabilirsin." },
+  d4_2: { salon:"lying-leg-curl-machine", salonNot:"Videoda yatar makine; oturmalı makinede aynı hareket.", ev:"yerel:dumbbell-romanian-deadlift" },
   d4_3: { salon:"machine-leg-extension", ev:"exr-5-dumbell-large-men1929x1080-v5-new" },
-  d4_4: { salon:"yt:8xJ0Vxjv0sw", ev:"yt:29OfN4ztW_g" },
-  d4_5: { salon:"yt:g_E7_q1z2bo", ev:"yt:SRUtMJ0tE2A", evNot:"Basamak kenarında yaparsan alt noktada tam gerilme al." },
+  d4_4: { salon:"hip-thrust-machine", ev:"yerel:dumbbell-hip-thrust" },
+  d4_5: { salon:"seated-calf-raise", salonNot:"Ayakta calf makinesi varsa aynı hareket ayakta; alt noktada tam gerilme.", ev:"yerel:dumbbell-calf-raise", evNot:"Basamak kenarında yaparsan alt noktada tam gerilme al." },
   d4_6: { salon:"062-floor-leg-raise-1920x1080-woman", ev:"062-floor-leg-raise-1920x1080-woman" },
   d4_7: { salon:"034-crunch-man-1920x1080-new", ev:"034-crunch-man-1920x1080-new" },
   d4_8: { salon:"104-mountain-climber-man-1920x1080-new", ev:"104-mountain-climber-man-1920x1080-new" },
-  d5_1: { salon:"yt:TnhIyp4kmO8", ev:"exr-384-seated-dumbbell-shoulder-press-men-1920x1080-new" },
+  d5_1: { salon:"shoulder-press-machine-wide-grip", ev:"exr-384-seated-dumbbell-shoulder-press-men-1920x1080-new" },
   d5_2: { salon:"cable-lateral-raises", ev:"exr-342-elastic-band-lateral-raises-men-1920x1080-new" },
-  d5_3: { salon:"yt:eGjt4lk6g34", ev:"exr-110-dumbbell-fly-men-1920x1080-1-v5-new" },
+  d5_3: { salon:"machine-pectoral-fly", ev:"exr-110-dumbbell-fly-men-1920x1080-1-v5-new" },
   d5_4: { salon:"tt148-machine-chest-press-animated", ev:"exr-111-dumbbell-press-men-1920x1080-v4-new" },
-  d5_5: { salon:"yt:SNiwpA13ZLU", ev:"yt:_97pmOC2tzE", evNot:"Avuçlar sana dönük tut; dipte 1 sn bekle." },
-  d5_6: { salon:"yt:YKAeU55CkVk", ev:"yt:5gMOQKL-SLM", evNot:"Bandı geniş tut, dirsekleri dışa aç; negatifte yavaş." },
+  d5_5: { salon:"reverse-grip-lat-pulldown", ev:"yerel:band-lat-pulldown", evNot:"Avuçlar sana dönük tut; dipte 1 sn bekle." },
+  d5_6: { salon:"seated-cable-wide-grip-row", ev:"yerel:seated-band-row", evNot:"Bandı geniş tut, dirsekleri dışa aç; negatifte yavaş." },
   d1_h: { salon:"dikey-bisiklet", salonNot:"Videoda sakin tempo; sen 30 sn hızlı / 30 sn yavaş × 8." },
   d4_h: { salon:"dikey-bisiklet", salonNot:"Videoda sakin tempo; sen 30 sn hızlı / 30 sn yavaş × 8." },
   d5_h: { salon:"dikey-bisiklet", salonNot:"Videoda sakin tempo; sen 30 sn hızlı / 30 sn yavaş × 8." },
@@ -963,8 +985,9 @@ function videolariUygula(days){
   for(const d of days) for(const it of d.items){
     const e = VIDEO_ESLEME[it.id]; if(!e) continue;
     for(const m of ["salon", "ev"]) if(e[m] && it[m]){
-      if(e[m].startsWith("yt:")){ it[m].youtube = e[m].slice(3); delete it[m].video; }
-      else if(MACFIT_VIDEO_URL[e[m]]){ it[m].video = MACFIT_VIDEO_URL[e[m]]; delete it[m].youtube; }
+      if(e[m].startsWith("yt:")){ it[m].youtube = e[m].slice(3); delete it[m].video; delete it[m].videoKaynak; }
+      else if(e[m].startsWith("yerel:")){ it[m].video = "video/" + e[m].slice(6) + ".mp4"; it[m].videoKaynak = "yerel"; delete it[m].youtube; }
+      else if(MACFIT_VIDEO_URL[e[m]]){ it[m].video = MACFIT_VIDEO_URL[e[m]]; it[m].videoKaynak = "macfit"; delete it[m].youtube; }
       else continue;
       if(e[m + "Not"]) it[m].videoNot = e[m + "Not"]; else delete it[m].videoNot;
     }
@@ -1064,6 +1087,7 @@ const ESKI_ADLAR = { "Rope Skull Crusher":"Skull Crusher (EZ Bar · bench'te)", 
       if(df[m] && !df[m].video && it[m] && it[m].video){ delete it[m].video; degisti = true; }
       if(df[m] && it[m] && (df[m].youtube || "") !== (it[m].youtube || "")){ if(df[m].youtube) it[m].youtube = df[m].youtube; else delete it[m].youtube; degisti = true; }
       if(df[m] && it[m] && (df[m].videoNot || "") !== (it[m].videoNot || "")){ if(df[m].videoNot) it[m].videoNot = df[m].videoNot; else delete it[m].videoNot; degisti = true; }
+      if(df[m] && it[m] && (df[m].videoKaynak || "") !== (it[m].videoKaynak || "")){ if(df[m].videoKaynak) it[m].videoKaynak = df[m].videoKaynak; else delete it[m].videoKaynak; degisti = true; }
     }
     // Not güncellemeleri: varsayılan nota yalnızca ekleme yapıldıysa (kullanıcı düzenlemesine dokunma)
     if(df.salon.not && it.salon.not && df.salon.not !== it.salon.not && df.salon.not.startsWith(it.salon.not)){
@@ -1477,7 +1501,7 @@ function kardiyoCard(item, w, di, mode){
       <button class="btn-icon" data-action="edit-item" data-item="${item.id}" aria-label="${esc(v.name)} düzenle">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg></button>
     </div>
-    ${v.not ? `<div class="not-line" style="-webkit-line-clamp:3">${esc(v.not)}</div>` : ""}
+    ${v.not ? `<div class="not-line">${esc(v.not)}</div>` : ""}
     <div class="chips">${chips}</div>
   </div>`;
 }
@@ -1511,7 +1535,7 @@ function exCard(item, w, di, mode){
   return `
   <div class="card ex-card stack ${done ? "done" : ""}" style="gap:9px">
     <div class="row">
-      <button class="thumb" data-action="open-item" data-item="${item.id}" aria-label="${esc(v.name)} ${(v.video || v.youtube) ? "videosunu aç" : "fotoğrafını büyüt"}">${(v.video || v.youtube) ? `<div class="ph ph-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span>${v.video ? "MacFit" : "Video"}</span></div>` : mediaHTML(v.anim, item.id)}</button>
+      <button class="thumb" data-action="open-item" data-item="${item.id}" aria-label="${esc(v.name)} ${(v.video || v.youtube) ? "videosunu aç" : "fotoğrafını büyüt"}">${(v.video || v.youtube) ? `<div class="ph ph-video"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><span>${v.videoKaynak === "macfit" ? "MacFit" : "Video"}</span></div>` : mediaHTML(v.anim, item.id)}</button>
       <div class="grow">
         <b style="font-size:15px">${esc(v.name)}</b>
         <div class="sub" style="font-size:12.5px">${v.sets.length} set${item.dinlen ? " · dinlenme " + esc(item.dinlen) : ""}</div>
@@ -1557,7 +1581,7 @@ function renderBeslenme(){
         ${sec.items.map(it => `<div class="row" style="align-items:flex-start; gap:9px">
           <span style="flex:none; width:5px; height:5px; border-radius:50%; background:var(--accent); margin-top:8px"></span>
           <span style="font-size:14px">${esc(it)}</span></div>`).join("")}
-        ${sec.not ? `<div class="not-line" style="-webkit-line-clamp:4">${esc(sec.not)}</div>` : ""}
+        ${sec.not ? `<div class="not-line">${esc(sec.not)}</div>` : ""}
       </div>`; }).join("")}
       <div class="card stack" style="gap:8px">
         <div class="micro">Supplementler</div>
@@ -1684,7 +1708,7 @@ function renderIlerleme(){
 
 /* ════════════════════ Alt sayfalar ════════════════════ */
 function openSheet(html){ $("#sheet").innerHTML = `<div class="grabber"></div>` + html; $("#overlay").classList.add("open"); pauseIfReduced(); }
-function closeSheet(){ $("#overlay").classList.remove("open"); }
+function closeSheet(){ $("#sheet").querySelectorAll("video").forEach(v => { try{ v.pause(); v.removeAttribute("src"); v.load(); }catch(_){} }); $("#sheet").querySelectorAll("iframe").forEach(fr => fr.remove()); $("#overlay").classList.remove("open"); }
 
 function findItem(itemId){
   for(let di = 0; di < state.program.days.length; di++){
@@ -1717,14 +1741,10 @@ function sheetItem(itemId){
             ? `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 4.5 14H10l-1 8 8.5-12H12l1-8Z"/></svg>`
             : `<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="1.9" fill="currentColor" stroke="none"/><path d="M10.5 22l2-6-2.5-3 1-5 3 2.5 3.5 1M11 8l-3 2.5M13 16l3.5 6"/></svg>`}
         </span></div>` : (v.video || v.youtube) ? "" : `<div class="big-anim">${mediaHTML(v.anim, f.item.id)}</div>`}
-      ${v.youtube ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · YouTube</div>
-        <div style="position:relative; padding-top:56.25%; border-radius:12px; overflow:hidden; background:#000"><iframe src="https://www.youtube-nocookie.com/embed/${esc(v.youtube)}?rel=0&modestbranding=1" title="${esc(v.name)} video" style="position:absolute; inset:0; width:100%; height:100%; border:0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>
+      ${v.video ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · ${v.videoKaynak === "macfit" ? "MacFit Eğitmeni" : "Eğitmen"}</div>
+        <video src="${esc(v.video)}" controls playsinline autoplay muted loop preload="metadata" style="width:100%; border-radius:12px; display:block; background:#000"></video>
         ${v.videoNot ? `<p class="sub" style="margin-top:8px; padding:8px 10px; background:var(--surface2); border-radius:9px"><b style="color:var(--ink)">Dikkat:</b> ${esc(v.videoNot)}</p>` : ""}
-        <p class="sub" style="font-size:11px; margin-top:6px">İzlemek için internet gerekir.</p></div>` : ""}
-      ${v.video ? `<div class="card"><div class="micro" style="margin-bottom:8px">Yapılışını İzle · MacFit Eğitmeni</div>
-        <video src="${esc(v.video)}" controls playsinline preload="metadata" style="width:100%; border-radius:12px; display:block; background:#000"></video>
-        ${v.videoNot ? `<p class="sub" style="margin-top:8px; padding:8px 10px; background:var(--surface2); border-radius:9px"><b style="color:var(--ink)">Dikkat:</b> ${esc(v.videoNot)}</p>` : ""}
-        <p class="sub" style="font-size:11px; margin-top:6px">Video MacFit egzersiz kütüphanesinden; izlemek için internet gerekir.</p></div>` : ""}
+        <p class="sub" style="font-size:11px; margin-top:6px">${v.videoKaynak === "macfit" ? "Video MacFit egzersiz kütüphanesinden; izlemek için internet gerekir." : "Kısa gösterim klibi; izlemek için internet gerekir."}</p></div>` : ""}
       ${v.not ? `<div class="card"><div class="micro" style="margin-bottom:6px">Nasıl yapılır?</div>
         <p style="font-size:14px">${esc(v.not)}</p></div>` : ""}
       
